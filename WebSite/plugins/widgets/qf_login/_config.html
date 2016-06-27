@@ -1,0 +1,85 @@
+<div id="cat-config" style="display:none;"></div>
+
+<div id="login-bar" class="tableform widgetconfig">
+	<div class="division">
+		<table width="100%" cellpadding="0" cellspacing="0">
+			<tbody  style="font-family:verdana;">
+			<tr><td colspan="4"><strong style="color:#36c">登录描述相关</strong>，包含在大括号中的字串表示可嵌套的变量。</td></tr>
+			<tr>
+			<th width="20%">未登录嵌套模板：</th>
+			<td colspan="3"><textarea name="logon" style="height:30px;width:92%;font-family:verdana;"><{$setting.logon|default:'您好{username}, 欢迎光临网上商城！{login} | {register} | {lost}'}></textarea></td>
+			</tr>
+			<tr>
+			<th width="20%">登录后嵌套模板：</th>
+			<td colspan="3"><textarea name="logged" style="height:30px;width:92%;font-family:verdana;"><{$setting.logged|default:'您好{username}, 欢迎光临网上商城！{logout}'}></textarea></td>
+			</tr>
+			<tr>
+			<th width="20%">登录 {login}：</th>
+			<td><input name="login" type="text" value="<{$setting.login|default:'登录'}>"></td>
+			<th width="20%">注册 {register}：</th>
+			<td><input name="signup" type="text" value="<{$setting.signup|default:'注册'}>"></td>
+			</tr>
+			<tr>
+			<th width="20%">忘记密码 {lost}：</th>
+			<td><input name="lost" type="text" value="<{$setting.lost|default:'忘记密码'}>"></td>
+			<th width="20%">退出 {logout}：</th>
+			<td><input name="logout" type="text" value="<{$setting.logout|default:'退出'}>"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div id="float-bar" class="tableform widgetconfig">
+	<div class="division">
+		<table width="100%" cellpadding="0" cellspacing="0">
+			<tbody  style="font-family:verdana;">
+			<tr><td colspan="4"><strong style="color:#36c">我的帐号下拉菜单</strong></td></tr>
+			<tr>
+			<th width="20%">我的帐号标签文字：</th>
+			<td width="30%"><input name="account" type="text" value="<{$setting.account|default:'我的帐号'}>"></td>
+			<th width="20%">登录按扭文字：</th>
+			<td width="30%"><input name="alogin" type="text" value="<{$setting.alogin|default:'登录帐号'}>"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="tpl_index" id="tpl_index" value="<{$setting.tpl_index}>">
+
+<script>
+function getCfgForm(id){
+  var config = $(id);
+  while(config.tagName != 'FORM'){
+    config = config.getParent();
+  }
+  return config;
+}
+
+function getWgtTpl(){
+  var sels = getCfgForm('cat-config').getElements('select');
+  var wgtTpl = '';
+  sels.each(function(sel){
+    if(sel.getProperty('name') == '__wg[tpl]') wgtTpl = sel;
+  });
+  return wgtTpl;
+}
+function setCfgView(view){
+  var views = [$('login-bar'),$('float-bar')];
+  views.each(function(el){if(el)el.hide();});
+  $('tpl_index').value=view;
+  switch(view){
+    case 'infobar.html':
+    views[0].show();
+    break;
+    case 'floatbar.html':
+    views[1].show();
+    break;
+  }
+}
+var catTpl = getWgtTpl();
+catTpl.addEvent('change',function(){
+  setCfgView(this.value);
+});
+setCfgView(catTpl.value);
+</script>

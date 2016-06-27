@@ -1,0 +1,66 @@
+<{if $data}>
+<style id="wid_<{$widgets_id}>_style">
+.qfview_<{$widgets_id}>,.qfview_<{$widgets_id}> .flashwrap li,.qfview_<{$widgets_id}> .handle,.qfview_<{$widgets_id}> .handle .maskLayer {width:<{$setting.width|default:950}>px;}
+.autofocus_<{$widgets_id}>,.autofocus_<{$widgets_id}> .flashwrap li,.autofocus_<{$widgets_id}> .handle,.autofocus_<{$widgets_id}> .handle .maskLayer {width:<{$setting.width|default:950}>px;}
+.autofocus_<{$widgets_id}> .flashwrap li img {display:block;}
+.qfview_<{$widgets_id}>,.qfview_<{$widgets_id}> .flashwrap,.qfview_<{$widgets_id}> .flashwrap li {height:<{$setting.height|default:480}>px;}
+.qfview_<{$widgets_id}> {position:relative;overflow:hidden;}
+.qfview_<{$widgets_id}> .flashwrap {width:100%;position:absolute;left:0;top:0;z-index:8}
+.qfview_<{$widgets_id}> .flashwrap li {overflow:hidden;float:left;}
+.qfview_<{$widgets_id}> .flashwrap li img {display:block;float:left;}
+.qfview_<{$widgets_id}> .handle {position:absolute;<{if $setting.numside!=0}>bottom<{else}>top<{/if}>:0;left:0;height:40px;z-index:9;<{if $setting.shownum=='off'}>display:none;<{/if}>}
+.qfview_<{$widgets_id}> .handle .num {text-align:<{if $setting.numside==2}>left<{elseif $setting.numside==3}>right<{else}>center<{/if}>;white-space:nowrap;padding:15px 0px 0;width:100%;}
+
+
+.qfview_<{$widgets_id}> .handle .num li{background-color:#999;font:bold 10px/5px Arial,Helvetica,sans-serif;margin:0 3px;padding: 0 15px;display:inline-block;*display:inline;*zoom:1;cursor:pointer;color:#999; text-indent:-9999em; overflow:hidden;}
+.qfview_<{$widgets_id}> .handle .num .active{padding:0 15px;color:#7ABD54;background-color:#7ABD54}
+.qfview_<{$widgets_id}> .handle .maskLayer {position:absolute;bottom:0;left:0;height:40px;background:#000;opacity:0.2;filter:alpha(opacity=20);}
+#moveLeft_<{$widgets_id}>,#moveRight_<{$widgets_id}> {width:60px;height:60px;top:<{math equation="floor((x-80)/2)" x=$setting.height|default:480}>px;position:absolute;text-indent:-999em;display:block;z-index:100;overflow:hidden;-moz-border-radius:5px;border-radius:5px;}
+
+</style>
+<div id="focus_<{$widgets_id}>" class="qfview_<{$widgets_id}>">
+   <a id="moveLeft_<{$widgets_id}>" class="prev" href="javascript:" rel="nofollow"></a>
+   <ul id="flashview_<{$widgets_id}>" class="flashwrap">
+       <{$data.imgurl}>
+       <{foreach from=$data item=pic key=key name=foucus}>
+       <li><a target="_blank" href="<{$pic.tolink}>"><img src="<{$pic.imgurl}>" alt="<{$pic.title}>" width="<{$setting.width}>" height="<{$setting.height}>" /></a></li>
+       <{/foreach}>
+    </ul>
+    <div class="handle">
+		<!--div class="maskLayer"></div-->
+		<ul class="num" id="slide_<{$widgets_id}>">
+        	<{assign var="do" value="0"}> 
+        	<{foreach from=$data item=item key=key2}>
+			<li<{if $do==0}> class="active"<{/if}>><{assign var="do" value=$do+1}><{$do}></li>
+            <{/foreach}>            
+		</ul>
+	</div>
+    <a id="moveRight_<{$widgets_id}>" class="next" href="javascript:" rel="nofollow"></a>
+</div>
+<{if $setting.direction!='2'}>
+<script src="images/qf-wide-focus1.js" type="text/javascript"></script>
+<{else}>
+<script src="images/qf-wide-focus2.js" type="text/javascript"></script>
+<{/if}>
+<script type="text/javascript">
+window.addEvent("domready",function(){
+	$('wid_<{$widgets_id}>_style').inject($E('link'),'before');		
+	var d = new Focus("flashview_<{$widgets_id}>",{
+		'periodical':'<{$setting.periodical|default:5000}>',
+		'duration':'<{$setting.duration|default:300}>',		
+		<{if $setting.direction!='2'}>'direction':'<{if $setting.direction!='1'}>horizontal<{else}>vertical<{/if}>',<{/if}>
+		'button': {
+			'left':'moveLeft_<{$widgets_id}>',
+			'right':'moveRight_<{$widgets_id}>',
+			'delay':100
+		},
+		'pagebtns': {
+			'id':'slide_<{$widgets_id}>',
+			'selected-class':'active'
+		}
+	}).init();
+});
+</script>
+<{else}>
+ 您添加了空内容，请到后台编辑！
+<{/if}>

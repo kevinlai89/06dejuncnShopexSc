@@ -1,0 +1,1 @@
+a:2:{s:13:"download_list";a:1:{i:0;s:68:"http://addons.shopex.cn/templates/uploads/soft/200907/1_08162135.tgz";}s:8:"succ_url";s:83:"http://shop318220.p19.shopex.cn/shopadmin/index.php?ctl=system/template&act=install";}

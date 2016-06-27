@@ -1,0 +1,1 @@
+a:2:{s:13:"download_list";a:1:{i:0;s:51:"http://app.shopex.cn/appdatas/b/10/taobao_goods.tar";}s:8:"succ_url";s:96:"http://www.ec-sourcing.com/shopadmin/index.php?ctl=system/appmgr&act=do_update&app_status=unused";}

@@ -1,0 +1,5 @@
+<?php
+$setting = array(
+	'appkey'=>array('type'=>SET_T_STR,'default'=>'','desc'=>__('在这里输入新浪微波APP Key'),'display'=>'false','name'=>'新浪微波APP Key'),
+	'appsecret'=>array('type'=>SET_T_STR,'default'=>'','desc'=>__('在这里输入新浪微波Secret'),'display'=>'false','name'=>'新浪微波Secret')
+);

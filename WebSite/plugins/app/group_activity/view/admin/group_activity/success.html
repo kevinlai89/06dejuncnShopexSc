@@ -1,0 +1,12 @@
+<div  id="successSplash" class='success splash clearfix textcenter'>
+  <h4>保存成功</h4>
+    <p>
+	
+            <a  href="index.php?ctl=plugins/group_activity&act=group_activity_index" target="{method:'post',data:'a=b'}">
+       3<{t}>秒后系统会自动跳转，也可点击本处<{/t}><{t}>正在跳转...<{/t}>
+        </a>
+    </p>
+</div>
+<script>
+top.Splash.go("index.php?ctl=plugins/group_activity&act=group_activity_index",3*1000,{method:'post',data:'a=b'});
+</script>

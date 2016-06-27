@@ -1,0 +1,16 @@
+<div class="GoodsRank">
+	<{foreach from=$data item=goods key=key name=ranking}>
+	<{if $goods.goods_id > 0}>
+	<div class="clearfix">
+	<div class="span-2 goodpic"><a href="<{link ctl="product" act="index" arg0=$goods.goods_id}>" target="_blank" class="pic"><img src="<{$goods.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" style="<{if $setting.goodsImgWidth}>width:<{$setting.goodsImgWidth}>px;<{elseif $env.thumbnail_pic_width}>width:<{$env.thumbnail_pic_width}>px;<{/if}><{if $setting.goodsImgHeight}>height:<{$setting.goodsImgHeight}>px;<{elseif $env.thumbnail_pic_height}>height:<{$env.thumbnail_pic_height}>px;<{/if}>" /></a></div>
+	<div class="prepend-2">
+		<p class="goodsName"><a href="<{link ctl="product" act="index" arg0=$goods.goods_id}>" target="_blank" title="<{$goods.name}>"><{$goods.name|cut:$setting.maxlength}></a></p>
+		<p><span class='price1'><{$goods.price|cur}></span></p>
+	</div>
+	</div>
+	<{/if}>
+	<{/foreach}>
+	<{if $setting.showMore == "on"}>
+	  <div class="more"><a href="<{$data.link}>"><{t}>更多...<{/t}></a></div>
+	<{/if}>
+</div>

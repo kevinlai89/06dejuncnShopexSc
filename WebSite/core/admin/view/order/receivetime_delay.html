@@ -1,0 +1,36 @@
+<form class="tableform" method='post' action='index.php?ctl=order/order&act=paipai_receivetime_delay' target="{'update':OrderMgr.currentInfo,'onRequest':function(){openHandler.dialog_body.setText('sending....');},'onComplete':function(re){openHandler.close();}}">
+  <input type='hidden' name='order_id' value='<{$order_id}>'>
+  <input type='hidden' name='paipai_order_id' value='<{$paipai_order_id}>'>
+
+<div class="notice">买家在<{$delivery_time}>发货，还有 <em class="time"><{$confirm_time}></em> 来完成“确认收货”。如果期间买家没有“确认收货”，也没有“申请退款”，交易将自动结束，系统将把货款支付给您。</div>
+
+<div class="division">
+
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr>
+    <th><{t}>订单号:<{/t}></th>
+    <td><{$order_id}></td>
+  </tr>
+<tr>
+    <th><{t}>拍拍订单号:<{/t}></th>
+    <td><{$paipai_order_id}></td>
+  </tr>
+
+  <tr>
+    <th><{t}>选择延长时间:<{/t}></th>
+    <td><select name='delay_time'>
+      <option value="3"><{t}>3天<{/t}></option>
+      <option value="5"><{t}>5天<{/t}></option>
+      <option value="7"><{t}>7天<{/t}></option>
+      <option value="10"><{t}>10天<{/t}></option>
+    </select></td>
+    </tr>
+</table>
+</div>
+
+
+<div class="table-action">
+	<{button label="确定" type="submit"}>
+</div>
+
+</form>

@@ -1,0 +1,87 @@
+<{require file="block/header.html"}>
+<link rel="stylesheet" type="text/css" href="<{$css_url}>/images/css.css" />
+<!--活动列表-->
+<{foreach from=$countdown item="list"}>
+<div class="sale">
+  <div class="sale_top">
+    <div class="sale_topl"></div>
+    <div class="sale_topm"><{$list.cat}></div>
+    <div class="sale_topr"></div>
+  </div>
+  <div class="sale_content clearfix">
+    <!--商品列表-->
+    <{if $list.goods}>
+    <ul>
+      <{foreach from=$list.goods item="goods_data"}>
+      <li>
+        <a href="<{link ctl="action_countdown" act="product" arg0=$goods_data.countdown_id}>"><img src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" /></a> <br />
+				<p><a href="<{link ctl="action_countdown" act="product" arg0=$goods_data.countdown_id}>"><{$goods_data.name}></a></p>
+				<p>开始：<{$goods_data.limit_start_time|usertime}><br/>结束：<{$goods_data.limit_end_time|usertime}></p>
+
+				<p class="timeLeft" leftTime="<{$goods_data.lefttime}>"><ins>还剩</ins><em></em>天<em></em>时<em></em>分<em></em>秒</p>
+        <p>原价：<em><{$goods_data.price|cur}></em></p>
+        <p>抢购价：<em><{$goods_data.countdown_price|cur}></em></p>
+        <p>还剩：<em><{$goods_data.countdown_num}>件</em></p>
+        <p>每人限购：<em><{$goods_data.limit_num}>件</em></p>
+        <a href="<{link ctl="action_countdown" act="product" arg0=$goods_data.countdown_id}>"><img src="<{$css_url}>/images/bid.gif" /></a> </li>
+      <{/foreach}>
+    </ul>
+    <{/if}>
+    <!--商品列表 end-->
+  </div>
+  <div class="sale_bottom"></div>
+</div>
+<br/>
+<{/foreach}>
+<!--活动列表 end-->
+<script type="text/javascript">
+var interv;
+function secondToDateArray(second){
+	var array = new Array();
+	var mi = 60;
+    var hh = mi * 60;
+    var dd = hh * 24;
+
+	var day = Math.floor(second / dd);
+    var hour = Math.floor((second - day * dd) / hh)% 60;
+    var minute = Math.floor((second - day * dd - hour * hh) / mi)% 60;
+    var second = Math.floor(second - day * dd - hour * hh - minute * mi)% 60;
+
+	var strDay = day < 10 ? "0" + day : "" + day;
+    var strHour = hour < 10 ? "0" + hour : "" + hour;
+    var strMinute = minute < 10 ? "0" + minute : "" + minute;
+    var strSecond = second < 10 ? "0" + second : "" + second;
+
+	array['nD'] = strDay;
+	array['nH'] = strHour;
+	array['nM'] = strMinute;
+	array['nS'] = strSecond;
+	return array;
+}
+
+function start(){
+	$ES(".timeLeft").each(function(el){
+		var leftTime = el.get('lefttime');
+		leftTime--;
+		if(leftTime<=0){
+			leftTime=0;
+		}
+		el.set('lefttime', leftTime);
+		var arr = secondToDateArray(leftTime);
+		var nD=Math.floor(leftTime/(24*60*60));
+		var nH=Math.floor((leftTime-nD*(24*60*60*1000))/(60*60));
+		var nM=Math.floor((leftTime-nD*24-nH)/(60)) % 60;
+		var nS=Math.floor(leftTime) % 60;
+		el.getElements("em")[0].set("text", arr['nD']);
+		el.getElements("em")[1].set("text", arr['nH']);
+		el.getElements("em")[2].set("text", arr['nM']);
+		el.getElements("em")[3].set("text", arr['nS']);
+	});
+}
+
+window.addEvent("domready", function(){
+	interv = setInterval(start, 1000); 
+})
+
+</script>
+<{require file="block/footer.html"}> 

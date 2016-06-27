@@ -1,0 +1,39 @@
+<div class="ShopCartWrap" id="Cart_<{$widgets_id}>" style="position:relative;z-index:1000"><span class="CartIco"><{t}>购物车<{/t}><b class="shop"><span class="cart-number">0</span></b><{t}><{/t}><a href="<{link ctl="cart" act="index"}>" target="_blank" class="cart-container">结算</a><s></s></span></div>
+<script>
+window.addEvent('domready',function(){    
+       if(cartCountBar = $('Cart_<{$widgets_id}>')){
+		   cartCountBar.getElement('.cart-number').setText(Cookie.get('S[CART_COUNT]')?Cookie.get('S[CART_COUNT]'):0);
+           var cartViewMenu = new Element('div',{'class':'cartviewmenu fmenu','styles':{'display':'none'}}).inject(cartCountBar);
+           cartCountBar.addEvents({
+                 'mouseenter':function(){
+				  this.addClass('current');
+                   cartViewMenu.setStyles({
+                      top:this.getSize().y-2,
+					  width:350,
+                      display:'block'
+                   }).set('html','<div class="note">正在加载购物车信息...</div>');
+				   //var i = (Browser.Engine.gecko)?1:0;
+				   cartViewMenu.setStyle('left',-(cartViewMenu.getSize().x-this.getSize().x)-1);
+                   this.retrieve('request',{cancel:$empty}).cancel();
+				   if (Cookie.get('S[CART_COUNT]')>0) this.store('request',new Request.HTML({update:cartViewMenu}).get('<{link ctl="cart" act="view"}>'));
+				   else cartViewMenu.set('html','<h3 class="noGoods"><b></b>您还没有挑选商品,赶紧行动吧！</h3>');
+                },
+				'mouseleave':function(){
+					cartViewMenu.hide();
+					this.removeClass('current');
+				}	
+            });			
+			/*cartViewMenu.addEvents({
+				'mouseenter':function(){
+					cartCountBar.addClass('hover');
+				},
+				'mouseleave':function(){
+					this.hide();
+					cartCountBar.removeClass('hover');
+				}				
+			});*/
+            new QMenu(cartCountBar,cartViewMenu); 
+      }
+
+});
+</script>

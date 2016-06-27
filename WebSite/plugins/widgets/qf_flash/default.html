@@ -1,0 +1,38 @@
+<style id="wid<{$widgets_id}>_style">
+#wid<{$widgets_id}>_body{position:relative;<{$data.css.body}>overflow:hidden;}
+#wid<{$widgets_id}>_body .imgout{<{$data.css.imgout}>}
+#wid<{$widgets_id}>_img{position:absolute;z-index:1;top:0;<{if $data.type==2}>right:0;<{else}>left:0;<{/if}>filter:progid:DXImageTransform.Microsoft.Fade(Overlap=1.00);overflow:hidden;}
+#wid<{$widgets_id}>_img a{float:left;margin:0;padding:0;background:url(<{$data.css.bgimg}>) no-repeat center;overflow:hidden;}
+#wid<{$widgets_id}>_btn{position:absolute;z-index:9;<{$data.css.btn}>overflow:hidden;}
+#wid<{$widgets_id}>_btn ul{position:absolute;top:0;left:0;<{if $data.type==0}>white-space:nowrap;<{/if}>}
+#wid<{$widgets_id}>_btn li{float:left;cursor:pointer;<{$data.css.li}>;overflow:hidden;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;}
+#wid<{$widgets_id}>_btn li.licurr{<{$data.css.licurr}>}
+#wid<{$widgets_id}>_btn a{float:left;text-align:center;cursor:pointer;<{$data.css.a}>;}
+#wid<{$widgets_id}>_btn a.acurr{<{$data.css.acurr}>}
+#wid<{$widgets_id}>_btn a em{<{$data.css.aem}>;}
+#wid<{$widgets_id}>_loading{position:absolute;display:none;z-index:9;height:4px;padding:1px;border:1px #999 solid;background:#FFF;overflow:hidden;}
+#wid<{$widgets_id}>_loadingbar{height:4px;width:0px;background:#0C0;}
+</style>
+<div id="wid<{$widgets_id}>_body">
+	<div id="wid<{$widgets_id}>_img" class="imgout"></div>
+	<div id="wid<{$widgets_id}>_btn"></div>
+	<div id="wid<{$widgets_id}>_loading">
+		<div id="wid<{$widgets_id}>_loadingbar"></div>
+	</div>
+</div>
+<script type="text/javascript">
+window.addEvent('domready',function(){
+	$('wid<{$widgets_id}>_style').inject($E('link'), 'before');
+});
+<{if $data.imgs}>
+new Asset.javascript('images/duceflash.pack.js', {
+	id: 'duceflash_js',
+	onload: function(){
+		$('wid<{$widgets_id}>_body').fn = new DuceFlash({
+			wid:'wid<{$widgets_id}>',type:<{$data.type|default:0}>,loadtype:<{$data.loadtype|default:0}>,done:<{$data.dones|default:8000}>,move:<{$data.move|default:0}>,duration:<{$data.duration|default:500}>,zoom:<{$data.zoom|default:0}>,width:<{$data.width}>,height:<{$data.height}>,imgw:<{$data.imgw}>,imgh:<{$data.imgh}>,btn:{<{$data.btns}>},
+			imgs:[<{$data.imgs}>]
+		});
+	}
+});
+<{/if}>
+</script>

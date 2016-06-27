@@ -1,0 +1,27 @@
+
+<script src="images/tuanlist.js" type="text/javascript"></script>
+ <{foreach from=$data.goods item=goods_data key=key name=goodslist}>
+ <div class="itemsWrap <{if $setting.column > 1 && ($smarty.foreach.goodslist.iteration % $setting.column|default:2) == 0}>last<{/if}>" product="<{$goods_data.goods_id}>" style="width:<{math equation="floor(99/x)" x=$setting.column|default:2}>%;" id="pdt_<{$widgets_id}>_<{$goods_data.goods_id}>">
+        <div class="item clearfix">
+			<div class="infopic flt">
+				<div class="goodsImg"><a <{if ($goods_data.begin_time-$data.now) <=0 && ($goods_data.expire_time-$data.now) >0 }>href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>"<{else}>href="<{link ctl=product act=index arg0=$goods_data.goods_id}>"<{/if}> target="_blank" title="<{$goods_data.name}>">
+		<img <{if $setting.restrict=='off'}><{if $setting.goodsImgWidth}>width="<{$setting.goodsImgWidth}>"<{/if}><{if $setting.goodsImgHeight}>height="<{$setting.goodsImgHeight}>"<{/if}><{/if}> src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$goods_data.name}>" /></a>
+				</div>
+				<p class="tbuycount">已有<em><{$goods_data.tuannow}></em><{t}>人已购买<{/t}></p>
+				<div class="tasktimeBox" id="countdown_<{$widgets_id}>_<{$goods_data.goods_id}>"></div>
+				<script>new countdown_task('<{$widgets_id}>_<{$goods_data.goods_id}>',<{$goods_data.begin_time-$data.now}>,<{$goods_data.expire_time-$data.now}>,'999999');</script>
+			</div>	
+		
+			<div class="infoitem flt">
+				<{if $setting.showGoodsName=="on"}><h6><a <{if ($goods_data.begin_time-$data.now) <=0 && ($goods_data.expire_time-$data.now) >0 }>href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>"<{else}>href="<{link ctl=product act=index arg0=$goods_data.goods_id}>"<{/if}> target="_blank" title="<{$goods_data.name|escape:html}>"><{$goods_data.name|cut:$setting.max_length}></a></h6><{/if}>
+				<p class="info0"><span>简介：<{$goods_data.brief|escape:html}></span></p>
+        		<p class="pri"><{if $setting.showGoodsPrice=="on"}><span class="price0"><{$setting.priceText|default:'销售价'}><{$setting.priceSep|default:':'}></span><span class="price1" style="color:<{$setting.color2}>;<{$setting.member_font|styleset}>"><{$goods_data.price|cur}></span><{/if}>
+				<{if $setting.showGoodsMktPrice=="on"}><span class="mktprice0"></span><{$setting.mktPriceText|default:'市场价'}><{$setting.mktPriceSep|default:':'}><span class="mktprice1" style="color:<{$setting.color1}>;<{$setting.mark_font|styleset}>"><{$goods_data.mktprice|cur}></span><{/if}></p>
+				<p style="margin-top:20px;"><a href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>" target="_blank" class="tuanbuy">立即参团</a> </p>
+			</div>
+		</div>
+ 
+ </div>
+<{/foreach}>
+<div class="clear"></div>
+<div class="more clearfix"><a href="<{link ctl=tuan act=index}>" target="_blank">查看更多团购优惠</a></div>

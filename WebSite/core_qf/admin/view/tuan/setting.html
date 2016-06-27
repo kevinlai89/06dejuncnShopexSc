@@ -1,0 +1,96 @@
+
+<form name="form1" id="form1" method="post" class="tableform" action="index.php?ctl=tuan/tuangou_team&act=setting">
+
+<div class="division">
+<table>
+<tr>
+<th><{t}>是否显示团购分类导航<{/t}></th>
+  <td>
+<input type="radio" name="showcat" value="0" <{if $showcat=='0' || $showcat==''}>checked="checked"<{/if}>>否
+<input type="radio" name="showcat" value="1" <{if $showcat=='1'}>checked="checked"<{/if}>>是
+  </td>
+</tr>
+<tr>
+<th><{t}>首页每页数量<{/t}></th>
+  <td>
+<input type="text" name="nums_more"  value="<{$nums_more|default:9}>">
+  </td>
+</tr>
+<tr>
+<th><{t}>价格区间<{/t}></th>
+  <td>
+	<input type="text" style="width:500px" name="priceRange" value="<{$priceRange|default:'1-49,50-99,100-199,200-399,400-599,600-999,1000'}>"/>
+  </td>
+</tr>
+<tr>
+<th><{t}>团购首页默认排序方式：<{/t}></th>
+  <td>
+<input type="radio" name="orderBy" value="0" <{if $orderBy=='0' || $orderBy==''}>checked="checked"<{/if}>>发布时间顺序,迟的在前
+<input type="radio" name="orderBy" value="1" <{if $orderBy=='1'}>checked="checked"<{/if}>>发布时间顺序,早的在前
+<br>
+<input type="radio" name="orderBy" value="2" <{if $orderBy=='2'}>checked="checked"<{/if}>>开始时间顺序,迟的在前
+<input type="radio" name="orderBy" value="3" <{if $orderBy=='3'}>checked="checked"<{/if}>>开始时间顺序,早的在前
+<br>
+<input type="radio" name="orderBy" value="4" <{if $orderBy=='4'}>checked="checked"<{/if}>>结束时间顺序,迟的在前
+<input type="radio" name="orderBy" value="5" <{if $orderBy=='5'}>checked="checked"<{/if}>>结束时间顺序,早的在前
+<br>
+<input type="radio" name="orderBy" value="6" <{if $orderBy=='6'}>checked="checked"<{/if}>>实际购买人数,多的在前
+<input type="radio" name="orderBy" value="7" <{if $orderBy=='7'}>checked="checked"<{/if}>>实际购买人数,少的在前
+<br>
+<input type="radio" name="orderBy" value="8" <{if $orderBy=='8'}>checked="checked"<{/if}>>团购价格,高的在前
+<input type="radio" name="orderBy" value="9" <{if $orderBy=='9'}>checked="checked"<{/if}>>团购价格,低的在前
+<br>
+<input type="radio" name="orderBy" value="10" <{if $orderBy=='10'}>checked="checked"<{/if}>>团购排序字段，大的前
+<input type="radio" name="orderBy" value="11" <{if $orderBy=='11'}>checked="checked"<{/if}>>团购排序字段,小的在前
+<br>
+  </td>
+</tr>
+</table>
+</div>
+
+<div class="division">
+<table>
+
+<tr>
+<th><{t}>团购首页导航路径名称：<{/t}></th>
+  <td>
+<input type="text" name="nav_index"  value="<{$nav_index|default:'团购'}>">(团购首页导航路径,即"您当前的位置"后面显示的文字部分)
+  </td>
+</tr>
+
+<tr>
+<th><{t}>团购首页SEO标题：<{/t}></th>
+  <td>
+<input type="text" name="title_index"  value="<{$title_index|default:'团购'}>">(团购首页SEO标题)
+  </td>
+</tr>
+
+<tr>
+<th><{t}>团购首页SEO关键词：<{/t}></th>
+  <td>
+<input type="text" name="keyword_index"  value="<{$keyword_index|default:'团购,限时特卖'}>">(团购首页SEO关键词)
+  </td>
+</tr>
+
+<tr>
+<th><{t}>团购首页SEO描述：<{/t}></th>
+  <td>
+<{input type="textarea" name="desc_index"  rows="5" cols="50" value="{$desc_index}"}>(团购首页SEO描述)
+  </td>
+</tr>
+
+
+
+</table>
+</div>
+
+
+
+<table cellspacing="0" cellpadding="0" border="0" align="center" class="tableAction">
+      <tr>
+        <td><b class="submitBtn"><input type='submit' value='保存'></b></td>
+      </tr>
+    </table>
+
+
+</form>

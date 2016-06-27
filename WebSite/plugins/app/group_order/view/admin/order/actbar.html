@@ -1,0 +1,16 @@
+<span class="action-bar-info"><{t}>订单状态操作:<{/t}></span>
+<!--<input type="button" onclick="OrderMgr.act.confirm(this)" value="确认"<{if $order.confirm == 'Y' OR $order.status != 'active'}>class="btndisabled" disabled="disabled" class="inactive"<{/if}> />-->
+<span class="action-bar-btns"><span>
+<ul>
+	<li class="first"><input type="button" value="支付<{if $env.conf.order.flow.payed}>...<{/if}>" <{if ($order.pay_status==1 || $order.pay_status==2 || $order.pay_status==4 || $order.pay_status==5) or $order.status != 'active' or count($group_order)>0}> disabled="disabled" class="inactive"<{/if}> onclick="OrderMgr.act.run('<{if $env.conf.order.flow.payed}>showPayed<{else}>toPayed<{/if}>', this, '<{if $env.conf.order.flow.payed}>1<{else}>0<{/if}>')" /> </li>
+</ul>
+</span></span> <span class="action-bar-btns"><span>
+<ul>
+	<li class="first"> <input type="button"  value="退款<{if $env.conf.order.flow.refund}>...<{/if}>" <{if ($order.pay_status==0 || $order.pay_status==5) or $order.status != 'active' or count($group_order)>0}> disabled="disabled" class="inactive"<{/if}> onclick="OrderMgr.act.run('<{if $env.conf.order.flow.refund}>showRefund<{else}>toRefund<{/if}>', this, '<{if $env.conf.order.flow.refund}>1<{else}>0<{/if}>')" /> </li>
+</ul>
+</span></span> <span class="action-bar-btns"><span>
+<ul>
+	<li class="first"> <input type="button"  value="作废" <{if $order.pay_status > 0 || $order.ship_status > 0 || $order.status != 'active'}> disabled="disabled" class="inactive" <{else}> onclick="if(confirm('作废后该订单何将不允许再做任何操作，确认要执行吗？'))  OrderMgr.act.run('cancel', this)" <{/if}> /> </li>
+</ul>
+</span></span>
+<label><{if $order.status == 'dead'}><{t}>[已作废]<{/t}><{elseif $order.status == 'finish'}><{t}>[已完成]<{/t}><{/if}></label>

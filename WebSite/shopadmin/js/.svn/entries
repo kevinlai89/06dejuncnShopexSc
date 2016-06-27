@@ -1,0 +1,106 @@
+8
+
+dir
+45699
+http://svn.dev.shopex.cn/shop/branches/485/src/shopadmin/js
+http://svn.dev.shopex.cn/shop
+
+
+
+2010-05-06T03:25:54.404996Z
+45699
+litie
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+50e4f86b-0325-0410-b778-d0954d22fdc9
+
+coms
+dir
+
+fixie6.js
+file
+
+
+
+
+2009-12-16T12:04:22.000000Z
+afd7cf04ceb081bb53bbb42fcce419cf
+2009-12-14T10:59:48.273921Z
+37807
+litie
+
+moo.js
+file
+
+
+
+
+2009-10-28T02:15:28.000000Z
+adfeb1088086f9eedf3c6a04fcfbac39
+2009-10-20T02:35:26.533664Z
+34008
+litie
+
+mooadapter.js
+file
+
+
+
+
+2009-09-17T10:48:36.000000Z
+fbeea0243f734d298cb7a75304c71c6c
+2009-08-19T11:10:00.137769Z
+30626
+litie
+
+jstools.js
+file
+
+
+
+
+2009-12-16T12:04:22.000000Z
+0313a107cde559f45848ed80674a2e80
+2009-12-14T10:59:48.273921Z
+37807
+litie
+
+moomore.js
+file
+
+
+
+
+2009-09-17T10:48:36.000000Z
+e73bdbcc5ecc60aaf949daab7eade5f9
+2009-07-23T10:23:24.539871Z
+28014
+litie
+
+package
+dir
+
+sync_b2b.js
+file
+
+
+
+
+2010-01-14T09:07:44.000000Z
+8eddbfbf976e93f297f10e1988a7077d
+2010-01-13T02:43:22.884386Z
+39114
+ever
+

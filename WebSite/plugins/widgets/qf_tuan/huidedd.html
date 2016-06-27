@@ -1,0 +1,163 @@
+<style type="text/css" id="style_<{$widgets_id}>">
+#tuanlist_<{$widgets_id}> .tasktimeBox {text-align:center;line-height:23px;height:23px;}
+#tuanlist_<{$widgets_id}> .timeon {color:#333;font:bold 14px/23px Tahoma, Geneva, sans-serif}
+#tuanlist_<{$widgets_id}> .timeon em {color:#CD0000}
+#tuanlist_<{$widgets_id}> .timeof {background:url('tuan/images/timeoff.gif') no-repeat;height:23px;display:inline-block;padding-left:23px;}
+#tuanlist_<{$widgets_id}> .tbuycount {margin:5px 0 8px;text-align:center;font-size:14px;}
+#tuanlist_<{$widgets_id}> .tbuycount em {color:#E71B14;padding-right:2px;}
+#tuanlist_<{$widgets_id}> .isopen,#tuanlist_<{$widgets_id}> .isclose {cursor:pointer;position:absolute;z-index:1;right:-13px;bottom:-7px;width:65px;height:65px;display:block;}
+#tuanlist_<{$widgets_id}> .isopen {background:url('tuan/images/isopen.png')no-repeat;_background:none;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='tuan/images/isopen.png');}
+#tuanlist_<{$widgets_id}> .isclose {background:url('tuan/images/isclose.png')no-repeat;_background:none;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='tuan/images/isclose.png');}
+
+#tuanlist_<{$widgets_id}> .tuanbuy {display:block;width:100px;height:32px;background:url('tuan/images/btn_buy_tuan.gif') no-repeat;text-indent:-9999px;margin:0 auto;overflow:hidden;margin-top:10px;}
+</style>
+<script>window.addEvent('domready',function(e){$('style_<{$widgets_id}>').inject($E('link'), 'before');})</script>
+<input type="hidden" name="goods_num" id="goods_num" value="<{$data.goods_num}>">
+<{capture name=titleImg}>
+  <div class="titleImg"><a href="<{if $setting.titleImgHref}><{$setting.titleImgHref}><{else}><{link ctl=gallery act=$setting.view arg0=$setting.id}><{/if}>"><img src="<{$setting.titleImgSrc}>" title="<{$setting.titleImgAlt}>"/></a></div>
+<{/capture}>
+
+<{capture name=goodsCat}>
+  <{if $setting.showTitle=="on"}>
+    <h4><{$setting.titleDesc}></h4>
+  <{/if}>
+<{/capture}>
+<{if !$smarty.capture.countdown_task_script}>
+<{capture name=countdown_task_script}>
+<script src="images/tuanlist.js" type="text/javascript"></script>
+<{/capture}>
+<{$smarty.capture.countdown_task_script}>
+<{/if}>
+
+<{capture name=goodsLoop}>
+    <{foreach from=$data.goods item=goods_data key=key name=goodslist}>
+	<{capture name=goodsTaskbox}>
+	<div class="tasktimeBox" id="countdown_<{$widgets_id}>_<{$goods_data.goods_id}>"></div>
+    <script>new countdown_task('<{$widgets_id}>_<{$goods_data.goods_id}>',<{$goods_data.begin_time-$data.now}>,<{$goods_data.expire_time-$data.now}>,'999999');</script>
+    <p class="tbuycount"><em><{$goods_data.tuannow}></em><{t}>人已购买<{/t}></p>
+	<{/capture}>
+	
+    <{capture name=goodsImg}>
+    <{if $setting.showGoodsImg=="on"}><div class="goodsImg" style="position:relative;overflow:hidden;text-align:center;vertical-align: middle;<{if $setting.goodsImgWidth}>width:<{$setting.goodsImgWidth}>px;<{elseif $env.thumbnail_pic_width}>width:<{$env.thumbnail_pic_width}>px;<{/if}><{if $setting.goodsImgHeight}>height:<{$setting.goodsImgHeight}>px;<{elseif $env.thumbnail_pic_height}>height:<{$env.thumbnail_pic_height}>px;<{/if}>">
+    <a <{if ($goods_data.begin_time-$data.now) <=0 && ($goods_data.expire_time-$data.now) >0 }>href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>"<{else}>href="<{link ctl=product act=index arg0=$goods_data.goods_id}>"<{/if}> target="_blank" title="<{$goods_data.name}>">
+	<img <{if $setting.restrict=='off'}><{if $setting.goodsImgWidth}>width="<{$setting.goodsImgWidth}>"<{/if}><{if $setting.goodsImgHeight}>height="<{$setting.goodsImgHeight}>"<{/if}><{/if}> src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$goods_data.name}>" /></a></div><{/if}>
+    <{/capture}>
+	
+    <{capture name=goodsName}>
+      <{if $setting.showGoodsName=="on"}>
+        <h6><a <{if ($goods_data.begin_time-$data.now) <=0 && ($goods_data.expire_time-$data.now) >0 }>href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>"<{else}>href="<{link ctl=product act=index arg0=$goods_data.goods_id}>"<{/if}> target="_blank" title="<{$goods_data.name|escape:html}>"><{$goods_data.name|cut:$setting.max_length}></a></h6>
+      <{/if}>
+    <{/capture}>
+
+    <{capture name=goodsDesc}>
+      <{if $setting.showGoodsDesc=="on"}>
+      <ul>
+    <{assign var="savePC" value=$goods_data.mktprice-$goods_data.price}>    
+        <{if $setting.showGoodsMktPrice=="on"}><li><span class="mktprice0"></span><{$setting.mktPriceText|default:'市场价'}><{$setting.mktPriceSep|default:':'}><span class="mktprice1" style="color:<{$setting.color1}>;<{$setting.mark_font|styleset}>"><{$goods_data.mktprice|cur}></span></li><{/if}>
+        <{if $setting.showGoodsPrice=="on"}><li><span class="price0"><{$setting.priceText|default:'销售价'}><{$setting.priceSep|default:':'}></span><span class="price1" style="color:<{$setting.color2}>;<{$setting.member_font|styleset}>"><{$goods_data.price|cur}></span></li><{/if}>
+        <{if $savePC>0 && $setting.showGoodsSave=="on"}><li><span class="save0"><{$setting.saveText|default:'节省'}><{$setting.saveSep|default:':'}></span><span class="save1" style="color:<{$setting.color3}>;<{$setting.save_font|styleset}>"><{$savePC|cur}></span></li><{/if}>
+        <{if $setting.showGoodsInfo=="on" && $goods_data.brief}><li><span class="info0">简介：<{$goods_data.brief|escape:html}></span></li><{/if}>
+        <{if $setting.showCount=="on"}><li><span class="countprice"><{$setting.countText|default:'折扣'}></span><span class="info1" style="color:<{$setting.color5}>;<{$setting.count_font|styleset}>"><{assign var="aCount" value=$goods_data.price/$goods_data.mktprice*100}><{$aCount|number_format:"1"}><{$setting.countSep|default:':'}></span></li><{/if}>
+      </ul>
+      <a href="<{link ctl=tuan act=detail arg0=$goods_data.team_id}>" target="_blank" class="tuanbuy">立即参团</a>        
+      <{/if}>
+    <{/capture}>
+    
+      <div class="itemsWrap <{if $setting.column > 1 && ($smarty.foreach.goodslist.iteration % $setting.column|default:4) == 0}>last<{/if}>" product="<{$goods_data.goods_id}>" style="width:<{math equation="floor(99/x)" x=$setting.column|default:4}>%;" id="pdt_<{$widgets_id}>_<{$goods_data.goods_id}>">
+        <div class="item">
+        <{$smarty.capture.goodsTaskbox}>    
+          <{if $setting.showGoodsImg=="off"}>
+            <{$smarty.capture.goodsName}>
+            <{$smarty.capture.goodsDesc}>
+          <{elseif $setting.showGoodsName=="off" && $setting.showGoodsDesc=="off"}>
+            <{$smarty.capture.goodsImg}>
+          <{elseif $setting.goodsImgPosition=="top"}>
+            <{$smarty.capture.goodsImg}>
+            <{$smarty.capture.goodsName}>
+            <{$smarty.capture.goodsDesc}>
+          <{elseif $setting.goodsImgPosition=="center"}>
+            <{$smarty.capture.goodsName}>
+            <{$smarty.capture.goodsImg}>
+            <{$smarty.capture.goodsDesc}>
+          <{elseif $setting.goodsImgPosition=="bottom"}>
+            <{$smarty.capture.goodsName}>
+            <{$smarty.capture.goodsDesc}>
+            <{$smarty.capture.goodsImg}>
+          <{elseif $setting.goodsImgPosition=="left"}>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+              <td><{$smarty.capture.goodsImg}></td>
+              <td class="goodsDesc">
+                <{$smarty.capture.goodsName}>
+                <{$smarty.capture.goodsDesc}>
+              </td>
+              </tr>
+            </table>
+          <{elseif $setting.goodsImgPosition=="right"}>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                <td class="goodsDesc">
+                  <{$smarty.capture.goodsName}>
+                  <{$smarty.capture.goodsDesc}>
+                </td>
+                <td><{$smarty.capture.goodsImg}></td>
+                </tr>
+            </table>
+          <{/if}>
+        </div>
+      </div>
+      <{if $setting.column!=1 && (($smarty.foreach.goodslist.iteration % $setting.column|default:4) == 0 || $smarty.foreach.goodslist.last)}><div class="clear"></div><{/if}>     
+    <{/foreach}>
+<{/capture}>
+
+<div class="GoodsListWrap" id="tuanlist_<{$widgets_id}>">
+  <{if $setting.showTitleImg=="off"}>
+    <div class="GoodsList">
+      <{$smarty.capture.goodsCat}>
+      <{$smarty.capture.goodsLoop}>
+    </div>
+  <{elseif $setting.titleImgPosition=="top"}>
+    <{$smarty.capture.titleImg}>
+    <div class="GoodsList">
+      <{$smarty.capture.goodsCat}>
+      <{$smarty.capture.goodsLoop}>
+    </div>
+  <{elseif $setting.titleImgPosition=="center"}>
+    <{$smarty.capture.goodsCat}>
+    <{$smarty.capture.titleImg}>
+    <div class="GoodsList">
+      <{$smarty.capture.goodsLoop}>
+    </div>
+  <{elseif $setting.titleImgPosition=="bottom"}>
+    <div class="GoodsList">
+      <{$smarty.capture.goodsCat}>
+      <{$smarty.capture.goodsLoop}>
+    </div>
+    <{$smarty.capture.titleImg}>
+  <{elseif $setting.titleImgPosition=="left"}>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+      <td width="<{$setting.titleImgWidth}>"><{$smarty.capture.titleImg}></td>
+      <td><div class="GoodsList">
+        <{$smarty.capture.goodsCat}>
+        <{$smarty.capture.goodsLoop}>
+      </div>
+      </td>
+      </tr>
+    </table>
+  <{elseif $setting.titleImgPosition=="right"}>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+      <td><div class="GoodsList">
+        <{$smarty.capture.goodsCat}>
+        <{$smarty.capture.goodsLoop}>
+      </div>
+      </td>
+      <td width="<{$setting.titleImgWidth}>"><{$smarty.capture.titleImg}></td>
+      </tr>
+    </table>
+  <{/if}>
+  <{if $setting.showMore == "on"}> 
+    <div class="more clearfix"><a href="<{link ctl=tuan act=index}>" target="_blank">更多&gt;&gt;</a></div>
+  <{/if}>
+</div>

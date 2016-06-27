@@ -1,0 +1,25 @@
+<form method='post' id='comment_type-addPrize' action='index.php?ctl=comment/comment_goods_type&act=addType' >
+<div class="tableform">
+<div class="division">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th><{t}>评分项目名称：<{/t}></th>
+    <td><{input type='text' value=$comment_goods_type.name name='name' required='true'}></td>
+  </tr>
+  <tr>
+    <th><{t}>排序：<{/t}></th>
+    <td><{input type='unsignedint' style="width:50px" value=$comment_goods_type.orderlist name='orderlist'}></td>
+  </tr>
+</table>
+</div>
+
+<{if $comment_type.type_id}>
+<input type='hidden' value='<{$comment_goods_type.type_id}>' name='type_id'>
+<{/if}>
+</div>
+
+<div class="table-action">
+<{button label="完成" type="submit"}>
+</div>
+</form>
+

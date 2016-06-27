@@ -1,0 +1,56 @@
+<div class="tableform" >
+<h3><{if $cur_action eq 'add'}>新增<{else}>编辑<{/if}>询价模板</h3>
+
+<div class="division">
+<form name="form1" id="form1" method="post" action="index.php?ctl=goods/product&act=saveQtntemplate">
+<input type="hidden" name="id" value="<{$template.id}>" />
+<table>
+<tr><td width="100px">模板名称：</td>
+    <td>
+        <input type="text" name="name" value="<{$template.name}>" required="true" />
+    </td>
+</tr>
+
+<tr><td width="100px">模板基本条目：</td>
+    <td>
+        联系人&nbsp;&nbsp;
+        公司名称&nbsp;&nbsp;
+        联系地址&nbsp;&nbsp;
+        邮编&nbsp;&nbsp;
+        电话&nbsp;&nbsp;
+        传真&nbsp;&nbsp;
+        电子邮件&nbsp;&nbsp;
+        备注
+    </td>
+</tr>
+
+<tr><td width="100px">自定义条目：</td>
+    <td>
+        <{foreach from=$template.cus_items key=key item=cusitem}>
+        <div style="float:left;width:60px;">
+        	条目名称<{$key+1}>
+        </div>
+        <div style="float:left;">
+        	<input type="text" name="cusitems[name][]" value="<{$cusitem.name}>" />
+        	&nbsp;
+        	<label><input type="checkbox" name="cusitems[required][]" <{if $cusitem.required}>checked="true"<{/if}> />必填</label>
+        </div>
+        <div style="clear:both;margin-bottom:5px;"></div>
+        <{/foreach}>
+
+    </td>
+</tr>
+
+
+</table>
+
+<br />
+<input type="submit" value=" 保存 " />
+        
+</div>
+</form>
+
+</div>
+
+<script>
+</script>

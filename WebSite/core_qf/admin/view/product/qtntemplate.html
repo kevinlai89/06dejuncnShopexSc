@@ -1,0 +1,13 @@
+<div class="tableform" >
+<h3>询价模板</h3>
+
+<br />
+模板：<select name="config" onchange="location.href='index.php#ctl=goods/product&act=editQtntemplate&p[0]='+this.options[this.selectedIndex].value">
+<option value="">--选择模板编辑--</option>
+<{foreach from=$template_list key=index item=template}>
+    <option value="<{$template.id}>"><{$template.name}></option>
+<{/foreach}>
+</select>
+
+<br /><br />
+<input type="button" value="新增模板" onclick="location.href='index.php#ctl=goods/product&act=addQtntemplate'" />

@@ -1,0 +1,157 @@
+@charset "utf-8";
+.qf_tuan .clr {display:block;overflow:hidden;clear:both;height:0;line-height:0;font-size:0;}
+.qf_tuan .floatRight {float:right;}
+.AllWrapInside {width:990px;margin:0auto;}
+/*.slide*/
+		.slide{position:relative;background:url(misc/skin/i/loading.gif) no-repeat center center;}
+		.slide .slide-itemswrap{position:relative;overflow:hidden;}
+		.slide .slide-items{position:absolute;overflow:hidden;}
+		.slide-controls span{display:inline-block;background:#666;text-align:center;cursor:pointer;border-radius:12px;-moz-border-radius:12px;-webkit-border-radius:12px; filter:alpha(opacity=70);opacity:0.7;}
+		.slide-controls a:link,.slide-controls a:visited{display:inline-block;width:100%;color:#fff;font-weight:bold;}
+		.slide-controls .curr{background:#ec5d01;}
+		/*#slide*/
+		#slide{float:left;width:990px;height:60px;margin-bottom:10px;position:relative;background:url("http://misc.360buyimg.com/lib/skin/e/i/loading.gif") no-repeat scroll center center transparent;}
+		#slide .slide-itemswrap,
+		#slide .slide-items li{width:990px;height:60px;overflow:hidden;position:relative;}
+		#slide .slide-items{height:720px;background:#F5F5F5;position:absolute;}
+		#slide .slide-items li{float:left;}
+		#slide .slide-items div{float:left;width:990px;height:60px;overflow:hidden;}
+		#slide .slide-controls{height:22px;padding:4px 10px 2px 10px; text-align:right;position:absolute;bottom:0;right:0;}
+		#slide .slide-controls span{width:22px;height:22px;line-height:22px;margin-right:5px;}
+		#slide .slide-controls a{font-size:13px;}
+		#slide .style1 .fore2,#slide .style1 .fore3,#slide .style1 .fore4{margin-left:1px;}
+		*html #slide{}
+#slide1{float:left;width:990px;height:160px;margin-bottom:10px;position:relative;background:url("http://misc.360buyimg.com/lib/skin/e/i/loading.gif") no-repeat scroll center center transparent;}
+		#slide1 .slide-itemswrap,
+		#slide1 .slide-items li{width:990px;height:160px;overflow:hidden;position:relative;}
+		#slide1 .slide-items{height:800px;background:#F5F5F5;position:absolute;}
+		#slide1 .slide-items li{float:left;}
+		#slide1 .slide-items div{float:left;width:990px;height:160px;overflow:hidden;}
+		#slide1 .slide-controls{height:22px;padding:4px 10px 2px 10px; text-align:right;position:absolute;bottom:0;right:0;}
+		#slide1 .slide-controls span{width:22px;height:22px;line-height:22px;margin-right:5px;}
+		#slide1 .slide-controls a{font-size:13px;}
+		#slide1 .style1 .fore2,#slide .style1 .fore3,#slide .style1 .fore4{margin-left:1px;}
+
+
+.menu_li{ width:970px; height:27px; margin:0 auto; padding-left:20px;}
+.menu_li li {float:left;width:80px;}
+.menu_li li a, .menu_li li a:hover, .menu_li li.on a, .menu_li li.on a:hover{ width:75px; height:27px;margin-right:5px; background:url(i/tuan6.bg.png) 0px 0px; line-height:27px; text-align:center; display:block; cursor:pointer;}
+.menu_li li.on a, .menu_li li.on a:hover{background:url(i/tuan6.bg.png) no-repeat -75px 0px; font-weight:bold; color:#fff;}
+
+.menu1{ width:966px; height:auto; border-right:1px solid #fe6902; border-left:1px solid #fe6902; border-bottom:1px solid #fe6902; border-top:3px solid #fe6902;  margin:0 auto; padding:5px 0px 5px 22px; background:#fff;}
+.menu_left, .menu_right{ float:left; padding:5px 0px;}
+.menu_right{ width:920px; line-height:20px;}
+.menu_right a, .menu_right a:hover, .menu_right span { height:auto; cursor:pointer; height:17px;  padding:3px 8px; text-align:center;} 
+.menu_left span{ color:#fe6a01; font-weight:bold; padding-right:5px; float:left;}
+.menu_right a.on, .menu_right a.on:hover{ width:40px; height:17px;  padding:3px 8px; text-align:center; background:#fe6a00; color:#fff; font-weight:normal;}
+
+/* for hotel city begin */
+.menu_w { padding-left:20px;}
+.menu_bod {border-top:1px solid #fff; background:#f7f7f7;}
+
+.menu_hotel{ width:988px; height:auto; border:1px solid #dddddd;  margin:0 auto; padding:0px 0px 2px px; background:#fff;}
+.menu_left_hotel, .menu_right_hotel{ float:left; padding:9px 0px  6px 0px;}
+.menu_right_hotel{ width:880px; line-height:20px;  position:relative;  }
+#citymenu1{ z-index:2;}
+.haveb{ border-bottom:1px dotted #ccc;}
+.menu_right_hotel ul{ list-style:none; padding:0px; margin:0px; float:left; width:600px;  }
+.menu_right_hotel ul li{cursor: pointer;display: inline;float: left;height: 23px; line-height:23px; padding:0px 20px 0px 5px; white-space: nowrap; position:relative;}
+.menu_right_hotel ul li a,.menu_right_hotel ul li a:hover{display: block; float: left; line-height: 17px; padding:1px 4px;  white-space: nowrap; color:#005ea6;}
+.menu_right_hotel ul li a.onon, .menu_right_hotel ul li a:hover.onon{color:red;}
+.menu_right_hotel ul li a.onon span, .menu_right_hotel ul li a:hover.onon span{ color:red;}
+.menu_right_hotel ul li a span, .menu_right_hotel ul li a:hover span{ color:#9a9a9a;}
+.menu_right_hotel span.other{  display: block;  line-height: 17px;  white-space: nowrap; cursor:pointer; position:absolute; top:30px; right:200px;  }
+.menu_right_hotel  a.on, .menu_right_hotel a.on:hover{  height:17px;  padding:0px 6px 1px 6px; text-align:center; background:#4698d4; color:#fff; font-weight:normal; float:left;}
+.menu_left_hotel, .menu_left_hotel a, .menu_left_hotel a:hover{  font-weight:bold;  float:left; width:66px; text-align:right; text-decoration:none;}
+.menu_right_hotel ul.b1, .menu_right_hotel ul.b2{ list-style:none; padding:0px; margin:0px; float:left; width:840px;  }
+.menu_right_hotel ul.b2 {width:790px;}
+.menu_right_hotel ul.b1 li, .menu_right_hotel ul.b2 li{cursor: pointer;display: inline;float: left;height: 23px; line-height:23px; padding:0px 6px 0px 4px; white-space: nowrap; position:relative;}
+.menu_w h5 {font-size:12px;font-weight:bold;height:35px;line-height:35px;width:40px;float:left;padding-left:27px;margin:0;}
+.menu_w .hbutton1,.menu_w .hbutton2, .menu_w .hbutton3, .menu_w .hbutton4, .menu_w .hbutton5{ width:165px; height:22px; padding-left:1px;background:url(i/tuan6.bg.png) no-repeat;background-position:0px -380px; float:left;margin:8px 20px 8px 0px;}
+.menu_w .hbutton2{background-position:0px -402px;}
+.menu_w .hbutton3{background-position:0px -424px;}
+.menu_w .hbutton4{background-position:0px -436px;}
+.menu_w .hbutton5{background-position:0px -448px;}
+.menu_w #hbutton a{ width:55px; height:22px; display:block; float:left;}
+.menu_w .newtuan {width:100px;height:22px;float:left;margin:8px 0px;line-height:22px;background:url(i/tuan6.bg.png) -306px -385px no-repeat;  cursor:pointer; position:relative;}
+.menu_w .jifen {width:100px; height:22px; float:left;margin:8px 0px 8px 10px;  line-height:22px; color:#cc0000; font-weight:bold; position:relative;}
+.menu_w .jifen a{color:#cc0000; text-decoration:none;}
+.menu_w .newtuan a, .menu_w .newtuan a:hover{ text-decoration:none; color:#333; height:22px; padding-left:20px; display:block; }
+.menu_w .non{background:url(i/tuan6.bg.png) -306px -413px no-repeat;}
+.tips{ width:848px; border:1px solid #ddd; float:left; padding:4px 10px; background:#fcfcfc; height: auto; display:block; position:relative;}
+.tips h1{ float:left; width:38px; font-size:12px; font-weight:normal; height:20px; line-height:20px; padding:0px;}
+.tips ul{ width:800px; float:left;}
+.tips ul li{    cursor: pointer;display: inline;float: left;height: 23px; line-height:23px; padding:0px 10px 0px 0px; white-space: nowrap; position:relative; }
+.tips ul li a, .menu_right_hotel ul li a:hover{   display: block; float: left; line-height: 17px; padding:1px 4px;  white-space: nowrap;}
+.tips b{ width:7px; height:7px; display:block; position:absolute; top:12px; right:10px;  cursor:pointer;}
+.menu_right_hotel ul li a:hover{ color:red;}
+.li_inp{ width:38px; height:18px; line-height:18px; border:1px solid #aaa; border-bottom-color:#ddd; border-right-color:#ddd;}
+.li_but{ width:50px; height:21px; line-height:21px; border:none; text-align:center; background:url(i/tuan6.bg.png) -230px -159px;}
+.hoverbb{ border-bottom:1px solid #ddd;}
+#menu_city {background: none repeat scroll 0 0 #FFFDEE;border: 1px solid #c4c4c4;border-radius: 1px 1px 1px 1px;box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);position: absolute; left:60px; top:65px; width:670px; height:auto; z-index:9; background:#fff; display:none; }
+#menu_city .title{ width:670px; height:30px;background:url(i/tuan6.bg.png) 0px -490px; float:left; padding:21px 0px 16px 0px; }
+#menu_city .title .text{ height:30px; width:287px; line-height:30px; float:left; text-align:right; font-size:14px; font-weight:bold; padding-right:10px;}
+#menu_city .title .inp{ width:220px; height:30px; background:url(i/tuan6.bg.png) 0px -586px no-repeat; float:left;  }
+.inptext{ width:154px; height:27px; padding-left:5px; line-height:30px; color:#999; float:left; border:none; background:none; font-size:14px;}
+.inpbut{ width:60px; height:30px; line-height:28px; color:#343233; float:left; text-align:center; cursor:pointer; font-size:14px; font-weight:bold;border:none; background:none;}
+#menu_city .con{ width:650px; height:auto; padding:15px 10px; float:left;}
+#menu_city .con .mt{ width:624px; height:29px; padding:0px 13px; background:url(i/tuan6.bg.png) 0px -557px;}
+#menu_city .con .mt ul{ width:624px; height:29px;}
+#menu_city .con .mt li, #menu_city .con .mt li.ono{ width:104px; height:29px; display:block; float:left; line-height:29px; font-family:"Verdana"; font-size:19px; text-align:center; padding:0px; margin:0px; color:#424242;}
+#menu_city .con .mt li.ono{background:url(i/tuan6.bg.png) -166px -380px; color:#ff6504;}
+#menu_city .con .mc{ width:650px; height:auto; padding-top:17px; display:none;}
+#menu_city .con .mc .team{ width:650px; height:auto; float:left; padding-bottom:15px;}
+#menu_city .con .mc .team h1{ width:25px; height:25px; border:1px solid #d5d5d5; background:#efefef; float:left; line-height:25px; text-align:center; padding:0px;font-family:"Verdana"; font-size:19px; font-weight:normal;}
+#menu_city .con .mc .team ul{ width:600px; height:auto; padding-top:4px; float:left;}
+#menu_city .con .mc .team ul span{ padding-left:12px;}
+#menu_city .con .mc .team ul a span{ padding-left:0px;}
+#menu_city .con .mc .team ul li{    cursor: pointer;display: inline;float: left;height: 23px; line-height:23px; padding:0px 10px 0px 5px; white-space: nowrap; position:relative;}
+
+#menu_city .con .mc .team ul li a, #menu_city .con .mc .team ul li a:hover{   display: block; float: left; line-height: 17px; padding:1px 8px;  white-space: nowrap; color:#333;}
+#menu_city .con .mc .team ul li a:hover, #menu_city .con .mc .team ul li a:hover span{ background:#fd6a00; color:#fff; text-decoration:none;}
+/* for hotel city end */
+
+.tuan_w {width:990px;height:auto;margin:0 auto;}
+.yjfk{ position:absolute; bottom:-40px; left:890px; width:100px; height:28px; line-height:28px; text-align:center; background: url(i/yjfk_bg.gif); z-index:100;}
+.tuan_w .floatLeft {width:990px;float:left;padding-top:10px;overflow:hidden;}
+.tuan_w .page{ width:990px;float:left;position:relative;}
+.tuan_w .pro{ width:1005px; float:left; height:auto;z-index:1; overflow:hidden;}
+.tuan_w .adad{ width:1005px; float:left; height:auto;z-index:1; overflow:hidden;}
+.pagin .pager {margin:8px;}
+
+.product{ width:278px; height:auto; background:#fff; margin:0px 15px 15px 0px; padding:15px 20px 10px 20px; border:1px solid #ddd; float:left;}
+.product .title{ width:278px; height:40px; font-size:14px; font-weight: bold; font-family:"microsoft yahei"; line-height:20px; float:left; overflow:hidden; }
+.product .title span{ width:33px; padding:0px 4px; height:18px; line-height:18px; text-align:center; display:inline; -moz-border-radius:2px;-webkit-border-radius:2px; background:#cb0000; color:#fff;}
+.product .pic{ width:278px; height:185px;float:left; position:relative; padding-top:10px; z-index:1;}
+.product .pic .new_icon {position:absolute;top:0px;right:-15px;background:url(i/tuan6.bg.png) 0px -683px;_background:url(i/new1.gif); width:50px; height:50px; z-index:2;}
+.product1 .pic .new_icon {display:none;}
+
+.product .price {width:268px; height:12px;float:left; line-height:12px;  padding:8px 5px 0px 5px; color:#676767;}
+.product .price font{font-size:12px;}
+.product .price font.mktprice {text-decoration:line-through}
+.product .price font.zhe {padding-left:10px;color:#e43a3b;font-weight:bold;}
+.product .price span{float:right; font-weight:normal;padding:0px;}
+.product .price span font{}
+
+.product .address {width:268px; height:20px;float:left; line-height:20px; padding:0px 5px; overflow:hidden;}
+.product .address font{font-size:12px;}
+.product .address span{ float:right; color:#999;}
+
+.product .buy,
+.product .buy1,
+.product .buy2 {width:258px;height:45px;line-height:45px;background:url(i/tuan6.bg.png) 0px -70px;float:left;padding-left:20px;overflow:hidden;}
+.product .buy1 {background-position:0 -734px;}
+.product .buy2 {background-position:0 -114px;}
+.product .buy span,
+.product .buy1 span,
+.product .buy2 span{font:bold 30px/45px "microsoft yahei",Arial, Helvetica, sans-serif;width:158px;float:left;display:block;color:#e6393b;overflow:hidden;}
+.product .buy2 span {color:#888} 
+.product .buy1 span{color:#fff;padding-left:20px;width:138px;line-height:48px;font-size:20px;}
+
+.product .buy span.tg,
+.product .buy span.tg a,
+.product .buy1 span.tg,
+.product .buy1 span.tg a,
+.product .buy2 span.tg,
+.product .buy2 span.tg a{ width:100px; float:left; cursor:pointer; display:block; height:45px;}
+.hover1{ border-color:#ddd;}

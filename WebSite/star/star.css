@@ -1,0 +1,101 @@
+/*商品评论综合评分 ----------------------------------------------------------*/
+.star_div {height:16px;overflow:hidden;padding:2px 0;color:#333}
+.star_div span,.star_div i {float:left;}
+.commentMain span,.commentMain i{float:left;}
+.star_div .star {width:73px;height:16px;overflow:hidden;display:block;background:url('star.gif') no-repeat 999em 999em;margin-right:5px;}
+.star_div .star0,.star_div .star0_ {visibility:hidden}
+.star_div .star1 {background-position:0px -201px}
+.star_div .star2 {background-position:0px -179px}
+.star_div .star3 {background-position:0px -157px}
+.star_div .star4 {background-position:0px -135px}
+.star_div .star5 {background-position:0px -114px}
+
+.star_div .star1_ {background-position:0px -92px}
+.star_div .star2_ {background-position:0px -68px}
+.star_div .star3_ {background-position:0px -48px}
+.star_div .star4_ {background-position:0px -27px}
+.star_div .star5_ {background-position:0px -6px}
+
+.star_div b {color:#F60}
+.starx_div,.point_div{ height:auto; padding:0;}
+.star_no{display:none}
+.starx_div ul,.point_div{ margin:0; padding:0; list-style-type:none}
+.point_div li{width:75px; height:16px; line-height:16px; float:left; margin:0 0px 0 0; padding:0; text-align:center}
+.starx_div li{width:75px; height:16px; line-height:16px; float:left; margin:0 0px 0 0;background:url('star.gif') no-repeat; padding:0}
+.starx_div .star0,.starx_div .star{ visibility:hidden}
+.starx_div .star1{ background-position:0px -203px}
+.starx_div .star2{background-position:0px -181px}
+.starx_div .star3{background-position:0px -159px}
+.starx_div .star4{background-position:0px -137px}
+.starx_div .star5{background-position:0px -116px}
+.starx_div .star1_{background-position:0px -94px}
+.starx_div .star2_{background-position:0px -70px}
+.starx_div .star3_{background-position:0px -50px}
+.starx_div .star4_{background-position:0px -29px}
+.starx_div .star5_{background-position:0px -8px}
+
+
+.star-point-items .f {background: url("starf.png") no-repeat;}
+.star-point-items, .star-point-items .b, .star-point-items .f {cursor: pointer;height:20px;overflow:hidden;position:relative;width:92px;}
+.star-point-items .b {background:#FF8330;position: absolute;top: 0;}
+.evalubox {border:1px solid #E0E0E0;padding:15px;margin-bottom:12px;}
+.evalubox_left {width:59%;}
+.evalubox_right {width:41%;}
+.evalubox_right .rightbox {border-left: 1px solid #E0E0E0;height:100px;padding-left:10px;}
+.evalubox_left .scores {background-color:#FFF5F0;border:1px solid #FFCCB0;padding:12px;width:160px;}
+.evalubox_left .scores .out {color:#333;}
+.evalubox_left .scores .out li {height:16px;padding:5px 0 4px;}
+.scores_size {color: #FF6600;font-size:14px;font-weight: bold; margin-left:5px;}
+.btn-a,.bulebtn,.orangebtn {cursor:pointer; float:left;}
+.btn-a:hover,.bulebtn:hover, .orangebtn:hover {color:#006699;text-decoration:none;}
+.orangebtn {background-position: 0 -152px;}
+.orangebtn {background: url("btn-discussnew.jpg") no-repeat;height:31px;line-height:0;padding:0;width:112px; font-size:0}
+.btn-a span, .bulebtn span, .orangebtn span {display: block;float:left;height: 25px;}
+.orangebtn span {background-position: right -152px;}
+.orangebtn span {background:none;margin:3px;padding: 0 0 0 34px;}
+.orangebtn .has-icon {display: none;}
+.has-icon {padding: 0;}
+.btn-a img, .bulebtn img, .orangebtn img {vertical-align:middle;}
+
+.evalubox_left .star_div_nums {height:100px;text-align:right;width:220px;padding-left:10px; white-space:nowrap}
+.evalubox_left .star_div_nums table{}
+.evalubox_left .star_div_nums .tdwid{width:90px;padding-right:5px;}
+
+.star_div_nums_first{background: url("star.gif") no-repeat;height:16px;line-height:16px; margin: 0 9px 0 0;padding: 0;width: 75px;}
+.star_div_nums .star5 {background-position: 0 -116px;}
+.star_div_nums .star4 {background-position: 0 -137px;}
+.star_div_nums .star3 {background-position: 0 -158px;}
+.star_div_nums .star2 {background-position: 0 -180px;}
+.star_div_nums .star1 {background-position: 0 -202px;}
+.star_div_nums .horizon{background:url("horizon.gif") repeat;height:13px;float:left;border-bottom:1px solid #f9b152;line-height:13px;overflow:hidden;margin-top:2px;}
+
+
+/*所有评论*/
+.prozx_title {padding:0 10px 10px;border-bottom:1px solid #ccc;}
+.prozx_title h2 {font-family: "Microsoft Yahei";font-size:20px;margin:0 20px 0 0;float:left;}
+.prozx_title .word_color {float:left;color:#999999;font-size:12px;padding-top:2px;}
+.prozx_list {padding:20px 0px 20px 10px;border-bottom:1px dotted #dbdbdb;}
+.prozx_list .goodpic {margin-right:25px;width:122px;height:122px;float:left;}
+.prozx_list .goodpic a {border:1px solid #dbdbdb;display:block;height:120px;width:120px;}
+.prozx_list .goodpic a:hover {border-color:#F06}
+.prozx_list .prozx_info {float:right;width:805px;line-height:2;position:relative;}
+.lov1 {position:absolute;top:30%;overflow:hidden;width:0;height:0;border-top:30px dotted #FFF;border-bottom:5px dotted #FFF;
+border-right:30px solid #FFF;left:-30px;border-right-color:#f8f8f8;font-size:0;line-height:0;}
+
+/*圆角模拟*/
+.xtop,.xbottom {display:block;background-color:#FFF;height:4px;font-size:0;line-height:0;clear:both;}  
+.xb1,.xb2,.xb3, .xb4 {display:block;overflow:hidden;height:1px;font-size:0;line-height:0;background:#f8f8f8;} 
+.xb1 {margin:0 5px;}  
+.xb2 {margin:0 3px;}  
+.xb3 {margin:0 2px;}  
+.xb4 {margin:0 1px;}
+.xmain {background-color:#f8f8f8;padding:5px 15px;color:#999;min-height:104px;_height:104px;clear:both;}
+.wenti_cont {padding:5px;color:#333}
+.zxlist_info .author,.zxlist_info span {float:left;height:24px;}
+.zxlist_info div {height:21px;}
+.zxlist_info a{color:#CC0033}
+.zxlist_info a:hover { text-decoration:underline}
+
+.pl,.zx{width:74px;height:24px;border:none;line-height:0;font-size:0;cursor:pointer}
+.pl{background:url("pl.jpg") no-repeat;}
+.zx{background:url("zx.jpg") no-repeat;}

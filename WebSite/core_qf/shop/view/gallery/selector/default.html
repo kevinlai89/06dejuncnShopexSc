@@ -1,0 +1,168 @@
+<{if ($SpecSellist || $searchselect || $SpecFlatlist || $searchBrandList || $searchCatList) &&  $reseturl!=''}>
+<{assign var="selectorItem" value=0}>
+<div class="insort">
+	<{if $reseturl}>
+  <div class="GoodsSelectorTitle"><span><{if $request.goods_cat}><{$request.goods_cat}> - <{/if}>筛选条件：</span><a class="cz"  href="<{$reseturl}>">重置所有条件</a></div>
+  <{/if}>
+  <table width="100%">
+    <!--cat-->
+    <{if $searchCatList}>
+    <tbody class="goods-spec" id='goods-spec-content-flat'>
+    <{foreach from=$searchCatList item=prop key=key}>
+    <tr>
+      <td class="textright"><{$prop.name}>：</td>
+      <td><{assign var="searchSelected" value=0}>
+        <{assign var="parenturl" value="{$prop.parenturl}"}>
+        <{capture name=searchSelectLoop}>
+        <{foreach from=$searchCatList[$key].options key=skey item=suboptions}>
+        <{foreach from=$prop.value key=bselkey item=bitem}>
+        <{assign var="nowselbkey" value="{$bselkey}"}>
+        <{/foreach}>
+        <li><a <{if $skey eq $nowselbkey}>class="remove"<{assign var="searchSelected" value=1}><{/if}> href='<{if $skey eq $nowselbkey}><{$prop.parenturl}><{else}><{$suboptions.url}><{/if}>'><span><{$suboptions.name}></span></a></li>
+        <{/foreach}>
+        <{/capture}>
+        <li><a <{if !$searchSelected}>class="selected"<{/if}> href='<{$parenturl}>'><span>不限</span></a></li>
+        <{$smarty.capture.searchSelectLoop}> </td>
+    </tr>
+    <{/foreach}>
+    </tbody>
+    
+    <{/if}>
+    <!--cat-->
+    <!--bd-->
+    <{if $searchBrandList && $searchBrandList.brand_id.options}>
+    <tbody class="goods-spec" id='goods-spec-content-flat'>
+    <{foreach from=$searchBrandList item=prop key=key}>
+    <tr>
+      <td class="textright"><{$prop.name}>：</td>
+      <td><DIV  class="anniu1"><A class="zhan" id=anniu href="javascript:;;"></A></DIV>
+        <DIV id=ddd class=xiao>
+          <ul>
+            <{assign var="searchSelected" value=0}>
+            <{capture name=searchSelectLoop}>
+            <{foreach from=$searchBrandList[$key].options key=skey item=suboptions}>
+            
+            
+            <{foreach from=$prop.value key=bselkey item=bitem}>
+            <{assign var="nowselbkey" value="{$bselkey}"}>
+            <{/foreach}>
+            <li><a <{if $skey eq $nowselbkey}>class="remove"<{assign var="searchSelected" value=1}><{/if}> href='<{if $skey eq $nowselbkey}><{selector key=$key value=""}><{else}><{selector key=$key value=$skey}><{/if}>'><span><{$suboptions}></span></a></li>
+            <{/foreach}>
+            <{/capture}>
+            <li><a <{if !$searchSelected}>class="selected"<{/if}>   href='<{selector key=$key value=""}>'><span>不限</span></a></li>
+            <{$smarty.capture.searchSelectLoop}>
+          </ul>
+        </DIV></td>
+    </tr>
+    <{/foreach}>
+    </tbody>
+    
+    <{/if}>
+    <!--bd-->
+    <!--guigebegin-->
+    <{if $SpecFlatlist}>
+    <tbody class="goods-spec" id='goods-spec-content-flat'>
+    <{foreach from=$SpecFlatlist key=FlatKey item=FlatSpec}>
+    <{assign var="SpecSS" value="s{$FlatKey},{$FlatSkey}"}>
+    <{capture name=SpecFlatListLink}><{selector key=$FlatSpec.type value="{$FlatKey},{$FlatSkey}"}><{/capture}>
+    <tr>
+      <td class="textright"><{$FlatSpec.name}>：</td>
+      <td class="flatshow <{if $FlatSpec.spec_type=="image"}>flatshowimg<{/if}>">
+        <ul>
+          <{assign var="SpecFlatListSelected" value=0}>
+          <{capture name=SpecFlatListLoop}>
+          <{foreach from=$SpecFlatlist[$FlatKey].spec_value item=FlatSpecval key=FlatSkey}>
+          <{if $FlatSpec.spec_type=="image"}>
+          <li> <a href="<{if $FlatSpecval.selected}><{$smarty.capture.SpecFlatListLink|replace:"{$SpecSS}":""}><{else}><{selector key=$FlatSpec.type value="{$FlatKey},{$FlatSkey}"}><{/if}>" <{if $FlatSpecval.selected}>class="remove"<{assign var="SpecFlatListSelected" value=1}><{/if}>> <img src="<{$FlatSpecval.spec_image|default:$env.conf.spec.default.pic|storager}>" alt="<{$FlatSpecval.spec_value}>" title="<{$FlatSpecval.spec_value}>" width="20" height="20"> </a> </li>
+          <{else}>
+          <li> <a href="<{if $FlatSpecval.selected}><{$smarty.capture.SpecFlatListLink|replace:"{$SpecSS}":""}><{else}><{selector key=$FlatSpec.type value="{$FlatKey},{$FlatSkey}"}><{/if}>" <{if $FlatSpecval.selected}>class="remove"<{assign var="SpecFlatListSelected" value=1}><{/if}>> <span><{$FlatSpecval.spec_value}></span> </a> </li>
+          <{/if}>
+          <{/foreach}>
+          
+          <{/capture}>
+          <li><a href='<{$smarty.capture.SpecFlatListLink|replace:"{$SpecSS}":""}>' <{if !$SpecFlatListSelected}>class="selected"<{/if}>>
+            <{if $FlatSpec.spec_type=="image"}><img class="allimg" src="statics/specimg.gif" alt="不限<{$FlatSpec.name}>" title="不限<{$FlatSpec.name}>" width="20" height="20"><{else}><span>不限</span><{/if}> </a></li>
+          <{$smarty.capture.SpecFlatListLoop}>
+        </ul></td>
+    </tr>
+    <{/foreach}>
+    </tbody>
+    
+    <{/if}>
+    <!--guigeend-->
+    <!--kuozhanshuxinbegin-->
+    <{if $SpecSellist || $searchselect}>
+    <tbody class="goods-spec" id="goods-spec-content">
+    <{if $SpecSellist}>
+    <{foreach from=$SpecSellist key=SelKey item=SelSpec}>
+    <{assign var="SpecSS" value="s{$SelKey},{$SelSkey}"}>
+    <{capture name=SpecSelLink}><{selector key=$SelSpec.type value="{$SelKey},{$SelSkey}"}><{/capture}>
+    <tr>
+      <td class="textright"><{$SelSpec.name}>：</td>
+      <td style="margin-bottom:-1px;"><{assign var="SpecSelected" value=0}>
+        <{capture name=SpecSelListLoop}>
+        <{foreach from=$SpecSellist[$SelKey].spec_value item=SelSpecval key=SelSkey}>
+        <{if $SelSpec.spec_type=="image"}>
+        <li> <a <{if $SelSpecval.selected}>class="remove"<{assign var="SpecSelected" value=1}><{/if}> href="<{if $SelSpecval.selected}><{$smarty.capture.SpecSelLink|replace:"{$SpecSS}":""}><{else}><{selector key=$SelSpec.type value="{$SelKey},{$SelSkey}"}><{/if}>"> <img src="<{$SelSpecval.spec_image|default:$env.conf.spec.default.pic|storager}>" alt="<{$SelSpecval.spec_value}>" title="<{$SelSpecval.spec_value}>" width="20" height="20"> </a> </li>
+        <{else}>
+        <li> <a <{if $SelSpecval.selected}>class="remove"<{assign var="SpecSelected" value=1}><{/if}> href="<{if $SelSpecval.selected}><{$smarty.capture.SpecSelLink|replace:"{$SpecSS}":""}><{else}><{selector key=$SelSpec.type value="{$SelKey},{$SelSkey}"}><{/if}>"> <span><{$SelSpecval.spec_value}></span> </a> </li>
+        <{/if}>
+        <{/foreach}>
+        <{/capture}>
+        <li><a class='selected' href='<{$smarty.capture.SpecSelLink|replace:"{$SpecSS}":""}>'><span>不限</span></a></li>
+        <{$smarty.capture.SpecSelListLoop}> </td>
+    </tr>
+    <{/foreach}>
+    <{/if}>
+    <!--kuozhanshuxinbegin-->
+    <{if $searchselect}>
+    <{foreach from=$searchselect item=prop key=key}>
+    <tr>
+      <td class="textright"><{$prop.name}>：</td>
+      <td><DIV class=kuozhan> <{assign var="searchSelected" value=0}>
+          <{capture name=searchSelectLoop}>
+          <{foreach from=$searchselect[$key].options key=skey item=suboptions}>
+          <{if $key!='brand_id'}>
+          <!--nbd -->
+          <li><a <{if $prop.options[$prop.value] eq $suboptions}>class="remove"<{assign var="searchSelected" value=1}><{/if}> href='<{if $prop.options[$prop.value] eq $suboptions}><{selector key=$key value=""}><{else}><{selector key=$key value=$skey}><{/if}>'><span><{$suboptions}></span></a></li>
+          <!--nbd-->
+          <{else}>
+          <{foreach from=$prop.value key=bselkey item=bitem}>
+          <{assign var="nowselbkey" value="{$bselkey}"}>
+          <{/foreach}>
+          <li><a <{if $skey eq $nowselbkey}>class="remove"<{assign var="searchSelected" value=1}><{/if}> href='<{if $skey eq $nowselbkey}><{selector key=$key value=""}><{else}><{selector key=$key value=$skey}><{/if}>'><span><{$suboptions}></span></a></li>
+          <{/if}>
+          <{/foreach}>
+          <{/capture}>
+          <li><a <{if $searchSelected!=1}>class='selected'<{/if}> href='<{selector key=$key value=""}>'><span>不限</span></a></li>
+          <{$smarty.capture.searchSelectLoop}> </DIV></td>
+    </tr>
+    <{/foreach}>
+    <{/if}>
+    </tbody>
+    
+    <{/if}>
+    <!--kuozhanshuxinbegin-->
+  </table>
+ 
+  </div>
+<{/if}>
+<SCRIPT language=javascript>
+$('anniu').addEvents(
+{
+  'click':function(){
+      if($('ddd').hasClass('xiao')){
+      $('ddd').removeClass('xiao').addClass('da');
+      this.set('text',' ');
+      this.removeClass('zhan').addClass('shou');
+      }
+      else{
+      $('ddd').removeClass('da').addClass('xiao');
+      this.set('text',' ');
+      this.removeClass('shou').addClass('zhan');
+      }
+  }
+}
+)
+
+</SCRIPT>

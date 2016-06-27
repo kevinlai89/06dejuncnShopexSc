@@ -1,0 +1,2109 @@
+<link rel="stylesheet" type="text/css" href="star/star.css" />
+<script>
+  /*商品详细通用函数*/
+   var priceControl={
+              base:<{$goods.price|cur:null:true}>,
+              _format:<{$money_format|default:'false'}>,
+              format:function(num){
+                var part;
+                if(!num)return;
+                var num = num.toFloat();
+                    num = num.round(this._format.decimals)+'';
+                    var p =num.indexOf('.');
+                    if(p<0){
+                        p = num.length;
+                        part = '';
+                    }else{
+                        part = num.substr(p+1);
+                    }
+                    while(part.length<this._format.decimals){
+                            part+='0';
+                        }
+                    var c=[];
+                    while(p>0){
+                        if(p>2){
+                            c.unshift(num.substr(p-=3,3));
+                        }else{
+                            c.unshift(num.substr(0,p));
+                            break;
+                        }
+                    }
+                    if(!part){
+                        this._format.dec_point='';
+                    }
+                    return (this._format.sign||"")+c.join(this._format.thousands_sep)+this._format.dec_point+part;
+            }
+       };
+
+    String.implement({
+      toFormElements:function(){
+            if(!this.contains('=')&&!this.contains('&'))return new Element('input',{type:'hidden'});
+            var elements=[];
+            var queryStringHash=this.split('&');
+            $A(queryStringHash).each(function(item){
+                if(item.contains('=')){
+                    item=$A(item.split('='));
+                    elements.push(new Element('input',{type:'hidden',name:item[0],value:item[1]}));
+                }else{
+                  elements.push(new Element('input',{type:'hidden',name:item}));
+                }
+            });
+            return new Elements(elements);
+            }
+    });
+    Number.implement({
+           interzone:function(min,max){
+                 var _v=this.toFloat();
+                 if(!_v)_v=0;
+                 return _v>=min&&_v<=max;
+             }
+          });
+   var keyCodeFix=[48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105,8,9,46,37,39];
+
+
+</script>
+
+<{if $iscountdown}>
+<script type="text/javascript">
+var interv;
+function secondToDateArray(second){
+	var array = new Array();
+	var mi = 60;
+    var hh = mi * 60;
+    var dd = hh * 24;
+
+	var day = Math.floor(second / dd);
+    var hour = Math.floor((second - day * dd) / hh)% 60;
+    var minute = Math.floor((second - day * dd - hour * hh) / mi)% 60;
+    var second = Math.floor(second - day * dd - hour * hh - minute * mi)% 60;
+
+	var strDay = day < 10 ? "0" + day : "" + day;
+    var strHour = hour < 10 ? "0" + hour : "" + hour;
+    var strMinute = minute < 10 ? "0" + minute : "" + minute;
+    var strSecond = second < 10 ? "0" + second : "" + second;
+
+	array['nD'] = strDay;
+	array['nH'] = strHour;
+	array['nM'] = strMinute;
+	array['nS'] = strSecond;
+	return array;
+}
+function start(){
+	$ES(".timeLeft").each(function(el){
+		var leftTime = el.get('lefttime');
+		leftTime--;
+		if(leftTime<=0){
+			leftTime=0;
+		}
+		el.set('lefttime', leftTime);
+		var arr = secondToDateArray(leftTime);
+		var nD=Math.floor(leftTime/(24*60*60));
+		var nH=Math.floor((leftTime-nD*(24*60*60*1000))/(60*60));
+		var nM=Math.floor((leftTime-nD*24-nH)/(60)) % 60;
+		var nS=Math.floor(leftTime) % 60;
+		el.getElements("em")[0].set("text", arr['nD']);
+		el.getElements("em")[1].set("text", arr['nH']);
+		el.getElements("em")[2].set("text", arr['nM']);
+		el.getElements("em")[3].set("text", arr['nS']);
+	});
+}
+window.addEvent("domready", function(){
+	interv = setInterval(start, 1000); 
+})
+</script>
+<!--抢购相关JS------- end ---------------------------------->
+<{/if}>
+
+<div class="GoodsInfoWrap">
+<div id="goods-viewer">
+<form class="goods-action" action="<{link ctl=cart act=addGoodsToCart}>" gnotify="<{link ctl=product act=gnotify}>" method="post"<{if $goods.setting.buytarget==2}> target="_blank_cart"<{elseif $goods.setting.buytarget==3}> target="_dialog_minicart"<{/if}>>
+  <table width="100%">
+  <tr>
+    <td valign="top" align="left"><div class='goodspic'><{require file="product/goodspics.html"}></div></td>
+    <td width="65%" valign="top">
+<!------------------------------------ 购买区域 开始 -------------------------------->
+    <h1 class="goodsname"><{$goods.name|escape:"html"}></h1>
+    <{if $goods.brief}>
+    <p class="brief"><{$goods.brief}></p>
+    <{/if}>
+	
+	<{if $iscountdown}>
+		<p class="timeLeft" leftTime="<{$countdown.lefttime}>" style="font-size:12px; font-weight:400;"><ins>还剩</ins><em>00</em>天<em>00</em>时<em>00</em>分<em>00</em>秒</p>
+	<{/if}>
+	
+      <ul class="goodsprops clearfix">
+        <{if $goods.bn && $goodsBnShow}><li><span><{t}>商品编号：<{/t}></span><{$goods.bn}></li><{/if}>
+		<{if $goods.weight && $goods.weight != 0.000 }><li><span><{t}>商品重量：<{/t}></span><span id="goodsWeight"><{if $goods.weight}><{$goods.weight}><{else}><{$goods.weight.0.bn}><{/if}></span><{t}> 克(g)<{/t}></li><{/if}>
+	<{if $goodspropposition<>2}>
+      <{if $goods.prototype.setting.use_props eq 1}><!--  -->
+      <{foreach from=$goods.prototype.ordernum item=propord key=key}>
+      <{if $goods.prototype.props.$propord.show}>
+      <{assign var="pkey" value="p_{$propord}"}>
+      <{assign var="pcol" value=$goods.$pkey}>
+      <{if trim($pcol) !== ''}> 
+      <li>
+      <span><{$goods.prototype.props.$propord.name}>：</span>
+      <{if $goods.prototype.props.$propord.type == 'select'}>
+        <{if $goodsproplink}><a href="<{selector type=$goods.type_id key=$propord value=$pcol}>" target="_blank"><{$goods.prototype.props.$propord.options.$pcol}></a><{else}><{$goods.prototype.props.$propord.options.$pcol}><{/if}>
+      <{else}>
+        <{$pcol}>
+      <{/if}>
+          </li>
+      <{/if}>
+      <{/if}>
+    <{/foreach}>
+    <{/if}>
+    <{/if}>
+     </ul>
+    
+
+     <ul class='goods-price list'>
+
+<{assign var=cur_qtn_show value=$goods.qtn_show}>
+<{if $cur_qtn_show eq 'system'}>
+<{assign var=cur_qtn_show value=$qtn_config.qtn_show}>
+<{/if}>
+
+<{if $cur_qtn_show eq 'quotation'}>
+
+<li style="padding-top:10px;margin-bottom:10px;">
+  <a href="javascript:show_greq(<{$goods.goods_id}>)" style="font-size:18px;color:red;"><img src="statics/btn-qtn.gif" /></a>
+</li>
+
+<{elseif $cur_qtn_show eq 'price'}>
+     <li>
+      <span><{t}>商城价：<{/t}></span>
+      <span class="price1">
+            <{if $goods.minprice && $goods.maxprice}>
+                <{if $goods.minprice neq $goods.maxprice}>
+                    <{$goods.minprice|cur}>-<{$goods.maxprice|cur}>
+                <{else}>
+                    <{$goods.minprice|cur}>
+                <{/if}>
+            <{else}>
+                <{$goods.price|cur}>
+            <{/if}>
+      </span>
+      </li>
+	  <{if $goods.setting.mktprice}>
+      <li>
+        <span><{t}>销售价：<{/t}></span><i class="mktprice1">
+       <{if $goods.minmktprice && $goods.maxmktprice}>
+            <{if $goods.minmktprice neq $goods.maxmktprice}>
+                <{$goods.minmktprice|cur}>-<{$goods.maxmktprice|cur}>
+            <{else}>
+                <{$goods.minmktprice|cur}>
+            <{/if}>
+       <{else}>
+        <{$goods.mktprice|cur}>
+       <{/if}>
+        </i>
+        </span>
+      </li>
+      <{/if}>
+
+      <li class="buy_count">销售数量：<em><{$goods.buy_count}></em> 件</li>
+    <{if $goods_point.avg}>
+    <div class="star_div" style="padding-bottom:8px;">
+      <span><{t}>商品评分：<{/t}></span>
+      <i class="star star<{$goods_point.avg}>"></i>     
+      <b><{$goods_point.avg_num}></b>&nbsp;&nbsp;(<a href="#write_discuss" title="查看评论"><{t}>已有<{$comment.discussCount|default:'0'}>人评分<{/t}></a>)
+    </div>
+    <div class="clear"></div>
+    <{/if}>
+
+<{/if}>      
+	 
+     </ul>
+     
+<{if $goods.marketable == 'false' }>
+ <!---已下架--->
+<div class="hight-offline">
+    <div class="hightbox">
+        <div class="btnBar clearfix">
+            <div class="floatLeft" style="font-weight:bold; padding-top:15px;">此商品已下架</div>
+            <div class="floatRight">
+                <ul>
+                  <li <{if $login!="nologin"}>star="<{$goods.goods_id}>"<{/if}> class="star-off" title=<{$goods.name|escape:"html"}>>
+				  <{if $login=="nologin"}>
+				    <a href="<{link ctl="passport" act="login"}>" class="btn-fav"><{t}>收藏此商品<{/t}></a>
+				  <{else}>
+                    <a href="#" rel="nofollow" onclick="return false;"  class="btn-fav"><{t}>收藏此商品<{/t}></a>
+                  <{/if}>
+                  </li>
+                    <!-- <li><a href="#" class="btn-send"><{t}>发送给好友<{/t}></a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<{else}>
+ <!---购物面板--->
+ <div class='hightline' <{if $cur_qtn_show eq 'quotation' or $cur_qtn_show eq 'none'}>style="display:none;"<{/if}>>
+ <div class='hightbox'>
+ <!---规格开始--->
+<{if $goods.FlatSpec || $goods.SelSpec }>
+      <div id="goods-spec" class='goods-spec' >
+      <table width='100%'>
+          <tr>
+             <td width='80%'>
+                   <h4 class='spec-tip'><em>
+         <{if $SelectSpecValue.selected}>
+            您选择了：
+         <{else}>
+            请选择：
+         <{/if}>
+         </em>
+         <span><{$SelectSpecValue.value}></span>
+         </h4>
+             </td>
+             <td align='right' width='20%'> <div id='view-products-list'><a href='javascript:void(0)' onclick="new Event(event).stop();$('goods-products-list').fireEvent('pop')">规格列表&raquo;&raquo;</a></div></td>
+          </tr>
+      </table>
+         <input type='hidden' name='goods[product_id]' value='<{$goods.product_id}>' disabled='true'/>
+         <{if $goods.FlatSpec}>
+              <table width='100%'>
+                <{foreach from=$goods.FlatSpec key=key item=goodsFlatSpecDesc}>
+                   <tr class='spec-item specItem'>
+                    <td style="width:10%; white-space:nowrap;padding-right:10px;vertical-align:middle;"><span><em><{$goodsFlatSpecDesc.name}></em>：</span></td>
+                    <td>
+                      <ul>
+                        <{foreach from=$goods.FlatSpec[$key].value key=skey item="subDesc"}>
+                            <{if $subDesc.display=="block"}>
+                            <li>
+                            <a href="<{link ctl=product act=index arg0=$goods.goods_id arg1=$subDesc.spec_goods_images}>" specvid="<{$skey}>" specid="<{$key}>" >
+                            <{if $subDesc.spec_type=='text'}>
+                                <span><nobr><{$subDesc.spec_value}></nobr></span>
+                            <{else}>
+                                <img src="<{$subDesc.spec_image|storager}>"  alt="<{$subDesc.spec_value}>" title="<{$subDesc.spec_value}>" width="<{$specimagewidth}>" height="<{$specimageheight}>">
+                            <{/if}>
+                              <i title='点击取消选择'>&nbsp;</i>
+                            </a>
+                            </li>
+                            <{/if}>
+                        <{/foreach}>
+                        </ul>
+                    </td>
+                   </tr>
+                   <{/foreach}>
+             </table>
+         <{/if}>
+         <{if $goods.SelSpec}>
+                <div class='spec-item'>
+                <ul class='clearfix'>
+                <{foreach from=$goods.SelSpec key=selKey item=goodsSelSpecDesc}>
+                  <{foreach from=$goods.SelSpec[$selKey].value key=sSelKey item="subDesc"}>
+                    <{if $subDesc.selected}>
+                        <{assign var='selectValue' value=$subDesc.spec_value}>
+                    <{/if}>
+                  <{/foreach}>
+                    <li class="handle <{if $selectValue}>selected<{/if}>"><em><{$goodsSelSpecDesc.name}></em>：
+                    <span><{if $selectValue|trim == ''}><{assign var=selectValue value=null}><{/if}><{$selectValue|default:'请选择'}></span>
+                    <{assign var="selectValue" value=' '}>
+                   </li>
+                  <{/foreach}>
+                <{foreach from=$goods.SelSpec key=selKey item=goodsSelSpecDesc}>
+                   <li class="content specItem">
+                    <ul>
+                    <{foreach from=$goods.SelSpec[$selKey].value key=sSelKey item="subDesc"}>
+                        <{if $subDesc.display=="block"}>
+                        <li>
+                        <a href="<{link ctl=product act=index arg0=$goods.goods_id arg1=$subDesc.spec_goods_images}>" specvid="<{$sSelKey}>" specid="<{$selKey}>">
+                        <{if $subDesc.spec_type=='text'}>
+                            <span><{$subDesc.spec_value}></span>
+                        <{else}>
+                            <img src="<{$subDesc.spec_image|storager}>" style='border:1px #ccc solid' alt="<{$subDesc.spec_value}>" title="<{$subDesc.spec_value}>" width="<{$specimagewidth}>" height="<{$specimageheight}>">
+                        <{/if}>
+                        <i title='点击取消选择'>&nbsp;</i>
+                        </a>
+                        </li>
+                        <{/if}>
+                    <{/foreach}>
+                  </ul>
+                  </li>
+                  <{/foreach}>
+               </ul>
+              </div>
+         <{/if}>
+      </div>
+ <{/if}>
+<!---规格结束--->
+
+<!--购买数量-->
+         <div class='buyinfo'>
+         <table width='auto'>
+            <tr>
+               <td><span><{t}>购买数量：<{/t}></span></td>
+               <td><div class="Numinput">
+                    <input type="text" name="goods[num]" size="5" value=1 />
+                    <span  class="numadjust increase"></span>
+                    <span  class="numadjust decrease"></span>
+                    </div>
+               </td>
+               <td><span <{if !$showStorage}>style='display:none;'<{/if}>><{t}>&nbsp;&nbsp;(库存<{/t}><span class='store'><{if $goods.store >= 9999 || $goods.store == null || $goods.store === ''}>9999+<{else}><{$goods.store - $goods.product_freez}><{/if}></span>)</span></td>
+            </tr>
+         </table>
+         </div>
+<!--购买数量结束-->
+<!------------------------------------ 购买 按钮 -------------------------------->
+<input type="hidden" name="goods[goods_id]" value="<{$goods.goods_id}>" />
+<input type="hidden" name="goods[pmt_id]" value="<{$goods.pmt_id}>" />
+<div class="btnBar clearfix" <{if count($goods.products)>0}>style="visibility:hidden"<{/if}>>
+
+  <div class="floatLeft">
+        <{if count($goods.products)>0}>
+                <{if $env.conf.system.goods.fastbuy}>
+                    <input class="actbtn btn-fastbuy" value="立即购买" type="button" />
+                <{/if}>
+            <input class="actbtn btn-buy" value="加入购物车" type="submit" />
+            <input  class="actbtn btn-notify" value="缺货登记" type="submit" style="display: none;" />
+        <{else}>
+            <{if $goods.store-$goods.freez>0 || $goods.store==''}>
+                <{if $env.conf.system.goods.fastbuy}>
+                    <input class="actbtn btn-fastbuy" value="立即购买" type="button" />
+                <{/if}>
+                <input class="actbtn btn-buy" value="加入购物车" type="submit" />
+            <{else}>
+                <input  class="actbtn btn-notify" value="缺货登记" type="submit" />
+            <{/if}>
+        <{/if}>
+    </div>
+   <!-- <div class="floatRight">
+    <ul>
+      <li <{if $login!="nologin"}>star="<{$goods.goods_id}>"<{/if}> class="star-off" title=<{$goods.name|escape:"html"}>>
+				  <{if $login=="nologin"}>
+				   <a href="<{link ctl="passport" act="login"}>" class="btn-fav"><{t}>收藏此商品<{/t}></a>
+				  <{else}>
+				  <a href="#" rel="nofollow" onclick="return false;"  class="btn-fav"><{t}>收藏此商品<{/t}></a>
+                  <{/if}>
+                  </li>
+    </ul>
+    </div>-->
+</div>
+
+
+
+
+<!--购买按钮结束-->
+    </div><!-- end hightbox-->
+  </div><!-- end hightline-->
+<{/if}>
+  </td>
+ </tr>
+</table>  
+  
+
+
+<!--<div class="product_b clearfix pushdown-5">
+	<div class="product_r main_area frt">-->
+	
+<!------------------------------------ 配件 开始 -------------------------------->
+<{if $adjunct = ($goods.adjunct && count($goods.adjunct)>0) || count($package) > 0}>
+	<div class="goodspackagewrap clearfix" id="reconbd">
+		<{if $adjunct}><div class="goodsDetailTab active first" jid="adjunct"><span>推荐配件</span></div><{/if}>
+		<{if count($package)>0}><div class="goodsDetailTab <{if !$adjunct}> active first<{/if}>" jid="package"><span><{$ducedis.lang_package|default:"优惠套餐"}></span></div><{/if}>
+	</div>
+	<{if $adjunct}>
+	<div id="adjunct" style="display:none;" class="recommend">
+		<ul id="tab-adjunct" class="con-tab"><li class="fore curr" adjkey=0>全部配件</li>
+		<{foreach from=$goods.adjunct item=adj key=adj_key name=adjunct}>
+		<li adjkey=<{$adj_key+1}> adjname="<{$adj.name}>" min_num=<{$adj.min_num|default:0}> max_num=<{$adj.max_num|default:-1}>><{$adj.name}> (<{if $total=@count($adj.items)}><{$total}><{/if}>)</li>
+		<{/foreach}>
+		</ul>
+		<div id="con-adjunct" class="con-bd">
+			<div class="master">
+				<div class="p-img"><img width="100" height="100" src="<{$thumbnailImg|default:$env.conf.site.default_thumbnail_pic|storager}>"></div>
+				<div class="p-name"><{$goods.name}></div>
+				<div class="icon-add"></div>
+			</div>
+			<div class="suits" style="overflow-x:hidden;">
+				<ul>
+				<{foreach from=$goods.adjunct item=adj key=adj_key name=adjunct}>
+					<{foreach from=$adj.items item=items key=key name=adjitems}>
+					<li price="<{$items.adjprice|cur:null:true}>" product="<{$items.goods_id}>" adj="<{$adj_key+1}>" calculate="<{if $items.price > $items.adjprice}><{$items.price - $items.adjprice}><{else}>0<{/if}>">
+						<div class="p-img"><a<{if $items.marketable == 'true' && $items.disabled == 'false'}> href="<{link ctl="product" act="index" arg0=$items.goods_id}>" target="_blank" title="<{$items.name}>"<{/if}>><img width="100" height="100" src="<{$items.product_img|storager}>" style="cursor: pointer;"/></a></div>
+						<div class="p-name"><a<{if $items.marketable == 'true' && $items.disabled == 'false'}> href="<{link ctl="product" act="index" arg0=$items.goods_id}>" target="_blank" title="<{$items.name}>"<{/if}>><{$items.name}></a></div>
+						<div class="p-choose" id='check_<{$items.product_id}>' product="<{$items.goods_id}>" price="<{$items.adjprice|cur:null:true}>"><input type="checkbox" style="display:none;" name='check_<{$items.product_id}>' value="<{$items.adjprice|cur:null:true}>" autocomplete="OFF" product="<{$items.goods_id}>" /><span class="price1"><{$items.adjprice|cur}></span><span class="mktprice1"><{$items.price|cur}></span></div>
+						<span class="number" style="display:none"><input size="2" maxlength='10' type="text" autocomplete='off' value="<{if $adj.min_num == 0}>1<{else}><{$adj.min_num|default:1}><{/if}>" name='count_check_<{$items.product_id}>' /></span>
+						<input type='hidden' name='goods[adjunct][<{$adj_key}>][<{$items.product_id}>]' autocomplete="OFF" value='' disabled='true'/>
+					</li>
+					<{/foreach}>
+				<{/foreach}>
+				</ul>
+			</div>
+		</div>
+		<div class="infos">
+			<div class="selected">您已选择了<span class="total">1</span>个主商品</div>
+			<div class="selected">已选择<span class="total1">0</span>个配件</div>
+			<div class="p-price">配件总价：<span class='price'>0.00</span></div>
+			<div class="p-saving" style="display:none">获得优惠：<span class="saving"><{$_a|default:0|cur}></span></div>
+			<div class="p-total">总计金额：<span class='priceTotals'><{$goods.price|cur}></span></div>
+			<div class="btns"><input class="actbtn btn-buy adbuyBtn" value="立即购买" type="submit" onfocus="this.blur()" /></div>
+		</div>
+		<span class="clr"></span>
+	</div>
+<script>
+window.addEvent('domready',function(){
+	var suits = $('con-adjunct').getElement('.suits');
+	var suits_panel = $('con-adjunct').getElement('ul');
+    var tabs = $$('#tab-adjunct li').addEvent('click', function(){
+		tabs.each(function(tab){tab.removeClass('curr')});
+		this.addClass('curr');
+		var tab_adj = this.get('adjkey').toInt();
+		var i = 0, item = null;
+		$$('#con-adjunct li[adj]').each(function(li){
+			if(!tab_adj || tab_adj == li.get('adj').toInt()){
+				li.show();i++;item = li;
+			}else{
+				li.hide();
+			}
+		});
+		if(item) suits_panel.setStyle('width', item.getSize().x*i);
+		suits.setStyle('overflow-x', suits.getScrollWidth() > suits.getSize().x ? 'scroll' : 'hidden').scrollTo(0);
+	});
+	$('adjunct').show();tabs[0].fireEvent('click');
+	//$try($dmb.fixImgSize($$('#con-adjunct .p-img')));
+})
+</script>
+	<{/if}>
+	<{if count($package)>0}>
+	<div id="package" style="display:none;" class="recommend">
+		<ul id="tab-package" class="con-tab">
+		<{foreach from=$package item=packagetab key=key name=packageitems}>
+		<li id="package-<{$key}>" kid="<{$key}>" class="<{if !$key}>fore<{/if}>"><{$ducedis.lang_package|default:"优惠套餐"}><{$key+1}></li>
+		<{/foreach}>
+		</ul>
+		<div id="con-package" class="con-bd">
+			<div class="master">
+				<div class="p-img"><img style="width:auto;" height="100" src="<{$thumbnailImg|default:$env.conf.site.default_thumbnail_pic|storager}>"></div>
+				<div class="p-name"><{$goods.name}></div>
+				<div class="icon-add"></div>
+			</div>
+			<div class="suits" style="overflow-x:hidden;">
+				<{foreach from=$package item=pack key=key name=packageitems}>
+				<ul pkid="<{$key}>" <{if $key}> style="display:none"<{/if}>>
+				<{foreach from=$pack.items item=items name=packagetd}>
+					<{if $items.marketable == 'true' && $items.disabled == 'false' && $items.goods_id != $goods.goods_id}>
+					<li>
+						<div class="p-img"><a href="<{link ctl="product" act="index" arg0=$items.goods_id}>" target="_blank" title="<{$items.name}>"><img style="width:auto;" height="100" src="<{$items.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" style="cursor: pointer;"/></a></div>
+						<div class="p-name"><a href="<{link ctl="product" act="index" arg0=$items.goods_id}>" target="_blank" title="<{$items.name}>"><{$items.name}></a></div>
+						<div class="p-price"><span class="price1"><{$items.price|cur}></span></div>
+					</li>
+					<{/if}>
+				<{/foreach}>
+				</ul>
+				<{/foreach}>
+			</div>
+		</div>
+		<{foreach from=$package item=package key=key name=packageitems}>
+		<div class="infos" infokid=<{$key}> <{if $key}> style="display:none"<{/if}>>
+			<div class="p-subtitle"><{$package.name}></div>
+			<div class="p-price"><{$ducedis.lang_mktpriceText_k|default:"原价格："}><span class='mktprice1'><{$package.mktprice|cur}></span></div>
+			<div class="p-price"><{$ducedis.lang_priceText_k|default:"套餐价："}><span class="price1"><{$package.price|cur}></span></div>
+			<div class="p-saving">立即节省：<span class="saving"><{$package.mktprice-$package.price|cur}></span></div>
+			<div class="btns"><a class="actbtn btn-buy adbuyBtn" rel="nofollow" href="<{link ctl="cart" act="addPkgToCart" arg0=$package.goods_id arg1=1}>"<{if $goods.setting.buytarget == 2}> target="_blank_cart"<{elseif $goods.setting.buytarget == 3}> target="_dialog_minicart"<{/if}> title="购买套餐">购买套餐</a></div>
+		</div>
+		<{/foreach}>
+		<span class="clr"></span>
+	</div>
+<script>
+window.addEvent('domready',function(){
+	var suits = $('con-package').getElement('.suits');
+    var tabs = $$('#tab-package li').addEvent('click', function(){
+		tabs.each(function(tab){tab.removeClass('curr')});
+		this.addClass('curr');
+		var tab_kid = this.get('kid').toInt();
+		var item = null
+		$$('#con-package ul[pkid]').each(function(ul){
+		    var id = ul.get('pkid').toInt();
+			if(tab_kid == id){
+				ul.show();item = ul;
+				$('package').getElement('div[infokid='+id+']').show();
+			}else{
+				ul.hide();
+				$('package').getElement('div[infokid='+id+']').hide();
+			}
+		});
+		if(item) item.setStyle('width', item.getFirst().getSize().x*item.getElements('li').length);
+		suits.setStyle('overflow-x', suits.getScrollWidth() > suits.getSize().x ? 'scroll' : 'hidden').scrollTo(0);
+	});
+	<{if !$adjunct}>$('package').show();tabs[0].fireEvent('click');
+	//$try($dmb.fixImgSize($$('#con-package .p-img')));<{/if}>
+})
+</script>
+
+<{/if}>
+<script>
+window.addEvent('domready',function(){
+    $('reconbd').getElements('.goodsDetailTab').addEvent('click',function(){
+		$('reconbd').getElements('.goodsDetailTab').each(function(tab){
+			tab.removeClass('active');
+			$(tab.get('jid')).hide();
+		});
+		this.addClass('active');
+		$(this.get('jid')).show();
+		$(this.get('jid')).getElement('.con-tab').getFirst().fireEvent('click');
+	})
+})
+</script>
+<{/if}>
+<!------------------------------------ 配件 结束-------------------------------->
+</form>  
+
+
+<!--立即购买FROM-->
+<{if $env.conf.system.goods.fastbuy}>
+<form id='fastbuy-form' action='<{link ctl="cart" act="checkout"}>' extra='fastbuy' method='post' style='display:none;'></form>
+<{/if}>
+<!--立即购买FROM END-->
+
+
+<!--货品列表-->
+<{if count($goods.products)>0}>
+<div id='goods-products-list' class='goods-products-list'>
+<div class='goods-products-list-box'>
+    <table width="100%" cellpadding="3" cellspacing="0" class="liststyle">
+        <{foreach from=$specShowItems item=spec}>
+            <col class='ColColorBlue'></col>
+        <{/foreach}>
+        <col></col>
+        <col></col>
+        <col></col>
+        <thead>
+            <tr>
+                <{foreach from=$specShowItems item=spec key=key}>
+                    <th><{$spec}></th>
+                <{/foreach}>
+                <th>货号</th>
+                <th>价格</th>
+                <{if $env.conf.site.show_storage=="true"}><th>库存</th><{/if}>
+            </tr>
+        </thead>
+        <tbody>
+        <{foreach from=$goods.products item=item}>
+      <tr productId="<{$item.product_id}>" <{if $item.store!==null && $item.store !=='' && ($item.store - $item.freez <= 0)}>class='nostore' title='此货品缺货'<{/if}>>
+            <{foreach from=$item.props.spec key=key item=value}>
+            <td><{$value}></td>
+            <{/foreach}>
+            <td class="ident"><{$item.bn}></td>
+            <td class="price"><{$item.price|cur}></td>
+            <{if $env.conf.site.show_storage=="true"}><td class="store"><{if $item.store!==null && $item.store !=='' && ($item.store - $item.freez <= 0)}>缺货<{else}><{$item.store}><{/if}></td><{/if}>
+        </tr>
+        <{/foreach}>
+        </tbody>
+    </table>
+    </div>
+ </div>
+<{/if}>
+
+<div style="clear:both"></div>
+<!------------------------------------ 购买区域 结束 -------------------------------->
+
+<div class="goods-detail-tab clearfix">
+</div>
+<div class="clear"></div>
+<{foreach from=$addons item=tmpl}>
+  <{require file=$tmpl}>
+<{/foreach}>
+
+<{if $goods.intro}>
+<div class="section pdtdetail" tab="商品详情">
+
+<div class="goodsprop_ultra clearfix">
+    <{if $goodspropposition<>1}>
+    <{foreach from=$goods.prototype.ordernum item=propord key=key}>
+      <{if $goods.prototype.props.$propord.show}>
+      <{assign var="pkey" value="p_{$propord}"}>
+      <{assign var="pcol" value=$goods.$pkey}>
+      <{if trim($pcol) !== ''}>
+      <div class="span-4">
+      <span><{$goods.prototype.props.$propord.name}>：</span>
+      <{if $goods.prototype.props.$propord.type == 'select'}>
+        <{if $goodsproplink}><a href="<{selector type=$goods.type_id key=$propord value=$pcol}>" target="_blank"><{$goods.prototype.props.$propord.options.$pcol}></a><{else}><{$goods.prototype.props.$propord.options.$pcol}><{/if}>
+      <{else}>
+        <{$pcol}>
+      <{/if}>
+      </div>
+      <{/if}>
+      <{/if}>
+    <{/foreach}>
+    <{/if}>
+</div>
+<div class="body indent uarea-output" id="goods-intro">
+<{$goods.intro}>
+{sc_about}
+</div>
+</div>
+<{/if}>
+
+<{if count($goods.params)>0 && $goods.params}>
+<div class="section pdtdetail" tab="详细参数"  rel="noshow">
+<h2><{t}>详细参数<{/t}></h2>
+<div class="body"  id="goods-params">
+  <{foreach from=$goods.params item=params key=group}>
+  <h6><{$group}><span class="gname"></span></h6>
+    <{foreach from=$params item=value key=key}>
+        <{if $value != ''}>
+      <ul><li class="name"><{$key}></li><li><{$value|default:'-'}></li></ul>
+        <{/if}>
+        <{/foreach}>
+  <{/foreach}>
+</div>
+</div>
+<{/if}>
+
+<{if $goods.link_count > 0}>
+<div class="section pdtdetail" tab="相关商品">
+<h2><{t}>相关商品<{/t}></h2>
+<div class="body" id="goods-rels">
+  <div class="GoodsSearchWrap">
+    <table width="100%" border="0" cellpadding="0" cellspacing="6">
+  <tr valign="top"> <{foreach from=$goods.link item=linklist name=goods}>
+    <td product="<{$linklist.goods_id}>" width="25%">
+    <div class="items-gallery">
+
+    <div class="goodpic" style='<{if $env.conf.site.thumbnail_pic_width !=0 && $env.conf.site.thumbnail_pic_height !=0}>height:<{$env.conf.site.thumbnail_pic_height}>px;<{/if}>'>
+    <a href='<{link ctl="product" act="index" arg0=$linklist.goods_id}>' style='<{if $env.conf.site.thumbnail_pic_width !=0 && $env.conf.site.thumbnail_pic_width !=0}> width:<{$env.conf.site.thumbnail_pic_width}>px;height:<{$env.conf.site.thumbnail_pic_height}>px;<{/if}>;'>
+     <img src="<{$linklist.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>"/>
+     </a></div>
+      <div class="goodinfo">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="2"><h6 style="text-align:center"><a href="<{link ctl="product" act="index" arg0=$linklist.goods_id}>" title="<{$linklist.name}>"><{$linklist.name}></a></h6></td>
+          </tr>
+
+<{assign var=cur_qtn_show value=$linklist.qtn_show}>
+<{if $cur_qtn_show eq 'system'}>
+<{assign var=cur_qtn_show value=$qtn_config.qtn_show}>
+<{/if}>
+
+<{if $cur_qtn_show eq 'quotation'}>
+
+
+
+        <tr>
+            <td colspan="2"><ul>
+                <li style="text-align:center">
+                <a href="javascript:show_greq(<{$linklist.goods_id}>)" style="font-size:18px;color:red;"><img height="25" src="statics/btn-qtn.gif" /></a>
+              </li>                
+              </ul></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><ul class="button">
+        <{assign var="dddd" value="333"}>
+                <{goodsmenu product=$linklist setting=$setting login=$login}>
+                <li class="btncmp">
+             <a href="javascript:void(0)" onclick="gcompare.add({gid:'<{$product.goods_id}>',gname:'<{$product.name|escape:'quotes'}>',gtype:'<{$product.type_id}>'});" class="btncmp" title="商品对比">
+              <{t}>商品对比<{/t}>
+             </a>
+             </li>
+              </ul></td>              
+          </tr>
+
+<{elseif $cur_qtn_show eq 'price'}>
+
+          <tr>
+            <td colspan="2"><ul>
+                <li style="text-align:center"><span class="price1" style="float:none"><{$linklist.price|cur}></span></li>
+              </ul></td>
+          </tr>
+          <tr>
+            <td>
+                <{if $goods.setting.mktprice}>
+                <span class="mktprice1"><{$linklist.mktprice|cur}></span>
+                <{/if}>
+            </td>
+            <td><ul class="button">
+        <{assign var="dddd" value="333"}>
+                <{goodsmenu product=$linklist setting=$setting login=$login}>
+                <li class="btncmp">
+             <a href="javascript:void(0)" onclick="gcompare.add({gid:'<{$product.goods_id}>',gname:'<{$product.name|escape:'quotes'}>',gtype:'<{$product.type_id}>'});" class="btncmp" title="商品对比">
+              <{t}>商品对比<{/t}>
+             </a>
+             </li>
+              </ul></td>              
+          </tr>
+<{/if}>
+
+        </table>
+      </div>
+      </div>
+      </td>
+    <{if !($smarty.foreach.goods.iteration%4)}> </tr>
+  <{if !$smarty.foreach.goods.last}>
+  <tr valign="top"> <{/if}>
+
+    <{elseif $smarty.foreach.goods.last}>
+    <td colspan="<{math equation='4 - y' y=$smarty.foreach.goods.iteration%4}>">&nbsp;</td>
+  </tr>
+  <{/if}>
+  <{/foreach}>
+</table>
+  </div>
+</div>
+</div>
+<{/if}>
+
+<{if $sellLog.display.switch  && $sellLogList.data|@count >0 && $sellLog.display.limit<= $sellLogList.data|@count }>
+<div class="section pdtdetail" tab="销售记录">
+<div class="commentTabLeft floatLeft"><strong><{t}>销售记录<{/t}></strong></div>
+<div class="floatLeft commentTabRight"></div>
+<div style="clear:both;"></div>
+<div class="body">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="liststyle">
+    <col class="span-5">
+    <col class="span-3">
+    <col >
+    <col class="span-3">
+    <thead>
+        <tr>
+            <th><{t}>买家<{/t}></th>
+            <th><{t}>购买价<{/t}></th>
+            <th><{t}>购买数量<{/t}></th>
+            <th><{t}>购买时间<{/t}></th>
+        </tr>
+        </thead>
+        <tbody>
+        <{foreach from=$sellLogList.data item=sellLogListData key=key}>
+        <tr>
+            <td><{$sellLogListData.name|cut:3:''}>***</td>
+            <td><{$sellLogListData.price}></td>
+            <td><{$sellLogListData.number}>  <{if $sellLogListData.pdt_desc}><span class="fontcolorGray">( <{$sellLogListData.pdt_desc}> )</span><{/if}></td>
+            <td><{$sellLogListData.createtime|userdate}></td>
+        </tr>
+        <{/foreach}>
+        </tbody>
+    </table>
+<div class="tips"><{t}>截至今日， 累计成交<{/t}><span class="font14px fontbold fontcolorOrange"><{$sellLogList.total}></span><{t}>笔<{/t}><{if $sellLogList.total > $sellLogList.data|@count}><a href="<{link ctl=product act=selllog arg0=$goods.goods_id}>" target="_blank"><{t}>，查看更多...<{/t}></a><{/if}></div>
+</div>
+</div>
+<{/if}>
+<!--by hnqss.com 20120720--->
+<{if $comment.switch.ask == 'on'}>
+<div class="section pdtdetail pdtbox" tab="购买咨询(<em><{$comment.askCount|default:'0'}></em>)">
+<h2>购买咨询 （已有<span class="fontcolorRed"><{$comment.askCount|default:'0'}></span>条咨询）</h2>	
+<div class="FormWrap">
+	<{if count($comment.list.ask) == 0}>
+		<div class="boxBlue division"><{$comment.null_notice.ask}></div>
+	<{else}>
+<div class=" Comments" id="goods-comment">
+	<{foreach from=$comment.list.ask item=comlist name=asklist}>
+		<div class="commentMain">
+		<div class="commentInfo">来自：<span class="author"><{$comlist.author}></span><span class="timpstamp"><{$comlist.time|cdate:'SDATE_STIME'}></span></div>
+		<div  style="clear:both;"></div>
+		<div class="commentText"><span class="gray">咨询内容：</span><{$comlist.comment|escape:'html'}></div>
+		</div>
+		<div class="commentReply">
+		<{foreach from=$comlist.items item=items}>
+		<div class="commentText clearfix">客服回复：<{$items.comment}></div>
+	 <{/foreach}>
+	 </div>
+	<{/foreach}>
+</div>
+		<div class="textright"><a href="<{link ctl="comment" act="commentlist" arg0=$goods.goods_id arg1="ask"}>"><{t}>查看所有咨询&gt;&gt;<{/t}></a></div>
+	<{/if}>
+	<form class="addcomment" method="post" action='<{link ctl="comment" act="toComment" arg0=$goods.goods_id arg1="ask"}>' onsubmit='checkFormReqs(event);'>
+	  <h4><{t}>发表咨询<{/t}></h4>
+	  <div class='title'><{t}>标题：<{/t}><{input type="text" class="inputstyle blur"  required="true" size=80 name="title" value="[咨询]".$goods.name }></div>
+	  <div class="division">
+		  <table border="0" width="100%" cellpadding="0" cellspacing="0" class="forform">
+			<tr>
+				<th><em>*</em><{t}>咨询内容：<{/t}></th>
+				<td><{input type="textarea" class="inputstyle"  vtype="required" rows="5" name="comment" style="width:80%;"}></td>
+			</tr>
+			<tr>
+			   <th><{t}>联系方式：<{/t}></th>
+				<td><{input type="text" class="inputstyle"   size=20 name="contact"}><span class="infotips"><{t}>(可以是电话、email、qq等)<{/t}></span></td>
+			</tr>
+			<{if $askshow == "on"}>
+				<th><em>*</em><{t}>验证码：<{/t}></th>
+				<td><{input type="text" required="true" size="4" maxlength="4" name="askverifyCode"}>&nbsp;<img src="<{link ctl="passport" act="verifyCode" arg0="ask"}>" border="1" id="askimgVerifyCode"/><a href="javascript:changeimg('askimgVerifyCode','ask')"><{t}>&nbsp;看不清楚?换个图片<{/t}></a></td>
+			</tr>
+			<{/if}>
+			<tr>
+				<td></td>
+				<td><input type="submit" class="zx" value="提交咨询"></td>
+			</tr>
+		   </table>
+	  </div>
+    </form>
+  </div>
+</div>
+<{/if}>
+
+<{if $comment.switch.discuss == 'on'}>
+<a name="write_discuss"></a>
+  <div class="section pdtdetail" tab="商品评论(<em><{$comment.discussCount|default:'0'}></em>)">
+  <h2>商品评论 （共<span class="fontcolorRed"><{$comment.discussCount|default:'0'}></span>人评论）</h2>
+  <div class="FormWrap"> 
+	<!--new discuzz head by hnqss 20120717-->
+      <div class="evalubox clearfix">
+          <div class="evalubox_left cut floatLeft">
+          	<div class="scores floatLeft">
+                <ul class="out">
+                  <li><b>商品综合评分</b></li>
+                  <li>
+                     <div class="star_div"><i class="star star<{$goods_point.avg}>"></i><b class="goods_point"><{$goods_point.avg_num}></b></div>
+                  </li>
+                  <li>(<{t}>共<{/t}><a href="<{link ctl="comment" act="commentlist" arg0=$goods.goods_id arg1="discuss"}>" class="fontcolorRed"><{$comment.discussCount|default:'0'}></a><{t}>人评分<{/t}>)</li>
+                </ul>
+              </div>
+              <div class="star_div_nums floatLeft">
+                   <table cellpadding="0" cellspacing="0">
+                  <{foreach from=$point_peoples item=item key=key}>
+                  <tr>
+                    <td class="star_div"><i class="star star<{$key}>"></i></td>
+                    <td class="tdwid"><b class="horizon" style="width:<{$item.percent*0.9}>px" title="<{$item.peps}>人"></b></td>
+                    <td><font color="#CC0000"><{$item.peps}></font>人</td>
+                  </tr>
+                  <{/foreach}>
+                </table>
+           </div>
+        </div>    
+        <div class="evalubox_right cut floatRight">
+		 <div class="rightbox">
+          <div class="floatLeft">
+             <h4>评价说明</h4>
+             <p>滑动星星，点击后评分</p>
+          </div>
+         <div class="floatRight pushdown-4"><a href="<{if $comment.power.discuss !='null' && $comment.member_lv < 0}><{link ctl=passport act=login}><{else}>#write_discuss<{/if}>" class="orangebtn allnum"><i class="has-icon"><img src="star/pencil.gif" alt="我要评论" /></i><span>我要评论</span></a></div>
+        </div>
+		</div>
+     </div>  
+     <!--/new discuzz head by hnqss 20120717-->   
+
+    <{if count($comment.list.discuss) == 0}>
+      	<div class="boxBrown division"><{$comment.null_notice.discuss}></div>
+    <{else}>
+       	<div class="Comments" id="goods-comment">
+        <{foreach from=$comment.list.discuss item=comlist name=discusslist}>
+			<!--pingfen by hnqqss.com 6-10--> 
+      		<div class="boxBrown division clearfix pushdown-2" style="margin-bottom:0">	
+			   <div class="commentMain floatLeft">   
+					<div class="star_div clearfix">
+						<span class="author fontcolorOrange"><b><{$comlist.author}></b></span>
+						<span>&nbsp;&nbsp;评分：</span>
+						<i class="star star<{$comlist.goods_point}>"></i>
+						<span>&nbsp;&nbsp;评论时间：</span>
+						<span class="fontcolorGray"><{$comlist.time|cdate:'SDATE_STIME'}></span>				
+					</div>
+					<div class="commentText"><{$comlist.comment|escape:'html'}></div>
+			   </div>
+			  <{if $comment.power.discuss !='null' && $comment.member_lv < 0}><{else}><div class="floatRight"><a class="floatRight lnk " href='<{link ctl="comment" act="reply" arg0=$comlist.comment_id arg1="discuss"}>'><{t}>回复此评论<{/t}></a></div><{/if}>
+			</div>
+			<!--/pingfen by hnqqss.com 6-10-->
+			<{if $comlist.items}>
+				 <div class="commentReply">
+                	<{foreach from=$comlist.items item=items}>
+                      <div class="division item" style="margin:0px;">
+                            <div class="floatLeft commentReply-admin">回复</div>
+                            <span class="author fontcolorOrange"><b><{if $items.levelname!=""}><{$items.author}><{else}>管理员<{/if}></b></span>
+							<span>&nbsp;<{t}>回复：<{/t}></span>
+							<span class="fontcolorGray"><{$items.time|cdate:'SDATE_STIME'}></span>
+                            <div class="clear"></div>
+                            <div class="commentText"><{$items.comment}></div>
+                     </div>
+                    <{/foreach}> 
+                 </div>
+			<{/if}>
+		<{/foreach}>
+       </div>
+  	   <div class="textright"><a href="<{link ctl="comment" act="commentlist" arg0=$goods.goods_id arg1="discuss"}>"><{t}>查看所有评论&gt;&gt;<{/t}></a></div>
+    <{/if}> 
+	
+	<{if $comment.power.discuss !='null' && $comment.member_lv < 0}><{else}>
+	  <form class="addcomment" method="post" action='<{link ctl="comment" act="toComment" arg0=$goods.goods_id arg1="discuss"}>' onsubmit='checkFormReqs(event);'>
+		<h4><{t}>发表评论<{/t}></h4>
+		<div class='title'><{t}>标题：<{/t}><{input type="text" class="inputstyle blur"  required="true" size=80 name="title" value="[评论]".$goods.name}></div>
+		<div class="division">
+		  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="forform">
+			<{foreach from=$comment_goods_type item=comment_goods_type}>
+			<tr>
+			  <th><em>*</em><{$comment_goods_type.name}>：</th>
+			  <td><ul>
+				  <li> 
+					<!--pingfeng when discuzz by hnqqss.com-->                
+					<div class="start-point" style=""><!--咨询页面这个class可以调用"nodisplay"-->                  
+					  <div class="clearfix">
+						<div class="span-auto"> </div>
+						<div id="rate_<{$comment_goods_type.type_id}>" class="star-point-items span-auto">
+						  <div class="b">&nbsp;</div>
+						  <div class="f">&nbsp;</div>
+						</div>
+						<div class="span-auto font11px fontcolorOrange"> </div>
+						<input type='hidden' name="point_type[<{$comment_goods_type.type_id}>][point]" />
+					  </div>
+					</div>
+				  </li>
+				</ul></td>
+			</tr>
+			<{/foreach}> 
+			<!--/pingfeng when discuzz-->
+			<tr>
+			  <th><em>*</em><{t}>评论内容：<{/t}></th>
+			  <td><{input type="textarea" class="x-input inputstyle"  vtype="required" rows="5" name="comment" style="width:80%;"}></td>
+			</tr>
+			<tr>
+			  <th><{t}>联系方式：<{/t}></th>
+			  <td><{input type="text" class="inputstyle"  size=20 name="contact"}><span class="infotips"><{t}>(可以是电话、email、qq等).<{/t}></span></td>
+			</tr>
+			<{if $discussshow == "on"}>
+			<tr>
+			  <th><em>*</em><{t}>验证码：<{/t}></th>
+			  <td><{input type="text" required="true" size="4" maxlength="4" name="discussverifyCode"}>&nbsp;<img src="<{link ctl="passport" act="verifyCode" arg0="discuss"}>" border="1" id="discussimgVerifyCode"/><a href="javascript:changeimg('discussimgVerifyCode','discuss')"><{t}>&nbsp;看不清楚?换个图片<{/t}></a></td>
+			</tr>
+			<{/if}>
+			<tr>
+			  <td></td>
+			  <td><input class="buttonstyle pl" type="submit" value="提交商品评论"></td>
+			</tr>
+		  </table>
+		</div>
+	  </form>
+	<{/if}>
+</div>
+</div>
+<{/if}>
+<{if $comment.switch.ask == 'on' or $comment.switch.discuss == 'on'}> 
+<script>
+    var checkFormReqs =function(e){
+           e    = new Event(e);
+       var _form= $(e.target);
+       var reqs = $$(_form.getElements('input[type=text]'),_form.getElements('textarea'));      
+        
+       if(reqs.some(function(req){
+            if(!req.get('required')&&!req.get('vtype').contains('required'))return;
+            if(req.getValue().trim()==''){
+			   req.focus();
+			   MessageBox.error('请完善表单必填项<sup>*</sup>');
+			   return true;
+            }
+			return false;})){e.stop();}
+    };
+</script> 
+<{/if}>
+<!--/by hnqss.com 20120720--->
+
+<{if count($gift)>0}>
+<div class="section pdtdetail" tab="赠品">
+<h2><{t}>赠品<{/t}></h2>
+<div class="body" id="goods-gift">
+  <div class="GoodsSearchWrap">
+    <{foreach from=$gift item=gift key=key}>
+      <div class="items-list" product="<{$gift.gift_id}>">
+      <div class="goodpic">
+      <{input type="checkbox" name="g[]" value=$gift.goods_id }>
+      <a href="<{link ctl="product" act="index" arg0=$gift.goods_id}>" title="<{$gift.name}>" style='<{if $env.conf.site.thumbnail_pic_width !=0 && $env.conf.site.thumbnail_pic_width !=0}> width:<{$env.conf.site.thumbnail_pic_height}>px;height:<{$env.conf.site.thumbnail_pic_height}>px;<{/if}>
+     overflow:hidden;text-align:center;vertical-align: middle;margin:0px auto; line-height:<{$env.conf.site.small_pic_height}>px;'>
+        <img src="<{$goods.image_default|gimage:'thumbnail'}>" alt="<{$gift.name}>"/></a></div>
+      <div class="goodinfo">
+        <h6><a href="<{link ctl="gift" act="index" arg0=$gift.gift_id}>" title="<{$gift.name}>"><{$gift.name}></a></h6>
+        <ul>
+        <li class="intro"><{$gift.intro}></li>
+        <li><{$gift.describe}></li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+      </div>
+      <{/foreach}>
+  </div>
+</div>
+</div>
+<{/if}>
+
+<{if count($coupon)>0}>
+<div class="section pdtdetail" tab="可得优惠券">
+<h2><{t}>可得优惠券<{/t}></h2>
+<div class="body" id="goods-coupon">
+  <ul style="padding:5px 20px;">
+  <{foreach from=$coupon item=coupon key=key}>
+    <li><{$coupon.cpns_name}></li>
+  <{/foreach}>
+  </ul>
+</div>
+</div>
+<{/if}>
+
+<!--自定义tab-->
+<div class="section pdtdetail" tab="售后服务" rel="noshow">
+<div class="ptitle">
+<h2><span><{t}>售后服务<{/t}></span></h2>
+<span class="tabr"></span>
+</div>
+<div class="body"><{include file="page:service"}></div>
+</div>
+<!--自定义tab-->
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    $$('.addcomment .title input').addEvents({
+         'focus':function(){this.removeClass('blur');},
+         'blur':function(){this.addClass('blur');}
+    });
+
+</script>
+
+<{if $goods.marketable != 'false' }>
+<script>
+ var buycoutText=$E('#goods-viewer .buyinfo input[type=text]').addEvent('keydown',function(e){
+             if($A(keyCodeFix).include(e.code).length>25){
+               e.stop();
+              }
+         });
+    var getStore=function(){
+    return $E('#goods-viewer .buyinfo .store').get('text').toInt()
+
+    };
+         buycoutText.addEvent('keyup',function(e){
+            if(getStore()<this.value)this.value=getStore();
+            if(!this.value||this.value.toInt()<1)this.value=1;
+         });
+         /*购买数量调节*/
+         $$('#goods-viewer .buyinfo .numadjust').addEvent('click',function(e){
+              var countText=$E('#goods-viewer .buyinfo input[name^=goods[num]');
+              if(this.hasClass('increase')){
+                 countText.set('value',(countText.value.toInt()+1).limit(1,getStore()));
+              }else{
+                 countText.set('value',(countText.value.toInt()-1).limit(1,getStore()));
+              }
+              try{updategoodsPrice()}catch(e){}
+              this.blur();
+         });
+
+         $$('#goods-viewer .buyinfo .numadjust').addEvents({
+             'mousedown':function(){
+                this.addClass('active');
+             },
+             'mouseup':function(){
+               this.removeClass('active');
+             }
+         });
+
+
+/*hightline*/
+$$('#goods-viewer .hightline').addEvents({
+   mouseenter:function(){
+        this.addClass('hightline-enter');
+   },
+   mouseleave:function(){
+        this.removeClass('hightline-enter');
+
+   }
+
+});
+
+
+</script>
+
+<{if ($goods.FlatSpec || $goods.SelSpec) && count($goods.products)>0  }>
+
+<script>
+      /*=规格选择联动=
+      *(c) shopex.cn
+      * 2009-2
+      */
+
+ void function(){
+
+          var buyBtn=$empty;
+          var notifyBtn=$empty;
+          var setbuyBtnTip=$empty;
+          var popAloneSpec=$empty;
+
+         window.addEvent('domready',function(){
+
+              buyBtn=$E('#goods-viewer .btn-buy').store('tip:text','');
+              notifyBtn=$E('#goods-viewer .btn-notify').store('tip:text','对不起,您当前选择的商品缺货.');
+
+             new Tips(buyBtn,{showDelay:0,hideDelay:0,className:'cantbuy',
+
+                     onShow:function(tip){
+                        if(!this.textElement||!$E('.tip-text',tip)||!$E('.tip-text',tip).getText()){
+                            buyBtn.setStyle('cursor','pointer');
+                            return tip.setStyle('visibility','hidden');
+                        }else{
+                            buyBtn.setStyle('cursor','not-allowed');
+                        }
+                        tip.setStyle('visibility','visible');
+                     }
+              });
+              new Tips(notifyBtn,{className:'cantbuy',showDelay:0,hideDelay:0});
+
+               buyBtn.addEvent('click',function(e){
+                   e.stop();
+                   this.blur();
+                   if(this.retrieve('tip:text'))return false;
+
+                   this.form.submit();
+
+               });
+               notifyBtn.addEvent('click',function(e){
+                      e.stop();
+                      this.blur();
+                      new Element('form',{method:'post','action':$(this.form).get('gnotify')}).adopt(
+                         this.form.toQueryString().toFormElements()
+                      ).inject(document.body).submit();
+                });
+              notifyBtn.addEvents({
+                  'onhide':function(){
+                       if($(this).getPrevious('.btn-fastbuy'))
+                      $(this).getPrevious('.btn-fastbuy').setStyle('visibility','visible');
+                  }
+              });
+
+                /*快速购买*/
+              var fastbuyBtn = $E('#goods-viewer .btn-fastbuy');
+              if(fastbuyBtn){
+                      fastbuyBtn.store('tip:text','').addEvent('click',function(e){
+                           e.stop();
+                           this.blur();
+                           if(this.retrieve('tip:text'))return false;
+                           var form = $('fastbuy-form');
+                           form.empty().adopt($(this.form).toQueryString().toFormElements());
+                           form.adopt(new Element('input', {name:'isfastbuy',value:1,type:'hidden'}));
+                           if(!form.retrieve('events',{})['submit'])return form.submit();
+                           form.fireEvent('submit',e);
+
+                       });
+
+                      new Tips(fastbuyBtn,{showDelay:0,hideDelay:0,className:'cantbuy',
+                                 onShow:function(tip){
+                                    if(!this.textElement||!$E('.tip-text',tip)||!$E('.tip-text',tip).getText()){
+                                        fastbuyBtn.setStyle('cursor','pointer');
+                                        return tip.setStyle('visibility','hidden');
+                                    }else{
+                                        fastbuyBtn.setStyle('cursor','not-allowed');
+                                    }
+                                    tip.setStyle('visibility','visible');
+                                 }
+                          });
+                  }
+
+
+
+
+
+               setbuyBtnTip=function(){
+                    var spec_item_nocheck=[];
+                    $ES('#goods-spec .spec-item em').each(function(em){
+
+                        if(!em.hasClass('check'))spec_item_nocheck.include(em.getText());
+
+                    });
+                    
+                     if(spec_item_nocheck.length>0){
+                        $$(buyBtn,fastbuyBtn).store('tip:text','请选择：'+spec_item_nocheck.join(','));
+
+                     }else{
+                        $$(buyBtn,fastbuyBtn).store('tip:text','');
+                     }
+                     return arguments.callee;
+                 }();
+
+
+             popAloneSpec=function(){
+                var specs = $$('#goods-spec tr.spec-item','#goods-spec div.spec-item .content');
+                    specs.each(function(si){
+                          var specs=si.getElements('a[specid]');
+                          if(!specs.length){return $E('#goods-viewer .hightbox').empty().set('html','<b>该商品的所有规格货品已下架</b>').addClass('note')}
+                          if(specs.length>1)return false;
+
+                          if(specs[0].hasClass('selected')||specs[0].hasClass('lock'))return false;
+
+                          specs[0].fireEvent('click');
+
+                });
+
+
+               return arguments.callee;
+
+             }();
+                 if(btnBar = $E('#goods-viewer .btnBar')){
+                    btnBar.setStyle('visibility','visible');
+                 }
+         });
+
+
+          var getSpecText=function(el){
+             if($E('img',el))
+             return $E('img',el).alt||$E('img',el).title;
+             return $E('span',el).get('text');
+          };
+
+          var specItems=$ES('#goods-spec .spec-item em');
+          var referencePoint={
+          bn:$('goodsBn'),
+          weight:$('goodsWeight'),
+                  marketPrice:$E('#goods-viewer .mktprice1'),
+                  price:$E('#goods-viewer .price1'),
+                  discount:$E('#goods-viewer .discount'),
+                  store:$E('#goods-viewer .buyinfo .store'),
+                  specTip:$E('#goods-spec .spec-tip'),
+                  update:function(v,html){
+                     return referencePoint[v]?referencePoint[v].setHTML(html):false;
+                  }
+          };
+          var RPSV=$H(referencePoint).getValues();
+          RPSV.each(function(el){
+               if(el&&$type(el)=='element')
+               el.retrieve('defaultInnerHTML',el.get('html'));
+          });
+
+          var referencePointDef=function(){
+                RPSV.each(function(el){
+                   if(el&&$type(el)=='element')
+                   el.setHTML(el.retrieve('defaultInnerHTML'));
+               });
+               if($E('#goods-viewer .mprice'))$E('#goods-viewer .mprice').hide();
+               updatepic();
+               buyBtn.show();
+               notifyBtn.hide();
+
+          };
+
+          var PRODUCT_HASH=new Hash(<{$goods.product2spec}>);
+          var PRODUCT_SPECV_ARR=[];
+              PRODUCT_HASH.each(function(v){
+                   PRODUCT_SPECV_ARR.push(v['spec_private_value_id']);
+              });
+        
+          var SPEC_HASH=new Hash(<{$goods.spec2product}>);
+          
+         
+
+          /* var updatepicRequest=new Request.HTML({url:'<{link ctl=product act=goodspics}>',
+                                                 update:$E('#goods-viewer .goodspic'),
+                                                 autoCancel:true,
+                                                 onRequest:function(){
+                                                  }
+                                                });
+         相册联动*/
+          var updatepic=function(vids){
+              
+              if(!vids)return $$('.goods-detail-pic-thumbnail td[img_id]').each(Element.show);
+              vids = vids.split(',');
+   
+              var pointer = false;
+              $$('.goods-detail-pic-thumbnail td[img_id]').each(function(i){
+                        
+                        if(vids.contains(i.get('img_id'))){
+                            i.style.display = '';
+                            if(!pointer){
+                               i.getElement('a').fireEvent('click',{stop:$empty});
+                               pointer = true;
+                            }
+                        }else{
+                            
+                            i.style.display = 'none';
+                            
+                        }
+              });
+              
+          
+               /* if(!vids)vids='';
+               var pud=$E('#goods-viewer .goodspic').retrieve('picsupdatedelay');
+               var put=$E('#goods-viewer .goodspic').retrieve('picsupdatetemp','');
+               $clear(pud);
+               if(put==vids)return;
+               $E('#goods-viewer .goodspic').store('picsupdatedelay',
+                  (function(){
+                  updatepicRequest.post({gimages:vids,goodsId:$E('#goods-viewer input[name^=goods[goods_id]').get('value')});
+                  $E('#goods-viewer .goodspic').store('picsupdatetemp',vids);
+                  }).delay(800)
+               );*/
+          };
+
+
+          /*其他联动*/
+
+          var updateReference=function(specSelected,specvidarr){
+                var fix=(specvidarr.length==specItems.length);
+                setbuyBtnTip();
+                <{if $goods.adjunct && count($goods.adjunct)>0}>
+                adbuyBtnTip(notifyBtn && notifyBtn.getStyle('display')!='none'?'store':'');
+                <{/if}>
+                var productIntersection=[];
+
+                /*当前已选择规格的商品交集*/
+                 var specTip=[];
+                 var picsId=[];
+                if(specSelected){
+                    specSelected.each(function(s){
+                         productIntersection.combine(SPEC_HASH[s.get('specvid')]['product_id']);
+
+                         specTip.include("<font color=red>\""+getSpecText(s)+"\"</font>");
+                         picsId.combine(SPEC_HASH[s.get('specvid')]['images']);
+                    });
+                }
+
+                if(!productIntersection||!productIntersection.length)return referencePointDef();
+
+
+                var price=[];
+                productIntersection.each(function(pid){
+                    var product=PRODUCT_HASH[pid];
+                    /*if(storeCount.toInt()>9999){
+                      storeCount='9999+';
+                    }else{
+                      storeCount=storeCount.toInt()+product['store'].toInt();
+                    }*/
+
+                    price.include(product['price']).clean();
+
+                });
+
+                /*相册联动*/
+                picsId = picsId.clean();
+                if(picsId.length){
+                    updatepic(picsId.join(','));
+                }
+                /*库存联动
+                referencePoint.update('store',storeCount.toInt()>9999?'9999+':storeCount);*/
+
+                /*价格联动*/
+                if(price.length>1){
+                      price.sort(function(p1,p2){
+                         p1=p1.toInt();
+                         p2=p2.toInt();
+                         if(p1>p2)return 1;
+                         if(p1==p2)return 0;
+                         return -1;
+                      }); 
+  if(price[0]){
+                      referencePoint.update('price',priceControl.format(price[0])+'-'+priceControl.format(price[price.length-1]));
+                      try{$('adjunct').store('price',0);}catch(e){}
+                      }
+                }else{
+                     referencePoint.update('price',priceControl.format(price[0]));
+                     try{$('adjunct').store('price',price[0]);}catch(e){}
+                }
+
+                /*规格选择提示联动*/
+                referencePoint.update('specTip','<em><{t}>您已选择：<{/t}></em><span>'+specTip.join("、")+'</span>');
+
+
+                var product_hiddenInput=$E('#goods-spec input[name^=goods[product_id]').set('disabled',!fix);
+                var mprice=$E('#goods-viewer .mprice');
+
+
+               /*定位到货品*/
+                if(fix){
+                     var fixProductID=null;
+                     PRODUCT_HASH.each(function(v,k){
+                          if($A(v['spec_private_value_id']).combine(specvidarr).length==specvidarr.length){
+                             fixProductID=k;
+                          }
+                     });
+            
+                     if(fixProductID){
+                 var fixProduct=PRODUCT_HASH[fixProductID];
+                     referencePoint.update('weight',fixProduct['weight']);
+                     referencePoint.update('bn',fixProduct['bn']);
+                     referencePoint.update('store',fixProduct['store']||0);
+ !fixProduct['price']?referencePoint.update('price',priceControl.format('0')):
+                     referencePoint.update('price',priceControl.format(fixProduct['price']));
+                     product_hiddenInput.set('value',fixProductID);
+                     try{$('adjunct').store('price',fixProduct['price']);updategoodsPrice(1)}catch(e){}
+                    
+
+                      /*优惠联动*/
+
+                      if(referencePoint['discount']&&referencePoint['marketPrice']){
+                          var dcType={
+                                     T1:'节省',
+                                     T2:'优惠',
+                                     T3:'折'
+                                    };
+                          var _discount=referencePoint['discount'];
+                          var _discountValue=_discount.get('text');
+                          var fdt=priceControl._format.sign;
+
+                          var _priceValue = fixProduct['price'];
+
+                          var _priceMarketValue = fixProduct['mktprice'];
+
+                          var _priceDiff=_priceMarketValue-_priceValue;
+ 
+                          if(_priceDiff>0){
+                              if(_discountValue.test(dcType.T2,'i')){
+                                referencePoint.update('discount','优惠：'+(_priceDiff/_priceMarketValue*100).toFixed(1)+'%');
+                              }else if(_discountValue.test(dcType.T3,'i')){
+                                referencePoint.update('discount',((1 - _priceDiff/_priceMarketValue)*10).toFixed(1)+'折');
+                              }else{
+                                referencePoint.update('discount','节省：'+priceControl.format(_priceDiff));
+                              }
+                          }
+                          else{
+                                referencePoint.update('discount','');
+                          }
+                      }
+
+                     /*库存联动*/
+                     if(referencePoint['store']&&(referencePoint['store'].getText().toInt()<1)){
+
+                           buyBtn.hide();
+                           notifyBtn.setStyle('display','inline');
+                           notifyBtn.getPrevious('.btn-fastbuy')?notifyBtn.getPrevious('.btn-fastbuy').setStyle('visibility','hidden'):$empty();
+                           return;
+                      }
+
+                     if(buynum=$E('#goods-viewer .buyinfo input[type=text]')){
+                        buynum.fireEvent('keyup');
+                     }
+
+                      /*会员价联动*/
+                      if(mprice){
+                          mprice.getElements('.mlvprice').each(function(lvp){
+                              lvp.set('text',priceControl.format(fixProduct['mprice'][lvp.get('mlv')]));
+                          });
+                          mprice.show();
+                      }
+
+                      
+                   }
+
+                }else{
+                   if(mprice)
+                   mprice.hide();
+                }
+
+                   buyBtn.show();
+                   notifyBtn.hide();
+          };
+		  var _store=$E('.buyinfo .store').getText();
+          var specSelections=$$('#goods-spec .spec-item a[specvid]');
+              specSelections.addEvent('click',function(e){
+                     e?e.stop():e;
+                     this.blur();
+                     var specid=this.get('specid');
+                     var specvid=this.get('specvid');
+                     var prt=this.getParent('li.content')||this.getParent('ul');
+
+                     if(this.hasClass('lock'))return; 
+                     if(this.hasClass('selected')){                     
+                           this.removeClass('selected');
+                           if(prt.hasClass('content')){
+                                 var handle=prt.retrieve('handle');
+                                 $E('span',handle).set('text','请选择').removeClass('select');
+                                 handle.removeClass('curr');
+                                 prt.removeClass('content-curr');
+                           }
+                           var n=$$('#goods-spec .specItem a.selected').length;
+                           if(n<1){
+                               specSelections.each(function(s){s.removeClass('lock');});
+							   $E('.buyinfo .store').set('text',_store);
+                           }else{   
+                               var spec=$$('#goods-spec .specItem a.selected')[0];
+                               specvid=spec.get('specvid');
+                               specid=spec.get('specid');
+                               specSelectedCall(specvid,specid,this);
+                           }
+                            return;
+                     }
+                     if(this.getParent('ul').getElement('a.selected')){
+                         specSelections.each(function(s){   
+                             s.removeClass('lock');
+                         });
+                     }
+                     var tempsel=prt.retrieve('ts',this);
+                     if(tempsel!=this){tempsel.removeClass('selected')}
+                     prt.store('ts',this.addClass('selected'));
+
+                          if(prt.hasClass('content')){
+                                 var handle=prt.retrieve('handle');
+                                 $E('span',handle).set('text',getSpecText(this)).addClass('select');
+                                 handle.removeClass('curr');
+                                 prt.removeClass('content-curr');
+                           }
+                      specSelectedCall(specvid,specid,this);
+                      if(e&&e.fireFromProductsList)return;
+                      popAloneSpec();
+              });
+
+        void function(){
+           /*下拉方式的规格选择*/
+          var specHandles=$$('#goods-spec .spec-item .handle');
+          var specContents=$$('#goods-spec .spec-item .content');
+
+          var tempSlipIndex=0;
+          var tempCurrentIndex=-1;
+
+              specHandles.each(function(handle,index){
+                 var content=specContents[index];
+                 var contentPadding=content.getPadding();
+                     content.store('handle',handle);
+                     handle.addEvent('click',function(e){
+                          if(tempCurrentIndex>=0&&tempCurrentIndex!=index){
+                              specHandles[tempCurrentIndex].removeClass('curr');
+                              specContents[tempCurrentIndex].removeClass('content-curr');
+                           }
+                           tempCurrentIndex=index;
+                           this.toggleClass('curr');
+                           content.toggleClass('content-curr');
+                           content.setStyles({'top':this.getCis().bottom-4,
+                                              'left':specHandles[0].getPosition().x-3,
+                                              'width':this.getParent('.goods-spec').getSize().x-(contentPadding.x+contentPadding.y+14)
+                           });
+                     });
+                 });
+             }();
+          /*规格点击时call此函数*/
+         
+          var specSelectedCall=function(specvid,specid,spec){
+               var selectedHS=new Hash();   
+               var specSelected=$$('#goods-spec .spec-item a.selected');
+               var specItems=$$('#goods-spec .specItem');
+                
+               specItems.each(function(item){
+                   if(el=item.getElement('a.selected')){
+                      var key=specExtend.suffix(el.get('specvid')); 
+                      selectedHS.set(key,el.get('specvid'));
+                   }   
+               });
+                    
+               selectedHS=specExtend.sort(selectedHS);  
+
+               var em=(spec.getParent('li.content')&&spec.getParent('li.content').retrieve('handle')
+                       ||spec.getParent('.spec-item')).getElement('em');
+                em[spec.hasClass('selected')?'addClass':'removeClass']('check');    
+                var specs=specExtend.init(selectedHS,specvid);              
+        
+               specSelections.each(function(s){             
+                    specs.indexOf(s.get('specvid'))>-1?s.removeClass('lock'):s.addClass('lock');
+                });             
+                
+                updateReference(specSelected,selectedHS.getValues());
+            };  
+    
+        var specExtend={
+            sort:function(selectedHS){
+                var sortItem=selectedHS.getKeys().sort();
+                    var hs=new Hash();
+                    sortItem.each(function(arr){
+                        hs.set(arr,selectedHS.get(arr));
+                }); 
+                return hs;
+            },
+            suffix:function(specvid){
+                var specsub;
+                PRODUCT_SPECV_ARR.each(function(item){
+                    item.each(function(s,i){
+                        if(s==specvid){specsub=i;return;}
+                    });
+                });
+                return specsub;
+            },
+            to_match:function(regExp){
+                var to_string=[];
+                PRODUCT_SPECV_ARR.each(function(item){
+                    to_string.include(":"+item.join(':')+":");
+                }); 
+                var specSeleted=[]; 
+                to_string.each(function(arr,key){
+                    if(regExp.test(arr)){specSeleted.include(arr);}         
+                }); 
+                return specSeleted; 
+            },
+            to_arr:function(str){
+                var spec_arr=[];    
+                str.each(function(item){
+                    var tmparr=item.split(":"); 
+                    tmparr.pop();tmparr.shift();    
+                    spec_arr.include(tmparr);                       
+                });
+                return spec_arr;
+            },
+            merge:function(arr){
+                var spec_arr=[];            
+                arr[0].each(function(e,i){
+                    var sarr=[];
+                    arr.each(function(el){
+                        sarr.include(el[i]);
+                    });
+                    spec_arr.push(sarr);
+                });             
+                return spec_arr;
+            },
+            collect:function(prearr,arr,hs,key,state){
+                var inarr=[];
+                var hskeys=hs.getKeys();
+                prearr.each(function(el,index){
+                    var barr=[],jarr=[];
+                    if(key!=index&&hskeys.contains(index.toString())&&hskeys.length!=prearr.length&&!state){                
+                        barr.combine(prearr[index]);
+                        barr.combine(arr[index]);
+                        inarr.include(barr);
+                    }else{              
+                        arr[index].each(function(item){
+                            if(el.contains(item)){
+                                jarr.include(item);
+                            }
+                        }); 
+                        inarr.include(jarr);
+                    }
+                });
+                inarr[key]=prearr[key];
+                return inarr;
+            },
+            findCall:function(regexp){
+                var inSelected=specExtend.to_match(regexp);             
+                var tmparr=specExtend.to_arr(inSelected);               
+                return specExtend.merge(tmparr);
+            },
+            to_find:function(selectedHS,specvid){
+                var subReg=":"+selectedHS.getValues().join(":(\\d+:)*")+":";    
+                var tpReg = new RegExp(""+subReg.split("(:\\d+:)*")+"");
+                var keys=selectedHS.keyOf(specvid);         
+                var filterArr=[];                       
+                var chs=$H(selectedHS);
+            
+                if(selectedHS.getKeys().length>2){
+                    chs.erase(keys);
+                    chs.each(function(item,key){
+                        var tmphs=$H(chs);
+                        tmphs.each(function(value,i){
+                            if(key==i){ 
+                                tmphs.erase(i);
+                                tmphs.set(keys,specvid);
+                            }
+                        });
+                        var hs=specExtend.sort(tmphs);
+                        filterArr.push(hs.getValues());
+                    });                 
+                    var sbReg="";                   
+                    filterArr.each(function(item,key){
+                        var reg=item.join(":(\\d+:)*");
+                        sbReg+=":"+reg+":|";            
+                    });
+                    sbReg=new RegExp(""+sbReg.substr(0,sbReg.length-1)+"");     
+                    if(chs){                        
+                        var loop=arguments.callee;
+                        var preStore=loop(chs,chs.getValues()[0]);                      
+                    }                   
+                    var sbSpec=specExtend.findCall(sbReg);
+                    var sbCollect=specExtend.collect(preStore,sbSpec,selectedHS,keys,true);
+                }else{              
+                    filterArr=selectedHS.getValues();
+                    var sbReg=new RegExp(""+filterArr.join("|")+"");
+                    var sbCollect=specExtend.findCall(sbReg);                   
+                }                   
+                var tpCollect=specExtend.findCall(tpReg);   
+                var specs=specExtend.collect(sbCollect,tpCollect,selectedHS,keys);
+                if(selectedHS.getKeys().length==PRODUCT_SPECV_ARR[0].length)specs=sbCollect;                
+                return specs;
+            },
+            init:function(selectedHS,specvid){          
+                if(selectedHS.getKeys().length>1){              
+                    var specItems=specExtend.to_find(selectedHS,specvid);           
+                    var specArr=specItems.flatten();    
+                }else{
+                    var regExp = new RegExp(":"+specvid+":");
+
+                    var specSelected=specExtend.to_match(regExp);
+                    var specItems=specExtend.to_arr(specSelected);                 
+                    var specArr=[];         
+                    specItems.each(function(item){specArr.combine(item);}); 
+                    var items;
+                    $$('#goods-spec .specItem').map(function(item,index){
+                        if(item.getElements('a').get('specvid').contains(specvid))items=item;
+                    });
+                    items=items.getElements('a').get('specvid');
+                    specArr.combine(items);         
+                }
+                return specArr; 
+            }
+        };  
+          var fixProductHidden = $E('#goods-spec input[name^=goods[product_id]');
+          var gpList=$('goods-products-list').addEvents({
+                 pop:function(){
+                  this.setStyles({
+                      width:$E('#goods-viewer .hightline').getSize().x,
+                      top:$E('#goods-viewer .hightline').getPosition().y,
+                      left:$E('#goods-viewer .hightline').getPosition().x,
+                      display:'block'
+                  });
+                  if(this.getSize().y>300){
+
+                     this.setStyles({
+                        height:300,
+                        'overflow-y':'auto'
+                     });
+                  }
+                  this.getElements('tbody tr').each(function(tr){
+                       var fixProductId = fixProductHidden.disabled?false:fixProductHidden.value;
+                       if(tr.get('productid') == fixProductId){
+                           tr.addClass('selected');
+                       }else{
+                           tr.removeClass('selected');
+                       }
+                  });
+
+                  $(document.body).addEvent('click',function(e){
+
+                         this.fireEvent('unvisible');
+                         $(document.body).removeEvent('click',arguments.callee);
+
+                  }.bind(this));
+
+                },
+                unvisible:function(){
+                     this.setStyles({
+                      top:-20000,
+                      display:'none'
+                    });
+                }
+          });
+
+          gpList.getElements('tbody tr').addEvents({
+              mouseenter:function(){
+                  this.addClass('mouseover');
+              },
+              mouseleave:function(){
+                  this.removeClass('mouseover');
+                  this.fireEvent('mouseup');
+              },
+              mousedown:function(){
+                  this.addClass('mousedown');
+              },
+              mouseup:function(){
+                  this.removeClass('mousedown');
+              },
+              click:function(){
+                   this.fireEvent('ischecked');
+              },
+              ischecked:function(){
+                  var productId = this.get('productId');
+                  var productMap = PRODUCT_HASH[productId];
+                  var specIDarr = productMap['spec_private_value_id'];
+                  $$('#goods-spec .spec-item a.selected').fireEvent('click');
+                  specIDarr.each(function(s){
+                         var specEl=$E('#goods-spec .spec-item a[specvid='+s+']');
+                         if(!specEl)return;
+                         specEl.fireEvent('click',{stop:$empty,fireFromProductsList:true});
+                  });
+
+              }
+
+          });
+      }();
+ </script>
+ <{elseif $goods.store==='0'}>
+     <script>
+     /*无规格商品到货通知 show*/
+      window.addEvent('domready',function(){
+            var notifyBtn=$E('#goods-viewer .btn-notify').store('tip:text','您当前要购买的商品暂时缺货,点击进入缺货登记页.');
+            new Tips(notifyBtn,{className:'cantbuy',showDelay:0,hideDelay:0});
+            notifyBtn.show();
+            notifyBtn.addEvent('click',function(e){
+                      e.stop();
+                      this.blur();
+                      this.form.action=this.form.get('gnotify');
+                      this.form.submit();
+                });
+      });
+     </script>
+ <{else}>
+     <script>
+     window.addEvent('domready',function(){
+                        /*快速购买*/
+              var fastbuyBtn = $E('#goods-viewer .btn-fastbuy');
+              if(fastbuyBtn){
+                      fastbuyBtn.addEvent('click',function(e){
+
+                           e.stop();
+                           this.blur();
+                            var form = $('fastbuy-form');
+                           form.empty().adopt($(this.form).toQueryString().toFormElements());
+                           form.adopt(new Element('input', {name:'isfastbuy',value:1,type:'hidden'}));
+                           if(!form.retrieve('events',{})['submit'])return form.submit();
+                           form.fireEvent('submit',e);
+                       });
+                  }
+
+      });
+     </script>
+ <{/if}>
+<{/if}>
+<{if $goods.adjunct && count($goods.adjunct)>0}>
+<script>
+/*配件JS try{adbuyBtnTip('store')}catch(e){} */
+	try{$('adjunct').store('price',<{$goods.price}>);}catch(e){}
+	var _adbuyBtn = $E('#adjunct .adbuyBtn').store('tip:text', "请选择配件商品");
+	var _buyBtn=$E('#goods-viewer .btn-buy');
+	var _notifyBtn=$E('#goods-viewer .btn-notify');
+	var updategoodsPrice=function(r){
+		var countText=$E('#goods-viewer .buyinfo input[name^=goods[num]');
+		var total=_buyBtn.retrieve('tip:text')?0:countText.value;
+		if($('adjunct').retrieve('price')){
+			var pricetotal=$('adjunct').retrieve('price')*total + $('adjunct').retrieve('adjprice');
+			$E('#adjunct .priceTotals').set('html', pricetotal?priceControl.format(pricetotal):'0.00');
+		}else{
+			$E('#adjunct .priceTotals').set('html', '0.00');
+		}
+		$E('#adjunct .total').set('html', total);
+	};
+	var adbuyBtnTip=function(s){
+	    if(s=='store'){
+		    _adbuyBtn.store('tip:text', "对不起,您当前选择的商品缺货.");
+	    }else if(_adbuyBtn.retrieve('total1')<1){
+			_adbuyBtn.store('tip:text', "请选配件商品.");
+		}else{
+			_adbuyBtn.store('tip:text', _buyBtn.retrieve('tip:text'));
+		}
+	};
+window.addEvent('domready',function(){
+	new Tips(_adbuyBtn,{showDelay:0,hideDelay:0,className:'cantbuy',
+		onShow:function(tip){
+			if(!this.textElement||!$E('.tip-text',tip)||!$E('.tip-text',tip).getText()){
+				_adbuyBtn.setStyle('cursor','pointer');
+				return tip.setStyle('visibility','hidden');
+			}else{
+				_adbuyBtn.setStyle('cursor','not-allowed');
+			}
+			tip.setStyle('visibility','visible');
+		}
+	});
+    _adbuyBtn.addEvents({
+		'click':function(e){
+		     this.blur();
+			 if(this.retrieve('tip:text')||(_notifyBtn && _notifyBtn.getStyle('display')!='none'))return false;
+		 }
+     });
+
+    void function(){
+     var updateAdjunctPrice=function(){
+           var adjunctPrice=totals=saving=0;
+           var selected=$$('#con-adjunct li').filter(function(li,index){
+		   	   return li.getElement('.p-choose').hasClass('p-checked');
+           });
+           selected.each(function(s,i){
+               adjunctPrice+=s.get('price').toFloat()*s.getElement('input[type=hidden]').value.toFloat();
+			   saving+=s.get('calculate').toFloat()*s.getElement('input[type=hidden]').value.toFloat();
+			   totals+=s.getElement('.number input').value.toFloat();
+           });
+           var price=isNaN(adjunctPrice)?0:adjunctPrice;
+           $E('#adjunct .price').set('html',priceControl.format(price)||'0.00');
+		   $E('#adjunct .total1').set('html',totals);
+		   if(saving>0) $E('#adjunct .p-saving').show().getElement('.saving').set('html', priceControl.format(saving));
+		   else $E('#adjunct .p-saving').hide();
+		   $E('#adjunct').store('adjprice',price);
+		   _adbuyBtn.store('total1',totals);
+		   adbuyBtnTip(_notifyBtn && _notifyBtn.getStyle('display')!='none'?'store':'');
+		   updategoodsPrice();
+      };	  
+
+		var adjunctCheckbox=$ES('#adjunct .p-choose');
+        var adjunctText=$ES('#adjunct input[type=text]');
+        adjunctCheckbox.addEvent('click',function(e){
+              var prt= this.getParent('li'); 
+              var min_num = $('tab-adjunct').getElement('li[adjkey='+prt.get('adj')+']').get('min_num').toInt();
+              if(isNaN(min_num)||min_num<1)min_num=1;
+
+			  var selected = this.hasClass('p-checked');
+              var _hidden=prt.getElement('input[type=hidden]').set('disabled', selected);
+			  if(selected){
+			  	  this.removeClass('p-checked');
+				  /*this.getElement('input[type=checkbox]').checked=false;*/
+			  }else{
+			  	  this.addClass('p-checked');
+				  /*this.getElement('input[type=checkbox]').checked=true;*/
+			  }              
+
+              var _text=prt.getElement('input[type=text]');
+
+              if(!_text.value||_text.value<min_num){
+                _hidden.value=_text.value=min_num;
+              }else{
+                _hidden.value=_text.value;
+              }
+              updateAdjunctPrice();
+        });
+        adjunctText.addEvent('keydown',function(e){
+          if($A(keyCodeFix).include(e.code).length>25)
+           e.stop();
+        });
+        adjunctText.addEvent('keyup',function(e){
+              var prt= this.getParent('li'); 
+              var min_num = $('tab-adjunct').getElement('li[adjkey='+prt.get('adj')+']').get('min_num').toInt();
+              var max_num=$('tab-adjunct').getElement('li[adjkey='+prt.get('adj')+']').get('max_num').toInt();
+              var _hidden=prt.getElement('input[type=hidden]');
+              if(isNaN(min_num)||min_num<0){
+                 min_num=0;
+              };
+              if(isNaN(max_num)||max_num<0){
+                 max_num=Number.MAX_VALUE;
+              };
+              if(this.value){
+                _hidden.value=this.value=this.value.toInt().limit(min_num,max_num);
+              }
+              updateAdjunctPrice();
+        });
+    }();
+});
+</script>
+<{/if}>
+<script>
+/*设置浏览过的商品*/
+withBroswerStore(function(broswerStore){
+  broswerStore.get('history',function(history){
+  history=JSON.decode(history);
+  if(!history||$type(history)!=='array')history=[];
+   if(history.length==40){history.pop()};
+   var newhis={'goodsId':<{$goods.goods_id}>,
+               'goodsName':'<{$goods.name|replace:"'":"\'"}>',
+               'goodsImg':'<{$images.gimages[$goods.image_default].small|storager}>',
+               'viewTime':$time()
+              };
+   if(!history.some(function(i,index){
+   if(i['goodsId']==newhis['goodsId']){
+         history.erase(i);
+         history.include(newhis)
+         return true;
+   }
+      return false;
+
+   })){
+       history.include(newhis);
+   }
+   broswerStore.set('history',history);
+  });
+});
+window.addEvent('domready', function(){
+/*Tab的处理*/
+try{
+var viewTabsContainer=$E('#goods-viewer .goods-detail-tab');
+var viewTabs=[];
+var viewSections=$$('#goods-viewer .section');
+
+viewSections.each(function(se){
+  var t=new Element('div',{'class':'goodsDetailTab'}).set('html','<span>'+se.get('tab')+'</span>');
+  viewTabs.push(t);
+
+});
+viewTabsContainer.adopt(viewTabs);
+new ItemAgg(viewTabs,viewSections,{activeName:'active',
+                                     onActive:function(tab,item){
+                                                  var anotherItems=$$($A(this.items).remove(item));
+
+                                                  if(tab.getElement('span').get('text')=='商品详情'){
+                                                     anotherItems.show();
+                                                  }else{
+                                                     anotherItems.hide();
+                                                  }
+                                   }});
+}catch(e){}
+});
+
+/*验证码刷新*/
+function changeimg(id,type){
+    $(id).set('src','<{link ctl="passport" act="verifyCode" arg0="'+type+'"}>#'+$time());
+};
+
+</script>
+<script>
+void function(){
+/*橱窗放大镜
+  author:litie[A]shopex.cn
+  [c]  ShopEx
+  last update : 2009年9月25日14:51:20
+*/
+    (new Image()).src = '<{$base_url}>statics/loading.gif';
+    var getAmongPos = function(size,to){
+                 var elpSize = $(to).getSize();
+                 return {
+                    'top':Math.abs((elpSize.y/2).toInt()-(size.height/2).toInt()+to.getPosition().y+elpSize.scroll.y),
+                    'left':Math.abs((elpSize.x/2).toInt()-(size.width/2).toInt()+to.getPosition().x+elpSize.scroll.x)
+                 };
+            };
+   
+   $$('#goods-rels .zoom a').addEvent('click',function(e){
+            e.stop();
+            if(this.retrieve('active'))return;
+            var _this = this;
+            _this.store('active',true);
+            var tpic = this.getParent('.items-gallery').getElement('.goodpic img');
+            var bpic_src = this.get('pic');
+           
+            var loading = new Element('div',{
+                 styles:{'background':'#fff url(<{$base_url}>statics/loading.gif) no-repeat 50% 50%',
+                         'width':40,
+                         'height':40,
+                         'border':'1px #e9e9e9 solid',
+                         'opacity':.5}}).inject(document.body).amongTo(tpic);
+            
+            new Asset.image(bpic_src,{onload:function(img){
+                  
+                  loading.remove();
+                  var winsize = window.getSize();
+                  var imgSize = $(img).zoomImg(winsize.x,winsize.y,1);
+                  var fxv = $extend(getAmongPos(imgSize,window),imgSize);
+                  var imgFx = new Fx.Morph(img,{link:'cancel'});
+                  img.setStyles($extend(tpic.getCis(),{opacity:0.5})).inject(document.body).addClass('img-zoom').addEvent('click',function(){
+                      imgFx.start(tpic.getCis()).chain(function(){this.element.remove();_this.store('active',false);});
+                  });
+                  imgFx.start($extend(fxv,{opacity:1}));
+                  document.addEvent('click',function(){
+                       
+                       img.fireEvent('click');
+                       document.removeEvent('click',arguments.callee);
+                  
+                  });
+            
+            },onerror:function(){
+                _this.store('active',false);
+                loading.remove();
+            }});          
+   
+   });
+   
+   }();
+</script>
+
+<script>
+//pinfgen by showker 
+    window.addEvent('domready',function(){
+        $$('.star-point-items').each(function(i){
+                var _c = i.getNext();
+                var _b = i.getElement('.b');
+                var _f = i.getElement('.f');
+                var _ipt = i.getNext('input');
+                var offset=0;
+                var _left=0;
+                var count=5;
+                    _ipt.value = 5;
+                i.addEvents({
+                        'mousemove':function(e){	
+                             offset = (e.page.x - i.getPosition([document.body]).x);
+                             _left = (offset-i.offsetWidth).limit(0-i.offsetWidth,0);
+                             count  = (5*((i.offsetWidth + _left)/(i.offsetWidth)));
+                                if(count<0.3){count  = 0}else{count = Math.ceil(count);}
+                            _b.setStyle('left',i.offsetWidth*(count/5) - i.offsetWidth);
+                        //	_c.set('text',_ipt.value = count);
+                        },
+                        mouseenter:function(e){
+                            this.fireEvent('mousemove',e);
+                        },
+                        click:function(e){
+           _c.set('text',_ipt.value = (count==0?5:count));//mod by showker7-15
+                        },
+                        mouseout:function(e){
+                        _b.setStyle('left',i.offsetWidth*(_ipt.value/5) - i.offsetWidth);
+                        }
+                });
+                /*fix png*/
+                if(window.ie6){
+                    _f.setStyles({
+                        'filter':'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image, src='+_f.getStyle('background-image').match(/url\(([^\)]*)/)[1]+')',
+                        'background':'none'
+                    });
+                }
+        });
+        
+    });
+</script>

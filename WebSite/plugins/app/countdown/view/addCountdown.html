@@ -1,0 +1,64 @@
+<form id='countdownForm'  method='post' action='index.php?ctl=plugins/ctl_countdown&act=addCountdown'>
+  <div style="display:none"><{input type="checkForm" }></div>
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th><{t}>抢购活动名称：<{/t}></th>
+          <td><{input type='text' value=$countdown.cat name='cat' required='true' size="60"}></td>
+        </tr>
+				<tr>
+          <th><{t}>活动时间：<{/t}></th>
+          <td><span><{t}>活动开始时间、结束时间自动由所添加商品的开始时间、结束时间中的最小值和最大值得到！<{/t}></span></td>
+        </tr>
+        <tr>
+          <th><{t}>活动简介：<{/t}></th>
+          <td><{input type='html' height='100px' value=$countdown.intro name='intro'}></td>
+        </tr>
+      </table>
+    </div>
+    <div class="division">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id='pkg-item'>
+        <tr>
+          <th><{t}>商品选择：<{/t}></th>
+          <td id='packageItem'><{input type="object:goods/products" multiple="true" rowselect="true" value=$countdown.goods_id cols="name,price,store,pdt_desc" name="goods_id" view="qf/countdown/rowfree.html" multiple="1" }> </td>
+        </tr>
+      </table>
+    </div>
+    <{if $countdown.cat_id}>
+    <input type='hidden' value='<{$countdown.cat_id}>' name='cat_id' />
+    <{/if}>
+    <div class="table-action"> <{button label="完成" type="submit"}> </div>
+  </div>
+</form>
+<script>
+var zindex = 1000;
+$$('.pdt-desc-list').each(function(span){pdt_desc_sel(span);});
+function pdt_desc_sel(obj){
+    zindex--;
+    obj.setStyles({'zIndex':zindex});
+	var list = obj.getElement('div');
+	obj.addEvents({
+		'mouseenter':function(){list.setStyle('display','')},
+		'mouseleave':function(){list.setStyle('display','none')}
+	});
+}
+function pt_checknum(obj){
+    if(obj.value<0||obj.value>2){
+		alert('请输入0-1间的小数，例如 0.8 表示 8 折。');
+		obj.value = 1;
+	}
+}
+function pt_change(obj,id){
+    $('pt-'+id+'-0').hide();
+    $('pt-'+id+'-1').hide();
+	$('pt-'+id+'-'+obj.value).show();
+}
+function calmakeCalable(ss){
+    ss.each(function(cal){
+	    if(!cal.retrieve('calable')&&!cal.onmousedown){
+			cal.store('calable',cal.makeCalable());
+		}
+	});
+}
+</script>

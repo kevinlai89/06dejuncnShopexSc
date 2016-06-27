@@ -1,0 +1,101 @@
+﻿@import url("default.css");
+@import url("widgets.css");
+
+
+.AdvBanner img{display:inherit}
+.ColColorGray,.division,.receiver .liststyle, .receiver .liststyle td{background:#fff;}
+
+.other-warp{width:980px;margin-left:auto;margin-right:auto;}
+#mini_header{border-bottom:2px solid #c7c9c7;}
+.mini_logobr{height:78px;padding:4px 0 3px 3px; position:relative}
+.mini_logobr a,.mini_logobr b{margin:0 5px;}
+.mini_logobr .logo{width:300px;float:left;}
+.mini_logobr .logo h1 a{display:block;width:600px;height:78px;overflow:hidden;text-indent:-9999em;}
+.mini_logobr .sbar{margin-top:10px;}
+.mini_logobr .sbar a,.mini_logobr .sbar a:hover{color:#D70403;text-decoration:none}
+.mini_logobr .qfnavs{position:absolute;top:45px;right:-2px;}
+
+
+/*找回密码*/
+.recover{margin:0;}
+.recover .form{border:none;padding:0;}
+
+/*购物车无货状态*/
+.CartWrap,#cart-none-msg{padding:25px 0 20px;border-bottom:1px solid #e5e5e5;}
+#cart-none-msg .note{background:#fff;border:none;height:70px;padding:0 15px;}
+#cart-none-msg .note h3{line-height:30px;padding-left:5px;color:#d70403}
+#cart-none-msg .note li{float:left; border-bottom:none; margin-right:15px;}
+
+
+/*购物车有货状态*/
+.liststyle td, .liststyle th{vertical-align:middle}
+.CartWrap .CartNav{background:none;height:39px;padding-right:0}
+#cartItems{margin-top:25px;background:#fff;padding:0;border-color:#e6e6e6;}
+#cartItems h3{background:#efefef url("i/i.png") repeat-x 0 -118px;height:35px;line-height:35px; border-bottom:1px solid #fff;padding-left:15px;}
+#cartItems br{display:none}
+#goodsbody{border:none;border-top:1px solid #e5e5e5;padding:0;}
+.liststyle{border:none;}
+.liststyle thead  th,.liststyle td{background:#fff;border:none;text-align:center; vertical-align:middle}
+.liststyle thead  th{background:#f8f8f8;padding:6px 3px;color:#333}
+.liststyle td{border-bottom:1px solid #e5e5e5;padding:10px 0;}
+.liststyle_data{margin-top:10px;}
+.liststyle_data th{line-height:27px;}
+.CartWrap .totalprice{font-size:18px;font-weight:400;font-family:Arial, Helvetica, sans-serif;}
+
+
+/*购物车登录*/
+.CartWrap .mini-login{border:none;padding-bottom:0;}
+.RegisterWrap .rightbottom{border:1px solid #e6e6e6;width:320px;padding:0 10px}
+.RegisterWrap .rightbottom h3{line-height:35px; text-align:left;margin-bottom:15px;}
+#anonymityBuy{ display:block;width:168px;height:40px; background:url("i/other.gif") no-repeat -110px -215px;}
+
+/*购物车列表*/
+.cart-product-img,.product-list-img{margin-left:10px;}
+.cart-product-img a,.product-list-img a{height:50px;padding:0;}
+.cart-product-img a img,.product-list-img a img{display:block;border:1px solid #e5e5e5;width:100%;height:100%;}
+.cart-product-img a:hover img,.product-list-img a:hover img{border-color:#c00;}
+#cart-coupon{height:30px;padding:15px 10px}
+#cart-total-item{border:none;}
+.CartBtn{margin-top:15px;}
+.btn-return,.btn-next,.btn-clearcat,.btn-confirm,.btn-return-checkout,.btn-pay,.btn-pay-ok{background:url("i/other.gif") no-repeat;width:97px;height:26px; }
+.btn-return{background-position:0 -182px}
+.btn-clearcat{background-position:0 -207px}
+.btn-next{width:126px;height:38px;background-position:0px -137px;margin-top:0;}
+
+/*购物车订单信息*/
+.checkoutbase{margin-top:25px;padding:0;border-color:#e6e6e6;}
+.checkoutbase h3{background:#efefef url("i/i.png") repeat-x 0 -118px;height:35px;line-height:35px; border-bottom:1px solid #fff;padding-left:15px;}
+.checkoutbase .checksimt{border:none;border-top:1px solid #e5e5e5;padding:15px;background:#fff;}
+.checkoutbase .checksimt h3{height:30px;line-height:30px;border-bottom:1px dotted #e5e5e5;padding:10px 0 10px 15px; background:#fff;}
+.checkoutbase .checksimt .division,.checkoutbase .checksimt .receivermore{border:none;}
+.checkoutbase #receiver{padding-left:25px;}
+#receiver .receiver-sel li{padding-left:0;line-height:30px;}
+#shipping,#payfs{padding-left:20px;}
+#shipping .liststyle th,#shipping .liststyle td,
+#payment th,#payment td{border:none}
+.valierror{line-height:25px;}
+
+#checkgoods,#orderinfo{margin-top:25px;padding:0;border-color:#e6e6e6;}
+#checkgoods h3,#orderinfo h3{background:#efefef url("i/i.png") repeat-x 0 -118px;height:35px;line-height:35px; border-bottom:1px solid #fff;padding-left:15px;}
+#checkgoods .division,#orderinfo .division{border:none;border-top:1px solid #e5e5e5;padding:0; margin-bottom:0;}
+#checkgoods td.xiao{color:#808080;text-decoration:line-through}
+#checkgoods td.you{color:#cb0e09;}
+#checkgoods td.ji{color:#cb0e09;font-weight:700}
+#amountInfo{margin-top:10px;border:none!important}
+#amountInfo table,
+#amountInfo .liststyle th,
+#amountInfo .liststyle td{border:none;}
+.btn-confirm{width:168px;height:40px;background-position:-126px -97px;margin:0;}
+.btn-return-checkout{width:117px;height:30px;background-position:-111px -182px;padding:0}
+
+/*订单页面*/
+#f_order_pay .success{border:none;background:none;margin:20px 0 0 0;}
+#f_order_pay .success h3{font-family:"Microsoft YaHei",Arial,Verdana;font-size:24px;color:#d11515;font-weight:normal;text-align:center; background:none;line-height:30px;}
+#f_order_pay .ordernote,#f_order_pay .orderpay{border:1px solid #e6e6e6; margin-top:20px;}
+#f_order_pay .ordernote h3,#f_order_pay .orderpay h3{background:#efefef url("i/i.png") repeat-x 0 -118px;height:35px;line-height:35px; border-bottom:1px solid #fff;padding-left:15px;}
+#f_order_pay .orderpay .division{border:none}
+#f_order_pay .orderpay th,#f_order_pay .orderpay td{border:none;}
+.btn-pay,.btn-pay-ok{height:41px;width:143px;background-position:-133px -136px; margin:0;}
+#orderinfo th,#orderinfo td{font-size:12px;padding:10px;}
+#orderdata {margin-top:20px;border:none}
+#orderdata th,#orderdata td{border:none}

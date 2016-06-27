@@ -1,0 +1,33 @@
+<div id="scroll_<{$widgets_id}>" class="mF_sd_tqq">
+  <ul class="msgs">
+   <{foreach from=$data item=data key=key}>
+    <li><a href="<{link ctl=article act=index arg0=$data.article_id}>" title="<{$data.title|escape:html}>" class="goodpic"><img src="<{$data.picture|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$data.title}>" /></a>
+      <div class="msg"><a href="<{link ctl=article act=index arg0=$data.article_id}>" title="<{$data.intro|escape:html}>"><{$data.intro|cut:$setting.introcut}></a></div>
+    </li>
+    <{/foreach}>
+  </ul>
+</div>
+
+<{if (count($data) > $setting.scrollnum) && $setting.showScroll}>
+<script type="text/javascript">
+myFocus.pattern.extend({
+	'mF_sd_tqq':function(settings,$){
+		var $tqq=$(settings);
+		var $msgUl=$tqq.find('.msgs');
+		$tqq.play(function(i,n){
+			var last=$msgUl.find('li')[n-1],lastH=last.offsetHeight;
+			$msgUl.slide({marginTop:lastH},800,function(){
+				$msgUl[0].insertBefore(last,$msgUl[0].firstChild);
+				$msgUl[0].style.marginTop=0+'px';
+				$(last).fadeIn();
+			});
+		});
+	}
+});
+myFocus.set({
+	id:'scroll_<{$widgets_id}>',
+	pattern:'mF_sd_tqq',
+	time:<{$setting.time|default:'3'}>
+});
+</script>
+<{/if}>

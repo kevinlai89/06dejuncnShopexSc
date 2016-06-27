@@ -1,0 +1,368 @@
+<style>
+.time_hour_list{
+	border:1px solid gray;
+	height:218px;
+	overflow:auto;
+	width:80px;
+	position:absolute;
+	background:none repeat scroll 0 0 #FFFFFF;
+	margin-left:150px;
+	padding-top:0px;
+}
+.time_hour_list a:hover div{background-color:#66FFFF;font-size:14px;}
+
+</style>
+<form method="POST" action="index.php?ctl=plugins/group_activity&act=group_activity_save" id="actForm">
+<div class="tableform">
+	<div class="division">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<th><{t}>团购商品：<{/t}></th>
+				<td>
+					 <{input cols="product_id,name,bn,price" value="" type="object:goods/products" name="products" view="" }>
+				</td>
+				<td><div id="select-product"></div></td>
+			</tr>
+		</table>
+	</div>
+	<div class="division">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<th><{t}>活动开始时间：<{/t}></th>
+				<td><{input type="date" vtype="date" name="start_time" format="timestamp" value=$actInfo.time.today }>
+					<{input type="text" value="0:00" name="shour"  style="width:80px;margin-left:20px;"}><span class="notice-inline">格式：1:45</span>
+				</td>
+			</tr>
+			<tr>
+				<th><{t}>活动结束时间：<{/t}></th>
+				<td><{input type="date" vtype="date" name="end_time" format="timestamp" value=$actInfo.time.tomorrow }>
+					<{input type="text" value="0:00" name="ehour"  style="width:80px;margin-left:20px;"}><span class="notice-inline">格式：1:45</span>
+				</td>
+			</tr>
+			<tr>
+				<th><{t}>保证金：<{/t}></th>
+				<td><{input type="unsigned" name="deposit" value="0.000"}></td>
+			</tr>
+			<tr>
+				<th><{t}>限购数量：<{/t}></th>
+				<td><{input type="unsigned" name="limitnum" value="1" required="true"}><span class="notice-inline">达到此数量，团购活动自动结束。</span></td>
+			</tr>
+			<{if $group_point !=0}>
+			<tr>
+				<th><{t}>赠送积分数：<{/t}></th>
+				<td><{input type="unsigned"  name="score" value="0"}></td>
+			</tr>
+			<{else}>
+          <tr>
+                  <th><{t}>赠送积分数：<{/t}></th>
+				<td><{t}>无法使用赠送积分，想使用请开启积分<{/t}></td>
+				
+			</tr>
+			<{/if}>
+				<th><{t}>价格阶梯：<{/t}></th>
+				<td>
+					<ul class="price-step" style="overflow:auto;">
+						<li style="float:left;">
+						<span><{t}>数量达到<{/t}></span>
+						<{input type="unsigned"  name="nums[]" value="0"}>
+						</li>
+						<li style="float:left;">
+						<span><{t}>享受价格<{/t}></span>
+						<{input type="money"  value="0" id='money_tidu'  name="price[]"}>		
+						</li>
+						<li style="float:left;">
+						<a href="javascript:void(0)" id="add-price-step"><span class="sysiconBtn addorder">添加规则</span></a>
+						</li>
+					</ul>
+					<span>请务必添加，否则商品金额将按照0计算</span>
+				</td>
+			</tr>
+			<tr>
+				<th><{t}>邮费优惠：<{/t}></th>
+				<td>
+					<ul>
+						<li><{input type="radio" options=$actInfo.is_postage value="2" name="actInfo[is_postage]" separator="." required="true"}></li>
+						<li id="postage_info" style="display:none"><{input type="select" id="postage_favorable" name="actInfo[postage_favorable]" rows=$actInfo.numtype valueColumn="val" labelColumn="label" value="2"}><{input type="unsigned" name="actInfo[buycount]" value="0" style="margin-left:12px;width:50px;"}><span id="postage_2" style="margin-left:20px;">所有团购订单免运费</span><span style="display:none;margin-left:20px;" id="postage_1">该订单免运费</span></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="division">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<th><{t}>活动说明：<{/t}></th>
+				<td>
+					<{input type="html" name="intro" value=""}>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="division">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<th><{t}>活动开启状态：<{/t}></th>
+				<td><{input type="radio" options=$actInfo.act_open value="true" name="actInfo[act_open]" separator="." required="true"}></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="table-action">
+	<{button label="保存" onclick='submit_jssvae()' type="button" id="btn" }>
+	<{button label="取消" onclick="javascript:history.back();"}>
+</div>
+<input type="hidden" name="acttype" value="add">
+</form>
+<div id='submit_jssvae_store' style='display:none'><div>
+<script>
+function submit_jssvae(){
+
+if($('submit_jssvae_store').getText()!=null && $('submit_jssvae_store').getText()==0){
+if(confirm("库存为0,确认提交？")){
+  $('actForm').fireEvent('submit');
+  }
+  return true;
+}
+if($E('input[name=limitnum]').value.toInt()==0){
+  if(confirm("限购数量为0,确认提交？")){
+  $('actForm').fireEvent('submit');
+    return true;
+  }
+  }else{
+  $('actForm').fireEvent('submit');
+    return true;
+  }
+}
+window.addEvent('domready',function(){
+	$('add-price-step').addEvent('click',function(){
+		var trNode=new Element('tr');
+		var thNode=new Element('th');
+		var tdNode=this.getParent('td').clone();
+		var imgNode=new Element('img',{
+			'src':'../statics/icons/icon_delete.gif',
+			'alt':'删除',
+			'styles':{
+				'cursor': 'pointer',
+				'margin-left':'10px'
+			},
+			'events':{
+				'click':function(){
+					this.getParent('tr').remove();
+				}
+			}
+		});
+		$E('a',tdNode).replaceWith(imgNode);
+		trNode.adopt(thNode).adopt(tdNode);
+		trNode.injectBefore(this.getParent('tbody').getLast());
+		
+	});
+
+	$('btn').addEvent('click',function(){
+		if($E("input[name=products]").value=='' || $E("input[name=products]").value=='true'){
+			MessageBox.error('请选择团购商品');
+			return false;
+		}
+		if(!($E("input[name=shour]").value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)) || !($E("input[name=ehour]").value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/))){
+			MessageBox.error('请正确填写时间格式');
+			return false;
+		}
+		if($('goodsInfo').get('store').toInt()){
+		if($E('input[name=limitnum]').value.toInt()!=0){
+		if($E('input[name=limitnum]').value.toInt()>$('goodsInfo').get('store').toInt()){
+			MessageBox.error('限购数量不能大于可购买数量');
+			return false;
+		}
+		}else{
+		MessageBox.error('限购数量不能大于可购买数量');
+			return false;
+			}
+		}
+		if($E('input[name=limitnum]').value.toInt()>0){
+			var numLegal=$ES("input[name='nums[]']").every(function(item,index){
+				return $E('input[name=limitnum]').value.toInt() >= item.value.toInt();
+
+			});
+			if(!numLegal){
+				MessageBox.error('限购数量不能小于价格阶梯中的最大数量');
+				return false;
+			}
+		}
+		var nums=new Array();
+		$ES("input[name='nums[]']").each(function(item){
+			nums.push(item.value);
+		});
+		var numRepeat=$ES("input[name='nums[]']").every(function(item,index){
+			var sa={};
+			sa=nums.filter(function(v,k){
+				return v==item.value;
+			});
+			return sa.length==1;
+		});
+		if(!numRepeat){
+			MessageBox.error('价格阶梯中的数量重复');
+			return false;
+		}
+
+		var priceout=$ES("input[name='price[]']").every(function(item,index){
+			return item.get('value').toFloat()<=$('goodsInfo').get('price').toFloat();
+		});
+		if(!priceout){
+			MessageBox.error('价格阶梯中的价格不能超出销售价');
+			return false;
+		}
+
+		var _products='productId='+$E('input[name=products]').get('value');
+		var _fn=arguments.callee;
+		var _this=this;
+		var pidIn=false;
+
+		var _xhr=new XHR({
+			method:'post',
+			async:false,
+			onSuccess:function(resp){
+	
+				if(resp!=0){
+					pidIn=true;
+					MessageBox.error(resp);
+				}
+			}
+		}).send('index.php?ctl=plugins/group_activity&act=productInActivity',_products);
+
+		if(pidIn){
+			return false;
+		}
+
+	});
+
+	/*create div as select element*/
+	function createDivAsSelect(){
+		var pdiv=new Element('div',{
+		'styles':{
+		'position':'relative'
+		},
+		'class':'sssstime'
+		});
+		var cdiv=new Element('div',{
+		'class':'time_hour_list'
+		});
+		var hour=new Array();
+		for(var i=0;i<24;i++){
+			hour.push(i+':00');
+			hour.push(i+':30');
+		}
+		hour.each(function(item){
+			var aElement=new Element('a',{
+			'href':'javascript:void(0)',
+			'styles':{
+			'padding':'0px'
+			}
+			});
+			var textDiv=new Element('div').setText(item);
+			aElement.adopt(textDiv);
+			cdiv.adopt(aElement);
+		});
+		pdiv.adopt(cdiv);
+		return pdiv;
+	}
+
+	$E('input[name=shour]').addEvents({
+	'focus':function(){
+		var _shour=createDivAsSelect();
+		_shour.setStyle('margin-left','-26px');
+		this.getParent('td').adopt(_shour);
+	},
+	'blur':function(){
+		var _this=this;
+		_this.getParent('td').getElements('.sssstime a').addEvent('click',function(){
+			/*将a标签中的值赋给文本框*/
+			var _value=this.getElement('div').getText();
+			_this.set('value',_value);
+
+		});
+		$(document.body).addEvent('click',function(){
+			_this.getParent('td').getElement('.sssstime').remove();
+			$(document.body).removeEvent('click',arguments.callee);
+		});
+	}
+	});
+	$E('input[name=ehour]').addEvents({
+	'focus':function(){
+		var _ehour=createDivAsSelect();
+		_ehour.setStyle('margin-left','-26px');
+		this.getParent('td').adopt(_ehour);
+	},
+	'blur':function(){
+		var _this=this;
+		_this.getParent('td').getElements('.sssstime a').addEvent('click',function(){
+			/*将a标签中的值赋给文本框*/
+			var _value=this.getElement('div').getText();
+			_this.set('value',_value);
+
+		});
+		$(document.body).addEvent('click',function(){
+			_this.getParent('td').getElement('.sssstime').remove();
+			$(document.body).removeEvent('click',arguments.callee);
+		});
+	}
+	});
+	
+	$('postage_favorable').addEvent('change',function(){
+		var _value=this.options[this.selectedIndex].value;
+		if(_value==1){
+			$('postage_'+1).setStyle('display','');
+			$('postage_'+2).setStyle('display','none');
+		}else if(_value==2){
+			$('postage_'+1).setStyle('display','none');
+			$('postage_'+2).setStyle('display','');			
+		}
+	});
+	
+	$ES("input[name='actInfo[is_postage]']").addEvent('click',function(){
+		var _value=this.value;
+		if(_value==1){
+			$('postage_info').setStyle('display','');
+		}else if(_value==2){
+			$('postage_info').setStyle('display','none');
+		}
+	});
+	if(!$E("input[name=products]").retrieve('product-id',''))$E("input[name=products]").store('product-id',$E("input[name=products]").value);
+	$("actForm").addEvent('mousemove',function(){
+		var gid=$E("input[name=products]").value;
+		if($E("input[name=products]").retrieve('product-id','') !=gid ){
+			var _xhr=new Request.JSON({
+			   url:'index.php?ctl=plugins/group_activity&act=getGoodsInfo',
+			   data:{
+			   	'gid':gid
+			   },
+			method:'post',
+			onSuccess:function(resp){
+				var aNode=new Element('a',{
+					'href':resp.url,
+					'target':'_blank',
+					'html':resp.name
+				});
+				var spanNode=new Element('span',{
+					'html':'销售价：'+resp.price,
+					'styles':{
+						'padding-left':'20px'
+					}
+				});
+				var infoDiv=new Element('div',{
+					'id':'goodsInfo',
+					'store':resp.store,
+					'price':resp.price
+				});
+				$ES("input[name='price[]']").set('value',resp.price);
+				
+				$('select-product').empty();
+				$('select-product').adopt(aNode).adopt(spanNode).adopt(infoDiv);
+				$E('input[name=limitnum]').set('value',resp.store);
+				$('submit_jssvae_store').innerHTML=resp.store;
+			}
+			}).send();
+			$E("input[name=products]").store('product-id',gid);
+		}
+	});
+});
+
+</script>

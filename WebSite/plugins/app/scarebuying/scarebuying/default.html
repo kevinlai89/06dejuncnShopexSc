@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>今天抢购</title>
+<meta charset="utf-8">
+<style>
+.groupon-warp { font-size:12px; font-family: Verdana, Arial, Helvetica, sans-serif;  border: 1px solid #ddd;padding: 5px;background:#fff}
+.groupon-title { height:30px; line-height:30px; background:#F5B048; padding:0 10px; font-size:14px; margin:0}
+.groupon-cont { /*padding:10px;border:1px solid #ddd;margin:10px 0px 10px 0px;*/ text-align:center; overflow:hidden; color:#666; font-size:14px;float:left;margin:10px 0px 10px 0px;}
+.groupon-cont img { border:none }
+.groupon-cont dl { padding:0; margin:0 }
+.groupon-cont dt { padding:5px 0;margin:2px 6px; text-align:center; border:1px solid #ddd; background:#fff ;box-shadow:0 0 5px #ddd;-webkit-box-shadow:0 0 5px #ddd;border-radius:5px;height:160px; }
+.groupon-cont dt a { display:block;text-decoration:none }
+.groupon-cont dd { padding:2px 10px; margin:5px 0 0 0 }
+.groupon-cont dd a { color:#333; text-decoration:none; font-weight:bold }
+.groupon-cont dd a:hover { color:#ff6600; text-decoration:underline }
+.groupon-cont p,.groupon-cont h5 { padding:5px; text-align:center; clear:both; ; margin:2px;font-weight:normal }
+.groupon-cont h5 del { color:#999 }
+.groupon-cont p span,.groupon-cont h5 span { color:#ff0000 }
+.groupon-cont .sale-price { height:34px; line-height:34px; background:url('plugins/widgets/scarebuying/groupon-bj.png') right -93px no-repeat; overflow:hidden; font-weight:bold; font-size:14px;box-shadow:1px 1px 5px #ddd;margin-left: 10px;}
+.groupon-cont .sale-price i { background:url('plugins/widgets/scarebuying/groupon-bj.png') 0 0 no-repeat; display:block; width:120px; color:#ffff00; float:left; font-style:normal;}
+.groupon-cont .sale-price span { display:block; display:block; width:30%; letter-spacing:2px; text-align:center; height:34px; float:right; color:#fff; }
+</style>
+
+</head>
+<body>
+<div class="groupon-warp">
+  <h3 class="groupon-title"><{$setting.scarebuying_title}></h3>
+ <{foreach from=$data item=scarebuyings_data key=key name=scarebuyingslist}>
+  <div class="groupon-cont" product='<{$scarebuyings_data.goods_id}>' style="width:<{math equation='floor(100/x)' x=$setting.column|default:4}>%;">
+    <dl>
+      <dt><a href="<{link ctl="product" act="index" arg0=$scarebuyings_data.goods_id}>"><img src="<{$scarebuyings_data.pic_img}>"/></a></dt>
+      <dd><a style='with:<{$setting.max_length}> px' href="<{link ctl="product" act="index" arg0=$scarebuyings_data.goods_id}>" ><{$scarebuyings_data.name|cut:$setting.max_length}></a></dd>
+    </dl>
+    <h5>原价：<del>￥<{$scarebuyings_data.or_price}></del></h5>
+	<{if $scarebuyings_data.total_scarebuying_state}>
+	<div  id='scarebuyingprice<{$scarebuyings_data.goods_id}>'>
+<a href="<{link ctl="product" act="index" arg0=$scarebuyings_data.goods_id}>">
+    <div class="sale-price"><i>￥<{$scarebuyings_data.low_price}></i><span>抢购</span></div>
+	</a>
+	</div>
+	<div id='scarebuyingsucc<{$scarebuyings_data.goods_id}>'  style='color:#ff6600;display:none'>
+<a href="<{link ctl="product" act="index" arg0=$scarebuyings_data.goods_id}>">
+    <div><i>￥<{$scarebuyings_data.low_price}></i><span>结束</span></div>
+	</a>
+	</div>
+ <{else}>
+ <a href="<{link ctl="product" act="index" arg0=$scarebuyings_data.goods_id}>">
+    <div class="sale-price"><i>￥<{$scarebuyings_data.low_price}></i><span>结束</span></div>
+	</a>
+ <{/if}>
+ <{if $scarebuyings_data.total_scarebuying_state}>
+  <div id="timecount<{$scarebuyings_data.goods_id}>">
+	<p>剩余时间 </p>
+    <p><span class="hour<{$scarebuyings_data.goods_id}>">00</span>小时 <span class="minute<{$scarebuyings_data.goods_id}>">00</span>分钟 <span class="second<{$scarebuyings_data.goods_id}>">00</span>秒 </p>
+  </div>
+  <{else}>
+  <div id="timecount<{$scarebuyings_data.goods_id}>">
+	<p>抢购结束 </p>
+  </div>
+  <{/if}>
+</div>
+ <{if $setting.column!=1 &&($smarty.foreach.scarebuyingslist.iteration % $setting.column|default:4) == 0}>
+	<div class="clear"></div>
+  <{/if}>
+
+
+
+<script>
+
+
+(function() {
+var timestamp_statues = (new Date()).valueOf();
+	var timeCount=timestamp_statues+'<{$group_data.goods_id}>';
+  var timeCount = this.timeCount = {
+            init:function(nowtime,endtime,dom){
+                var diff = Math.abs((nowtime.getTime() - endtime.getTime())/1000);
+                var secondDiff = diff % 60;
+                var minuteDiff = ((diff - secondDiff)/60) % 60;
+                var hourDiff = (diff - secondDiff  - minuteDiff*60) / 3600;
+                var timeDiff = [hourDiff,minuteDiff,secondDiff];
+                this.s = (function(){this.calcTime.periodical(1000,this,{
+                    time:timeDiff,
+                    dom:dom
+                })}).delay(100,this);
+				
+            },
+            addZero:function(timeDiff){
+                for(var i=0;i<timeDiff.length;i++){
+                    if(timeDiff[i].toString().length<2){
+                        timeDiff[i] = "0" + timeDiff[i].toString();
+                        return timeDiff;
+                    }
+                }
+            },
+            formatToInt : function(timeDiff){
+                for(var i=0;i<timeDiff.length;i++){
+                    parseInt(timeDiff[i]);
+                };
+                return timeDiff;
+            },
+            judgeTime : function(timeDiff){
+                if(timeDiff[2]< 0  && timeDiff[1]>0){
+                    timeDiff[2] = 59;
+                    timeDiff[1]--;
+                    return timeDiff;
+                    }else if(timeDiff[2] <0 && timeDiff[1]==0 && timeDiff[0]>0){
+                    timeDiff[2] = 59
+                    timeDiff[1] = 59;
+                    timeDiff[0]--;
+                    return timeDiff;
+                    }else if(timeDiff[2]==0 && timeDiff[1]==0 && timeDiff[0]==0){
+                    $clear(this.s);
+                   // location.reload();
+				   $('timecount<{$scarebuyings_data.goods_id}>').innerHTML='<p>抢购结束</p>';
+			   $('scarebuyingprice<{$scarebuyings_data.goods_id}>').display='none';
+			    $('scarebuyingsucc<{$scarebuyings_data.goods_id}>').display='';
+                    return;
+                }
+            },
+            calcTime : function (obj){
+                if(!obj.dom) return;
+                var _timeDiff = obj.time;
+                this.addZero(_timeDiff);
+                this.formatToInt(_timeDiff);
+                _timeDiff[2]--;
+                this.judgeTime(_timeDiff);
+                this.addZero(_timeDiff);
+                var dom = obj.dom;
+                dom.second.innerHTML = _timeDiff[2];
+                dom.minute.innerHTML = _timeDiff[1];
+                dom.hour.innerHTML = _timeDiff[0];
+            },
+            calcDesc:function(){
+			   $clear(this.s);
+			   // location.reload();
+				$('timecount<{$scarebuyings_data.goods_id}>').innerHTML='<p>抢购结束</p>';
+			   $('scarebuyingprice<{$scarebuyings_data.goods_id}>').display='none';
+			    $('scarebuyingsucc<{$scarebuyings_data.goods_id}>').display='';
+                    return;
+            }
+        }
+})();
+
+(function(){	
+
+        var timeNow;
+        var timeEnd= new Date(<{$scarebuyings_data.scarebuyingend_time}>* 1000);
+        var dom = {
+            second: $E('.second<{$scarebuyings_data.goods_id}>'),
+            minute:$E('.minute<{$scarebuyings_data.goods_id}>'),
+            hour:$E('.hour<{$scarebuyings_data.goods_id}>')
+        };
+        new Request({
+               url:'<{$scarebuyings_data.js_url}>',
+               onComplete:function(re){
+                timeNow=new Date(re*1000);
+                if(timeEnd.getTime() > timeNow.getTime()){
+					timeCount.init(timeEnd,timeNow,dom);
+				}else{
+					$('timecount<{$scarebuyings_data.goods_id}>').innerHTML='<p>抢购结束</p>';
+					$('scarebuyingprice<{$scarebuyings_data.goods_id}>').display='none';
+					$('scarebuyingsucc<{$scarebuyings_data.goods_id}>').display='';
+				}
+				
+              }
+      }).send();
+
+    })();           </script>
+	 <{/foreach}>
+    <div class="clear"></div>
+
+</div>
+
+</body>
+</html>

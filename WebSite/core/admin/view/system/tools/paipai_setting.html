@@ -1,0 +1,41 @@
+ <form action='index.php?ctl=system/tools&act=save_account_setting' method='post' >
+<div class="main_content">
+
+        <div style="padding:10px;height:130px;" class="notice">
+
+<p>易开店v1.2新增同步拍拍/QQ商城的功能。请按照如下所述的步骤进行操作，配置完成后，即可实时处理拍拍/QQ商城的订单，高效管理：
+<br>
+    1.点击下面框中的“获取拍拍授权码”进入拍拍开放平台<br>
+    2.若您已经登录，则直接在网页中显示一个token码（即授权码）；若您没有登录，则需要您先凭对应的卖家QQ号登录，然后才会在网页中显示一个token码。选中该token码，复制<br>
+    3.将复制的token码粘贴至下面框中的“授权码”，并再次输入您对应的卖家QQ号，点击“确定”保存即可
+<br>
+提示：如果您使用此功能 请确保支付方式里已经安装并使用了"腾讯财付通"，以免在订单列表中显示的拍拍订单支付方式一栏显示异常。<br><span style="color:red;">一个网店只能绑定一个拍拍帐号，如需重新绑定，请联系客服</span></p>
+        </div>
+<div class="division">
+
+<div class="current">
+
+<table width="50%" cellspacing="0" cellpadding="0" border="0">
+
+<tbody>
+
+
+<tr> <th>卖家QQ帐号：</th><td><input type="text" <{if $is_bind}>disabled="false"<{/if}> id="paipai_account" value="<{$paipai_account}>" name="paipai_account"></td> </tr>
+
+<tr> <th>授权码：</th><td><input type="text" id="paipai_account_confirm" value="<{$paipai_ptoken}>" name="paipai_account_confirm"></td> </tr>
+
+<tr> <td colspan="2"><a target="_blank" href="http://fuwu.paipai.com/my/app/getAppTempToken.xhtml?appId=58762" style="text-decoration:underline;color:blue;">获取拍拍授权码</a></td> </tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+    <div style="padding-left:350px;">
+    <b class="submitBtn" style="margin-right:5px;"><input  type="submit" value="确定" id="on_submit"/></b>
+    <b class="submitBtn"><{button type="button" label="以后再说" onclick="$(this).getParent('.dialog').retrieve('instance').close()"}></b>
+    </div>
+
+
+</div>
+</form>

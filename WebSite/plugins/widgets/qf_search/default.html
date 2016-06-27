@@ -1,0 +1,16 @@
+<form action="<{link ctl=search act=result}>" method="post" class="SearchBar">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="search_label">
+	  	<{if $setting.showkeywords}><span>搜索：</span><{/if}>
+		<input name="name[]" size="12" type="text" value="<{$setting.search|default:$setting.keywords}>" onfocus="this.value=(this.value=='<{$setting.search|default:$setting.keywords}>')?'':this.value;" onblur="this.value=(this.value=='')?'<{$setting.search|default:$setting.keywords}>':this.value;" class="inputstyle keywords" />
+      </td>
+      <{if $setting.searchopen}>
+      <td class="search_price1">价格从 <{input name="price[0]" type="number" size="4" class="inputstyle gprice_from" }></td>
+      <td class="search_price2">到<{input name="price[1]" type="number" size="4" class="inputstyle gprice_to"}></td>
+      <{/if}>
+      <td><input type="submit" value="搜索" class="btn_search" onfocus='this.blur();'/></td>
+       <{if $setting.advsearchopen}><td><a href="<{link ctl="search" act="index"}>" class="btn_advsearch">高级搜索</a> </td><{/if}>
+    </tr>
+  </table>
+</form>

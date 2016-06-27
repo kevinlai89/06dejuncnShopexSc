@@ -1,0 +1,23 @@
+<{require file="block/header.html"}>
+  <{widgets id="help001"}>
+  <div class="helpbody clearfix">
+  	<div class="side_area help flt" id="helplist"><{widgets id="help003"}></div>
+  	<div class="main_area m-help frt cut"><{widgets id="help002"}><{main}></div>
+  </div>
+ 
+<script>
+ window.addEvent('domready', function(){
+	var menu = $("helplist");
+	var subMenu = menu.getElements("div");
+	var currentPage = document.location.href.toString();
+	currentPage = currentPage.substr(currentPage.lastIndexOf("/") + 1, currentPage.length);
+	subMenu.each(function(el){
+		var page = el.getElement('a').get('href');
+		page = page.substr(page.lastIndexOf("/") + 1, page.length);
+		if (page == currentPage){
+			el.addClass('active');
+		}
+	});
+});
+</script>  
+<{require file="block/footer.html"}> 

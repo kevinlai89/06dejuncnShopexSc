@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US" dir="ltr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title><{t}>易开店网上商店系统<{/t}></title>
+<link rel="shortcut icon" href="../favicon.gif" type="image/gif" />
+<link href="images/png.css" rel="stylesheet" type="text/css"  />
+<link href="images/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="content">
+  <a href='http://www.ekaidian.cn' target="_blank"><h1 class="png"><{t}>欢迎使用易开店网上商店系统<{/t}></h1></a>
+  <{if $authstate}>
+    <div class="button"><div class="<{if $authtype=='commercial'}>authorize<{else}>noauthorize<{/if}>"><{$authstate}></div></div>
+  <{/if}>
+  <{if $message}>
+        <div class="message">
+        <{$message}>&nbsp;
+      </div>
+  <{/if}>
+  <div class="body">
+    <form name="form1" action="index.php?ctl=passport&act=dologin" method="post" class="formstyle">
+      <{if $return}>
+      <input type="hidden" name="return" value="<{$return}>" />
+      <{/if}>
+    <ul>
+      <li>
+      <label>用户名：</label>
+        <input id="usrname" type="text" name="usrname" class="inputstyle" maxlength="50" autocomplete="off" 
+            value="<{$username|default:'请输入用户名'}>"  
+                onfocus="if(this.value=='请输入用户名') this.value='';this.className='inputstylefocus';return true;"
+                onblur="if(this.value=='') this.value='请输入用户名';this.className='inputstyle';return true;"
+        >
+      </li>
+      <li>
+       <label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+        <input id="password" type="password" name="passwd" class="inputstyle" maxlength="20" 
+        value="+_-_-_+"  
+                onfocus="if(this.value=='+_-_-_+') this.value='';this.className='inputstylefocus';return true;"
+                onblur="if(this.value=='') this.value='+_-_-_+';this.className='inputstyle';return true;"
+        >
+      </li>
+      <li style="position:relative" class="inputshort">
+       <label>验证码：</label>
+	    <{if $show_varycode}>
+        <input class="inputstyle" autocomplete="off" size=8 name="verifycode" id="verifycode" value="" 
+                onfocus="if(this.value=='') this.value=''; this.className='inputstylefocus';return true;"
+                onblur="if(this.value=='') this.value=''; this.className='inputstyle';return true;"
+        >
+
+        &nbsp; <img src="index.php?ctl=passport&act=verifycode&<{$smarty.now}>" align="top" class="verifycodeimg">
+        </li>
+		<{/if }>
+		<li class="btn png"><input style="margin:3px 3px 3px 0; *margin:0;" type="checkbox" name="save_login_name" checked><label style="color:#000000">记住用户名</label></li>
+      <li class="btn png">
+        <input name="login" type="submit" class="loginbtn" value=" "
+      onmousedown="this.className='loginbtnfocus';return true;"
+    >
+      </li>
+    </ul>
+    </form>
+  </div>
+  <div class="foot"></div>
+</div>
+</body>
+</html>

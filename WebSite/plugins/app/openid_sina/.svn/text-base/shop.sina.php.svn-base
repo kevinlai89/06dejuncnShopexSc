@@ -1,0 +1,64 @@
+<?php
+class shop_sina extends ShopPage{
+	 var $noCache = true;
+     var $oauth_token;
+	 var $oauth_token_secret;
+     var $consumer_key;
+	 var $consumer_secret;
+
+	  function __construct(){
+		 $this->system = &$GLOBALS['system'];
+         $this->db = &$this->system->database();
+	  }
+
+      function response(){
+		  require('WeiboOAuth.php');
+   		  $this->consumer_key = $this->system->getConf('app.openid_sina.appkey');
+          $this->consumer_secret = $this->system->getConf('app.openid_sina.appsecret');       
+          $sSql = 'select * from sdb_openid_sina_token where token_id = '.$_REQUEST['params'].'';
+          $get_token = $this->db->selectrow($sSql);
+          if($get_token){
+              $this->oauth_token = $get_token['oauth_token'];
+              $this->oauth_token_secret = $get_token['oauth_token_secret'];
+          }else{
+              echo '找不到对应的token值';exit;
+          }
+          $WeiboOAuth = new WeiboOAuth($this->consumer_key,$this->consumer_secret,$this->oauth_token, $this->oauth_token_secret);
+		  $last_key = $WeiboOAuth->getAccessToken($_REQUEST['oauth_verifier']) ;
+           error_log(var_export($_REQUEST,1),3,HOME_DIR.'/request.txt');
+		   if($last_key){
+               $WeiboClient = new WeiboClient($this->consumer_key,$this->consumer_secret,$last_key['oauth_token'], $last_key['oauth_token_secret']);
+               $user_info = $WeiboClient->verify_credentials();
+               header("Content-Type: text/html;charset=utf-8");
+			   $data['open_id'] = mb_convert_encoding($user_info['screen_name'], "utf-8", "utf-8");
+			   $data['sex'] = mb_convert_encoding($user_info['gender'], "utf-8", "utf-8"); 
+
+			   $data['open_type'] = 'sina';
+			   $sign = $this->get_ce_sign($data,$this->system->getConf('certificate.token'));
+			   $data['sign'] = $sign;
+			   $query = "";
+			   foreach($data as $k =>$v){
+                   $query .= $k.'='.urlencode($v).'&';
+			   }
+               $query = substr($query,0,count($query)-2);
+               echo "<script>opener.location.href = '".$this->system->base_url()."?passport-other_login_verify.html&".$query."';
+               window.close();</script>";
+		   }else{
+               echo 'sign is error';exit;
+		   }
+      }
+
+      function get_ce_sign($params,$token){
+          $arg="";
+          ksort($params);
+          reset($params);
+          while (list ($key, $val) = each ($params)) {
+              $arg.=$key."=".urlencode($val)."&";
+          }
+          $sign = md5(substr($arg,0,count($arg)-2).$token);//去掉最后一个问号
+          return $sign;
+      }
+      
+
+}
+?>

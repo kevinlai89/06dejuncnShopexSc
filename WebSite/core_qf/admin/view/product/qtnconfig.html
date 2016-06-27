@@ -1,0 +1,27 @@
+<div class="tableform" >
+<h3>询价设置</h3>
+
+<div class="division">
+<form name="form1" id="form1" method="post" action="index.php?ctl=goods/product&act=saveqtnconfig">
+
+<table>
+<tr><td width="100px">显示方式：</td>
+    <td>
+        <label><input type="radio" name="qtn_show" value="price" <{if !$config.qtn_show or $config.qtn_show eq 'price'}>checked="true"<{/if}> />显示价格</label>&nbsp;&nbsp;
+        <label><input type="radio" name="qtn_show" value="quotation" <{if $config.qtn_show eq 'quotation'}>checked="true"<{/if}> />显示询价</label>&nbsp;&nbsp;
+        <label><input type="radio" name="qtn_show" value="none" <{if $config.qtn_show eq 'none'}>checked="true"<{/if}> />都不显示</label>
+    </td>
+</tr>
+
+</table>
+
+<br />
+<input type="submit" value=" 保存 " />
+        
+</div>
+</form>
+
+</div>
+
+<script>
+</script>

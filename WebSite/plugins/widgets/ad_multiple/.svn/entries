@@ -1,0 +1,82 @@
+8
+
+dir
+45662
+http://svn.dev.shopex.cn/shop/branches/485/src/plugins/widgets/ad_multiple
+http://svn.dev.shopex.cn/shop
+
+
+
+2010-04-21T08:51:43.935509Z
+45146
+wanglin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+50e4f86b-0325-0410-b778-d0954d22fdc9
+
+swf
+dir
+
+images
+dir
+
+_config.html
+file
+
+
+
+
+2010-03-11T09:05:40.000000Z
+699498b8d34348e043ffef3fed4e2cdf
+2010-03-11T09:04:13.469682Z
+42353
+wanglin
+
+default.html
+file
+
+
+
+
+2010-04-26T03:06:50.000000Z
+43f39a30ec56d08a80d95e1e72c049b5
+2010-04-21T08:51:43.935509Z
+45146
+wanglin
+
+widget_ad_multiple.php
+file
+
+
+
+
+2010-03-11T09:05:40.000000Z
+da061e1ce7218a4e0cb5460ff84875a9
+2010-03-11T09:04:13.469682Z
+42353
+wanglin
+
+widgets.php
+file
+
+
+
+
+2010-03-11T09:05:40.000000Z
+8ec37207000a47851e5530af8143279a
+2010-03-11T09:04:13.469682Z
+42353
+wanglin
+

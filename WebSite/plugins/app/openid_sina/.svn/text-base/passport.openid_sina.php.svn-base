@@ -1,0 +1,49 @@
+<?php
+require_once(CORE_INCLUDE_DIR.'/shopPage.php');
+class passport_openid_sina extends ShopPage{
+	 var $noCache = true;
+     var $oauth_token;
+	 var $oauth_token_secret;
+     var $consumer_key;
+	 var $consumer_secret;
+
+	  function __construct(){
+		 $this->system = &$GLOBALS['system'];
+         $this->db = &$this->system->database();
+		 $this->consumer_key = $this->system->getConf('app.openid_sina.appkey');
+         $this->consumer_secret = $this->system->getConf('app.openid_sina.appsecret');
+	  }
+
+      //http://172.16.2.57/485/index.php?action_sina-request.html
+
+      function getMiniHtml(){
+         require_once('WeiboOAuth.php');
+             $WeiboOAuth = new WeiboOAuth($this->consumer_key,$this->consumer_secret);
+             $keys = $WeiboOAuth->getRequestToken();
+             $data['oauth_token'] = $keys['oauth_token'];
+             $data['oauth_token_secret'] = $keys['oauth_token_secret'];
+             $rs = $this->db->exec('select * from sdb_openid_sina_token where 0=1');
+             $sSql = $this->db->getInsertSQL($rs,$data);
+             $this->db->exec($sSql);
+             $param = $this->db->lastinsertid();
+
+             
+             $oauth_callback = $this->system->base_url().'index.php?action_sina-response.html&params='.$param;
+             $aurl = $WeiboOAuth->getAuthorizeURL( $keys['oauth_token'],false , $oauth_callback);
+             $this->pagedata['aurl'] = $aurl;
+             $content = $this->display('mini_login_tpl.html');
+             return $content;
+         
+        }
+
+        function display($html,$redirect='login'){
+        $this->pagedata['css_url'] = str_replace("\\","/",$this->system->base_url().substr(dirname(__FILE__),strpos(dirname(__FILE__),'plugins')));
+        $content = file_get_contents(dirname(__FILE__).'/view/'.$html);
+        foreach($this->pagedata as $key =>$value){
+            $content = str_replace("<{\$".$key."}>",$value,$content);
+        }
+        return $content;
+    }
+
+
+}

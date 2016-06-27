@@ -1,0 +1,36 @@
+<div class="tableform widgetconfig">
+<div class="division">
+<{filter type="goods/products" name=filter from=$setting.filter}>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th width="30%">排行依据：</th>
+    <td width="70%"><{input name="ranking" type="select"  stype="rank" value=$setting.ranking}></td>
+  </tr>
+  <tr>
+    <th width="30%">榜单显示商品数：</th>
+    <td width="70%"><{input name="limit" value=$setting.limit|default:'10' size=8 required="true" type="digits"}></td>
+  </tr>
+  <tr>
+    <th width="30%">高亮显示</th>
+    <td width="70%">前<{input type="com_select" name="showing" value=$setting.showing from=0 to=10}>项</td>
+  </tr>
+  <tr>
+    <th width="30%">商品图片尺寸：</th>
+    <td width="70%">宽<input name="goodsImgWidth" class="inputstyle" value="<{$setting.goodsImgWidth|default:'68'}>">px&nbsp;&nbsp;高<input name="goodsImgHeight" class="inputstyle" value="<{$setting.goodsImgHeight|default:'68'}>">px</td>
+  </tr>
+   <tr>
+    <th width="30%">显示商品名：<input type="checkbox" name="showGoodsName" <{if $setting.showGoodsName}>checked<{/if}>></th>
+    <td width="70%">商品名称显示长度<{input name="maxlength" class="inputstyle" style="width:85px" value=$setting.maxlength|default:"35"}></td>
+  </tr>
+  <tr>
+  	<th width="30%">显示销售价:</th>
+  	<td width="70%"><input type="checkbox" name="showGoodsPrice" <{if $setting.showGoodsPrice}>checked<{/if}>></td>
+  </tr>
+    <tr>
+    <th width="30%">是否显示更多：</th>
+    <td width="70%"><input type="radio" name="showMore" value="on" <{if $setting.showMore!="off"}>checked<{/if}>>是<input type="radio" name="showMore" value="off" <{if
+      $setting.showMore=="off"}>checked<{/if}>> 否</td>
+  </tr>
+</table>
+</div>
+</div>

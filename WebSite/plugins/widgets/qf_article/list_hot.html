@@ -1,0 +1,5 @@
+<ul class="hotlist">
+    <{foreach from=$data item=data key=key name=artlist}>
+       <li><span class="num li<{$key+1}>"><{$key+1}></span><a href="<{link ctl=article act=index arg0=$data.article_id}>" title="<{$data.title|escape:html}>"><{$data.title|cut:$setting.max_length}><{*$data.view*}></a></li>
+    <{/foreach}>
+</ul>

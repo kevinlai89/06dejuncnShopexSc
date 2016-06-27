@@ -1,0 +1,19 @@
+<{assign var="obj_id" value=$env.get.obj_id}>
+<{if $env.get.select==checkbox}>
+ <div class="selector-tip" id="selector-tip-<{$obj_id}>"  style='display:none;' count='<{$countss}>'>
+  <i class='selected'><{t}>您当前选定了<{/t}><em>0</em><{t}>条记录，<{/t}>
+  <strong onclick="selector_<{$obj_id}>.unselectAll()"><{t}>点此取消选定<{/t}></strong>。	 
+ <strong onclick="selector_<{$obj_id}>.selectAll()"><{t}>点此选定全部<{/t}></strong><{t}>的<{/t}><span><{$countss}></span><{t}>条记录<{/t}></i>
+
+ <i class='selectedall'><{t}>您当前选定了全部的<{/t}><span><{$countss}></span><{t}>条记录，<{/t}><strong onclick="selector_<{$obj_id}>.unselectAll()"><{t}>点此取消选定<{/t}></strong><{t}>全部记录<{/t}></i>
+</div>
+<{/if}>
+<{foreach from=$items item=item key="key"}>
+	<div class='row'>
+		<div class='row-line'>
+            <input type="<{$ipt_type}>" name="_obj_sel" value="<{$item[$idColumn]}>" id="edit_sel_<{$obj_id}>_<{$key}>" />
+            <label for="edit_sel_<{$obj_id}>_<{$key}>"><{$item[$textColumn]}></label>
+        </div>
+	</div>
+<{/foreach}>
+<div class="gridlist-footer"><{pager data=$pager}></div>

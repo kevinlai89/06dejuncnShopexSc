@@ -1,0 +1,15 @@
+<div class="singleOut" id="first">
+   <{if $setting.title}><div class="hd"><h3><span><{$setting.title}></span></h3></div><{/if}>
+   <div class="adshow clearfix">
+    <{foreach from=$data.goods item=goods_data key=key name=goodslist}>
+    <div class="adshow_item <{if $smarty.foreach.goodslist.last}>last<{/if}>">
+        <div class="adshow_pic  <{if $smarty.foreach.goodslist.iteration % 2 == 0}>floatRight<{else}>floatLeft<{/if}>">
+        <a class="pic" target="_blank" href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>"><img src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>"<{if $setting.restrict=='off'}><{if $setting.goodsImgWidth}> width="<{$setting.goodsImgWidth}>"<{/if}><{if $setting.goodsImgHeight}> height="<{$setting.goodsImgHeight}>"<{/if}><{/if}> alt="<{$goods_data.name}>"></a>
+        </div>
+        <div class="adshow_text"><p><a target="_blank" href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>"><{$goods_data.name|cut:$setting.max_length}></a><span class="con"><{$goods_data.brief}></span></p>
+        </div>
+    </div>
+  <{/foreach}>
+  </div>
+  <{if $setting.showMore == "on"}><div class="more clearfix"><a href="<{$data.link}>">更多...</a></div><{/if}>
+</div>

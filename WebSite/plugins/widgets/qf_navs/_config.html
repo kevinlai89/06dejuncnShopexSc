@@ -1,0 +1,87 @@
+<div class="tableform widgetconfig">
+	<div class="division">
+		<table width="100%" cellpadding="0" cellspacing="0">
+		<tr><th colspan="4" style="text-align:center;background:#DDE5FC;color:#669;width:100%;">&nbsp;本挂件需要配合使用CSS样式表，如果您不了解CSS，请勿随意改动。&nbsp;可用变量：%BASEURL% = 商店地址;<br>%_blank% = 弹出窗口;%_self% = 本窗口;一个链接只可以选择一个变量。示例:%_blank%&nbsp;http://www.hnqss.com/</th>
+		</tr>
+		<tr>
+			<th width="20%">样式：</th>
+			<td width="30%"><input type="radio" name="bgimg" value="0" <{if $setting.bgimg!=1}>checked<{/if}>> 纯文字 &nbsp; <input type="radio" name="bgimg" value="1" <{if $setting.bgimg==1}>checked<{/if}>> 背景图片(CSS)</td>
+			<th width="20%">菜单分隔符：</th>
+			<td width="30%"><input type="text" name="comma" value="<{$setting.comma}>"></td>
+		</tr>
+		</table>
+	</div>
+</div>
+	<span style="margin-left:10px;" class="sysiconBtn addorder" onclick="addConfig('menus');">添加栏目菜单</span>
+<div class="tableform widgetconfig">
+	<div class="division" id="listArea_menus">
+		<div>
+			<table width="100%" cellpadding="0" cellspacing="0">
+			  <tr>
+			  <th style="width:75px">前导提示：</th>
+			  <td><input type="text" name="fronttips" style="width:100px" value="<{$setting.fronttips}>"> &nbsp; <input type="checkbox" name="bold" value="1"<{if $setting.bold}> checked<{/if}>>  粗体 &nbsp;&nbsp;&nbsp;&nbsp; 前导提示留空为不显示</td>
+			  </tr>
+			</table>
+		</div>
+		<{if $setting.menus}>
+		<{foreach from=$setting.menus item=data key=key}>
+		<div class="configs">
+			<table width="100%" cellpadding="0" cellspacing="0">
+			  <tr>
+			  <th style="width:75px">栏目标题：</th>
+			  <td style="width:105px"><input type="text" name="menus[<{$data.i}>][text]" style="width:100px" value="<{$data.text}>"></td>
+			  <th style="width:85px">className：</th>
+			  <td style="width:105px"><input type="text" name="menus[<{$data.i}>][classname]" style="width:100px" value="<{$data.classname}>"></td>
+			  <th style="width:75px">链接地址：</th>
+			  <td><input type="text" name="menus[<{$data.i}>][url]" value="<{$data.url}>" style="width:100px"> <{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+			  </tr>
+			</table>
+			<input type=hidden name=menus[<{$data.i}>][i] value="<{$data.i}>">
+		</div>
+		<{/foreach}>
+		<{/if}>
+	</div>
+</div>
+
+<script>
+function addConfig(key){
+	var content;
+	d=new Date();
+	i=d.getTime();
+	if(key=='menus'){
+		content='\
+		<div class="configs">\
+			<table width="100%" cellpadding="0" cellspacing="0">\
+			  <tr>\
+			  <th style="width:75px">栏目标题：</th>\
+			  <td style="width:105px"><input type="text" name="menus['+i+'][text]" style="width:100px;"></td>\
+			  <th style="width:85px">className：</th>\
+			  <td style="width:105px"><input type="text" name="menus['+i+'][classname]" style="width:100px"></td>\
+			  <th style="width:75px">链接地址：</th>\
+			  <td><input type="text" name="menus['+i+'][url]" style="width:75%" value="./"> <{img src="images/bundle/delecate.gif" onclick="delLink(this)" style="cursor:pointer;"}></td>\
+			  </tr>\
+			</table>\
+			<input type=hidden name=menus['+i+'][i] value="'+i+'">\
+		</div>\
+		';
+	}
+	$E('#listArea_'+key).adopt(new Element('div').set('html',content).getFirst());
+}
+
+function addPic(target){
+	return new Dialog('index.php?ctl=editor&act=image&p[0]=0',{
+		title:'插入<img>',
+		onShow:function(){
+			var dialog=this;
+			this.dialog.store('callback',function(src){
+				target.value=src;
+				dialog.close();
+			});
+		}
+	});
+}
+
+delLink=function(o){
+	$(o).getParent('.configs').remove();
+}
+</script>

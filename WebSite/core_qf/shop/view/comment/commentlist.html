@@ -1,0 +1,313 @@
+<div class="GoodsInfoWrap">
+
+
+  <table width="100%" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="1"><div class="goodspic"><a href="#" target="_blank"><img src="<{$goods.small_pic|storager}>" alt="<{$product.name}>"/></a></div></td>
+    <td valign="top"><h1 class="goodsname"><a  href="<{link ctl=product act=index arg0=$goods.goods_id }>"><{$goods.name}></a></h1>
+	  <{if $goods.brief}>
+    <p class="brief"><{$goods.brief}></p>
+    <{/if}>
+    <ul class="goodsprops clearfix">
+	<div class="star_div goods_point"><span class="floatleft"><{t}><font color="#000000"><b>商品综合评分：</b></font><{/t}></span>
+  <ul>
+    <li class="star<{$goods_point.avg}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#ff3300"><b><{$goods_point.avg_num}></b></font> (<{t}>已有<{$comment.total|default:'0'}>人评分<{/t}>)</li>
+  </ul>
+</div>
+<div style="clear:both"></div>
+    <{if $goods.bn}>
+    <li><span><{t}>货号：<{/t}></span><{$goods.bn}></li>
+    <{/if}>
+    <{if $goods.brand_name}>
+    <li><span><{t}>商品品牌：<{/t}></span><{$goods.brand_name}></li>
+    <{/if}>
+    <{if $goods.weight}>
+    <li><span><{t}>商品重量：<{/t}></span><{$goods.weight}><{t}> 克(g)<{/t}></li>
+    <{/if}>
+    <{if $goods.score}>
+    <li><span><{t}>所得积分：<{/t}></span><{$goods.score}></li>
+    <{/if}>
+    <{if $trading.score && $trading.score <> $goods.score}>
+    <li><span><{t}>特价积分：<{/t}></span><{$trading.score}></li>
+    <{/if}>
+    <{if $goods.mktprice && $goods.setting.mktprice}>
+    <li><span><{t}>市场价：<{/t}></span><{$goods.mktprice|cur}></li>
+    <{/if}>
+    <{if count($goods.products)<2}>
+    <li><span><{t}>销售价：<{/t}></span><{$goods.price|cur}></li>
+    <{if $goods.mktprice > $goods.price && $goods.setting.mktprice && $goods.setting.saveprice > 0}>
+    <li><span></span><{if $goods.setting.saveprice == 1}>节省：<{$goods.mktprice-$goods.price|cur}>
+          <{elseif $goods.setting.saveprice == 2}><{t}>优惠：<{/t}><{$goods.price/$goods.mktprice*100|number:'2'}>%
+          <{elseif $goods.setting.saveprice == 3}><{$goods.price/$goods.mktprice*10|number:'1'}>折<{/if}>
+    </li>
+         <{/if}>
+    <{/if}>
+    </ul>
+    <div align="right"><a href="<{link ctl=product act=index arg0=$goods.goods_id }>"><{t}><b>查看详细</b>>><{/t}></a></div>
+
+  </td>
+  </tr>
+</table>
+ <h3 class="goodsname " style="margin-top:10px;"><span><a href="<{link ctl=product act=index arg0=$goods.goods_id }>"><{$goods.name}></a> <{t}>的<{/t}><{$comment.pagetitle}></span></h3>
+      <{if $comment.pagetitle eq '商品评论'}>
+<!--new discuzz head by showeker-6-10-->
+            <div class="evalubox">
+          <div class="evalubox_left">
+            <div class="scores">
+              <ul class="out">
+                <li>商品综合评分</li>
+                <li style=" *height:22px; *padding-top:2px">
+                  <div class="star_div "><!--咨询页面这个地方class可调用用"star_no"-->
+                    <ul>
+                      <li class="star<{$goods_point.avg}>"></li>
+                    </ul>
+                  </div>
+                  <span  class="price1"><{$goods_point.avg_num}></span></li>
+                <li style="clear:both">(<{t}>共<{/t}><a href="<{link ctl="comment" act="commentlist" arg0=$goods.goods_id arg1="discuss"}>" class="fontcolorRed"><{$comment.total|default:'0'}></a><{t}>人评分<{/t}>)</li>
+              </ul>
+            </div>
+            <!--<div class="scores_li">
+              <ul>
+                <{foreach from=$_all_point item="_all_point"}>
+                <li><{$_all_point.type_name}>: <span class="price1"><{$_all_point.avg}></span></li>
+                <{/foreach}>
+              </ul>
+            </div>-->
+                        <div class="star_div_nums">
+						  <table width="206px" cellpadding="0" cellspacing="0">
+              <{foreach from=$point_peoples item=item key=key}>
+              <tr><td width="3px"></td><td class="star_div_nums_first star<{$key}>"></td><td width="3px"></td><td class="tdwid"><b class="horizon" style="width:<{$item.percent*0.9}>px" title="<{$item.peps}>人"></b></td><td><font color="#CC0000"><{$item.peps}></font>人</td></tr>
+              <{/foreach}>
+              </table>
+            
+              </div>
+          </div>
+          <div class="evalubox_right">
+            <div class="rightbox"><h4>评价说明</h4><p>滑动星星，点击后评分</p>
+      </div>
+            <div class="floatright"><a href="<{if $ask.member_lv =='' && $comment_all != 'null'}><{if $comment.pagetitle eq '商品评论'}><{link ctl=passport act=login}>" <{else}>#write_discuss<{/if}><{/if}>" class="orangebtn allnum"><i class="has-icon"> <img  style="margin:0"src='statics/pencil.gif' /></i><span>我要评论</span></a></div>
+          </div>
+        </div>
+        <a name="discuss_all_info"></a>
+<!--/new discuzz head by showeker -6-10--> 
+<{/if}>
+  
+
+
+
+<div class="body Comments section FormWrap pdtdetail" id="goods-comment">
+
+<{foreach from=$commentData item=comlist name=comments}>
+
+  <div class="division boxBrown clearfix"  style="margin-bottom:0px;">
+    <div class=" floatLeft commentMain">
+    <span class="author fontcolorOrange"><{$comlist.author}><!--<{if $comlist.levelname!=""}> [<{$comlist.levelname}>]<{/if}> --></span> <{t}>说：<{/t}>
+    <span class="timpstamp font10px fontcolorGray"><{$comlist.time|cdate:'SDATE_STIME'}></span>
+     <div  style="clear:both;"></div>
+  <{if $comment.pagetitle eq '商品评论'}>
+  <!--pingfen by showker 6-10-->
+       <div <{if $comlist.goods_point}>class="star_div" <{else}>class="star_no"<{/if}> style="float:left;padding-top:3px">
+        <ul>
+          <li class="star<{$comlist.goods_point}>"></li>
+        </ul>
+      </div>
+ <!--/pingfen by showker 6-10-->
+ <{/if}>
+      <div  style="clear:both;"></div>
+    <div class="commentText"><{$comlist.comment|escape:'html'}></div>
+    </div><!--<{if $ask.member_lv =='' && $comment_all != 'null'}>&nbsp;<{else}><a class="floatRight lnk " href='<{link ctl="comment" act="reply" arg0=$comlist.comment_id arg1=$comment.item}>'><{t}>回复此评论<{/t}></a><{/if}>-->
+    </div>
+    <div class="commentReply">
+    <{foreach from=$comlist.items item=items}>
+    <div class="division  item " style=" margin:0px;" >
+	<div class="floatLeft commentReply-admin">回复</div>
+    <span class="author fontcolorOrange"><!--<{$items.author}>--><{if $items.levelname!=""}><{$items.author}><{else}><b>管理员</b><{/if}></span><{t}> 回复：<{/t}>
+    <span class="timpstamp font10px fontcolorGray"><{$items.time|cdate:'SDATE_STIME'}></span>
+    <div class="commentText"><{$items.comment}></div>
+    </div>
+
+ <{/foreach}>
+ </div>
+
+
+
+
+<{/foreach}>
+
+<{pager data=$pager}>
+<script>
+/*验证码刷新*/
+function changeimg(id,type){
+    $(id).set('src','<{link ctl="passport" act="verifyCode" arg0="'+type+'"}>#'+$time());
+}
+
+    var checkFormReqs =function(e){
+           e    = new Event(e);
+       var form= $(e.target);
+
+       var reqs = $$(form.getElements('input[type=text]'),form.getElements('textarea'));
+
+       if(reqs.some(function(req){
+
+            if(req.getValue().trim()==''){
+                       req.focus();
+                       MessageBox.error('请完善表单必填项.');
+                       return true;
+            }
+
+              return false;
+
+
+       })){
+
+           e.stop();
+
+       }
+
+    };
+ </script>
+<form  method="post" action='<{link ctl="comment" act="toComment" arg0=$goods.goods_id arg1=$comment.item}>' onsubmit='checkFormReqs(event);'>
+<h4><{t}>发表<{/t}><{$comment.pagetitle}><span><{t}>（已有<{/t}><em><{$comment.total|default:'0'}></em><{t}>条）<{/t}></span></h4>
+<div class="division">
+<!--[if IE 5.5]>
+<link rel="stylesheet" type="text/css" href="statics/star_ie6.css" />
+<![endif]-->
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="statics/star_ie6.css" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="statics/star.css" />
+<![endif]-->
+<!--[if gt IE 7]>
+<link rel="stylesheet" type="text/css" href="statics/star.css" />
+<![endif]-->
+<!--[if !IE]><!-->
+<link rel="stylesheet" type="text/css" href="statics/star.css" />
+<!--<![endif]-->
+<{if $ask.member_lv =='' && $comment_all != 'null'}>
+      <{if $comment.pagetitle eq '商品评论'}>
+  <a href="<{link ctl=passport act=login}>"><{t}><image src="statics/btn-discussnew.jpg" /><{/t}></a>
+   <{else}>
+   <a href="<{link ctl=passport act=login}>"><{t}><image src="statics/btn-ask.gif" /><{/t}></a>
+           <{/if}>
+<{else}>
+              <a name="write_discuss"></a>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0" class="forform">
+            <{if $comment.pagetitle eq '商品评论'}>
+            <!--pingfeng when discuzz-->   
+          <{foreach from=$comment_goods_type item=comment_goods_type}>
+                  <tr>
+                          <th><em>*</em><{$comment_goods_type.name}>：</th>
+                  <td>
+                <ul>
+              <li>      
+               <!--pingfeng when discuzz by showker-->
+
+                <div class="start-point" style=""><!--咨询页面这个class可以调用"nodisplay"-->
+                
+
+                    <div class="clearfix">
+                <div class="span-auto">
+
+                </div>
+                <div id="rate_<{$comment_goods_type.type_id}>" class="star-point-items span-auto">
+                  <div class="b">&nbsp;</div>
+                  <div class="f">&nbsp;</div>
+                </div>
+                <div class="span-auto font11px fontcolorOrange">
+                </div>
+                <input type='hidden' name="point_type[<{$comment_goods_type.type_id}>][point]" />
+                 </div>
+
+               </div>
+        </li>
+        </ul>
+        </td>
+        </tr>
+	          <{/foreach}>
+      <!--/pingfeng when discuzz--> 
+        <{/if}>
+          <tr>
+            <th><{t}><{$comment.pagetitle}>标题：<{/t}></th>
+                <td><div class='title'><{input type="text" class="inputstyle blur"  required="true" size=50 name="title" value="".$goods.name }></div></td>
+            </tr>
+        
+            <tr>
+            <th><em>*</em><{t}><{$comment.pagetitle}>内容：<{/t}></th>
+              <td>
+
+              <{input type="textarea" class="inputstyle" required="true" rows="5" name="comment" style="width:70%;"}></td>
+            </tr>
+
+			   <tr>
+           <th><{t}>联系方式：<{/t}></th>
+                <td><{input type="text" class="inputstyle"   size=20 name="contact"}><span class="infotips"><{t}>(可以是电话、email、qq等)<{/t}></span></td>
+            </tr>
+            <tr>
+            <tr>
+            <{if $askshow == "on"}>
+            <th><em>*</em><{t}>验证码：<{/t}></th>
+              <td><{input type="text" required="true" size="4" maxlength="4" name="askverifyCode"}>&nbsp;<img src="<{link ctl="passport" act="verifyCode" arg0="ask"}>" border="1" id="askimgVerifyCode"/><a href="javascript:changeimg('askimgVerifyCode','ask')"><{t}>&nbsp;看不清楚?换个图片<{/t}></a></td>
+            <{/if}>
+            <{if $discussshow == "on"}>
+             <tr>
+            <th><em>*</em><{t}>验证码：<{/t}></th>
+                <td><{input type="text" required="true" size="4" maxlength="4" name="discussverifyCode"}>&nbsp;<img src="<{link ctl="passport" act="verifyCode" arg0="discuss"}>" border="1" id="discussimgVerifyCode"/><a href="javascript:changeimg('discussimgVerifyCode','discuss')"><{t}>&nbsp;看不清楚?换个图片<{/t}></a>
+                </td>
+            </tr>
+            <{/if}>
+            <td></td>
+              <td><input class="buttonstyle" type="submit" value="提交<{$comment.pagetitle}>"></td>
+            </tr>
+        </table>  
+<{/if}>
+  </div>
+
+
+
+
+</form>
+</div>
+</div>
+	 <script>
+//pinfgen by showker 
+		window.addEvent('domready',function(){
+			$$('.star-point-items').each(function(i){
+					var _c = i.getNext();
+					var _b = i.getElement('.b');
+					var _f = i.getElement('.f');
+					var _ipt = i.getNext('input');
+					var offset=0;
+					var _left=0;
+					var count=5;
+						_ipt.value = 5;
+					i.addEvents({
+							'mousemove':function(e){	
+								 offset = (e.page.x - i.getPosition([document.body]).x);
+								 _left = (offset-i.offsetWidth).limit(0-i.offsetWidth,0);
+								 count  = (5*((i.offsetWidth + _left)/(i.offsetWidth)));
+									if(count<0.3){count  = 0}else{count = Math.ceil(count);}
+								_b.setStyle('left',i.offsetWidth*(count/5) - i.offsetWidth);
+							//	_c.set('text',_ipt.value = count);
+							},
+							mouseenter:function(e){
+								this.fireEvent('mousemove',e);
+							},
+							click:function(e){
+               _c.set('text',_ipt.value = (count==0?5:count));//mod by showker7-15
+							},
+							mouseout:function(e){
+								_b.setStyle('left',i.offsetWidth*(_ipt.value/5) - i.offsetWidth);
+							}
+					});
+					/*fix png*/
+					if(window.ie6){
+						_f.setStyles({
+							'filter':'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=image, src='+_f.getStyle('background-image').match(/url\(([^\)]*)/)[1]+')',
+							'background':'none'
+						});
+					}
+			});
+			
+		});
+	</script>

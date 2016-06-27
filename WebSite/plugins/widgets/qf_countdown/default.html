@@ -1,0 +1,242 @@
+<style type="text/css" id="wid<{$widgets_id}>_style">
+.limitbuy {width:100%;<{if $setting.showcountdowncat=="on"}>margin-bottom:10px;<{/if}>}
+.limitbuy h2,.limitbuy h3{padding:0;margin:0;}
+.limitbuy img {vertical-align: middle;border:0;}
+.limitbuy :focus {outline:none;}
+.buyhide {display:none;}
+.limitbuy a{color:<{$setting.style2.color}>;text-decoration:none;}
+.limitbuy a:hover {color:<{$setting.style2.hcolor}>;text-decoration:underline;}
+.limitbuy .mt,.limitbuy .mt_l,.limitbuy .mt_r {background-image:url("images/qg_bg.png");height:30px;overflow:hidden;}
+.limitbuy .mt,.limitbuy .mc,.limitbuy .mb {overflow:hidden;}
+.limitbuy .mt {background-color:#E6E6E6;background-repeat:repeat-x;background-position:0 -94px;position:relative;_float:left;width:100%;}
+.limitbuy .mt_l,.limitbuy .mt_r {position:absolute;top:0;width:4px;display:block;}
+.limitbuy .mt_l {background-repeat:no-repeat;background-position:0 -64px;left:0px;}
+.limitbuy .mt_r {background-repeat:no-repeat;background-position:-9px -64px;right:0px;}
+.limitbuy .mt h2 {color:<{$setting.style2.fbgcolor}>;float:left;height:30px;line-height:30px;line-height:31px\9;_line-height:32px;font-size:14px;padding-left:10px;overflow:hidden;}
+.limitbuy .mt h3 {float:right;font-size:12px;font-weight:bold;padding:5px 10px 5px;height:20px;line-height:20px;overflow:hidden;color:<{$setting.style2.fcolor}>;font-family:Tahoma;}
+.limitbuy .mt h3 span {padding:0 2px;}
+.limitbuy .mc {<{if $setting.showcountdowncat=="on"}>border:1px solid <{$setting.style2.fbdcolor}>;border-top:0;<{else}>width:100%<{/if}>padding-bottom:6px;_float:left;}
+.limitbuy .countdown_info {padding:0 10px;margin:5px auto;color:<{$setting.style2.fhcolor}>;height:<{math equation="floor(x*y)" x=$setting.max_infoline|default:'2' y=$setting.max_infolineh|default:'18'}>px;line-height:<{$setting.max_infolineh}>px;overflow:hidden;white-space:normal;}
+.limitbuy .countdown_info p {margin:0;}
+.limitbuy .clock {text-align:center;}
+.limitbuy .clock em {font-style:normal;<{if $setting.style2.fhbgcolor}>color:<{$setting.style2.fhbgcolor}>;<{/if}><{if $setting.border}>font-weight:bold;<{/if}><{if $setting.ad_text_size}>font-size:<{$setting.ad_text_size}>px;<{/if}>font-family:Arial;padding:0 2px;}
+.limitbuy .countdown_list {width:100%;}
+.limitbuy .countdown_list .item {<{if ($setting.showcolumn-$setting.column) > 1}>padding:8px 0px;<{/if}>}
+.limitbuy .limit_goods {padding:0 6px;}
+.limitbuy .limit_goods .goodsImg {margin:8px auto;position:relative;overflow:hidden;}
+.limitbuy .limit_goods .goodsImg a{margin:0 auto;}
+.limitbuy .goodsImg {margin:5px 0;}
+.limitbuy .goodsname {text-align:left;height:<{math equation="floor(x*y)" x=$setting.max_gnameline|default:'2' y=$setting.max_gnamelineh|default:'18'}>px;line-height:<{$setting.max_gnamelineh|default:'18'}>px;overflow:hidden;white-space:normal;margin-bottom:5px;}
+.limitbuy .limit_goods p {margin:0;line-height:20px; text-align:left}
+.limitbuy .limit_goods p,.limitbuy .limit_goods p span,.limitbuy .buycount {color:<{$setting.style2.pricecolor}>;}
+.limitbuy .p-price strong {height:20px;font-weight:bold;<{if $setting.style2.price0color}>color:<{$setting.style2.price0color}>;<{/if}><{if $setting.member_font}><{$setting.member_font|styleset}>;<{/if}>}
+.limitbuy .p-mkprice {margin-right:5px;<{if $setting.color1}>color:<{$setting.color1}>;<{/if}><{if $setting.mark_font}><{$setting.mark_font|styleset}>;<{/if}>}
+.limitbuy .countprice {margin-left:5px;}
+.limitbuy .buycount {color:<{$setting.style2.buycountcolor}>}
+.limitbuy .buycount em {font-style:normal;color:<{$setting.style2.buycounthcolor}>;padding:0 2px;}
+.limitbuy .ico {background:url("images/qg_bg.png") no-repeat 61px 0;background-repeat:no-repeat;height:64px;position:absolute;right:0;top:0;width:61px;}
+.limitbuy .pi1 {background-position:0px 0px;}
+.limitbuy .pi2 {background-position:-61px 0px;}
+.limitbuy .pi3 {background-position:-123px 0px;}
+.limitbuy .pi4 {background-position:-186px 0px;}
+.limitbuy .button {margin-top:10px;}
+/*============================方案1==============================================
+.limitbuy .button a.nobuy,.limitbuy .button a.buynow {width:93px;height:27px;display:block;overflow:hidden;background:url("images/btn_buy.gif") no-repeat;text-indent:-9999em;margin:0 auto;}
+.limitbuy .button a.buynow {background-position:0 -155px;}
+.limitbuy .button a.buynow:hover {background-position:0 -127px}
+.limitbuy .button a.nobuy {background-position:0 -183px}
+==============================方案2===============================================*/
+.limitbuy .button a.nobuy,.limitbuy .button a.buynow {width:99px;height:31px;display:block;overflow:hidden;background:url("images/btn_buy.gif") no-repeat;text-indent:-9999em;margin:0 auto;}
+.limitbuy .button a.buynow {background-position:0 0px;}
+.limitbuy .button a.buynow:hover {background-position:0 -32px}
+.limitbuy .button a.nobuy {background-position:0 -96px}
+
+.limitbuy .button .buy-select-list th a{float:right;display:block;width:43px;height:20px;margin-right:2px;_margin-right:1px;background:url("images/btn_buy.gif") no-repeat 0 -220px;text-indent:-9999px;}
+.limitbuy .button .buy-select-list th a.btnbuy {background-position:-43px -220px;}
+</style>
+<script>window.addEvent('domready',function(e){$('wid<{$widgets_id}>_style').inject($E('link'), 'before');})</script>
+<{foreach from=$data item=countdown}>
+<div id="limitbuy_<{$widgets_id}>" class="limitbuy">
+	<{if $setting.showcountdowncat=="on"}>
+		<div class="mt">
+			<h2><{if $setting.showcountdowncat2}><{$setting.showcountdowncat2}><{else}><{$countdown.catinfo.cat}><{/if}></h2>
+			<h3><{t}>本期活动时间：<{/t}><span><{$countdown.catinfo.start_time|userdate}></span>~<span><{$countdown.catinfo.end_time|userdate}></span></h3>
+			<b class="mt_l"></b>
+			<b class="mt_r"></b>
+		</div>
+	<{/if}>
+	<div class="mc">
+		<{if $setting.showcountdowntime=='on'}>
+			<div class="clock" starttime='<{$countdown.catinfo.starttime}>' lefttime='<{$countdown.catinfo.lefttime}>'>剩余<em>00</em>天<em>00</em>小时<em>00</em>分<em>00</em>秒</div>
+		<{/if}>
+		<{if $setting.showcountdowninfo=='on'}><div class="countdown_info"><{$countdown.catinfo.intro}></div><{/if}>
+		<table cellpadding="0" cellspacing="0" border="0" class="countdown_list">
+		<tbody>
+		<tr valign="top">
+				<{foreach from=$countdown.goodslist item=goods_data name=goodslist}>
+					<{if $goods_data.goods_id>0}>					
+						<td product="<{$goods_data.goods_id}>" width="<{math equation=floor(100/x) x=$setting.column}>%;" class='item textcenter'>
+							<div class="limit_goods">
+								<{if $setting.showcountdowntime!='on'}><div class="clock" starttime='<{$goods_data.starttime}>' lefttime='<{$goods_data.lefttime}>' goodsid="<{$goods_data.goods_id}>" leftnum="<{$goods_data.countdown_num-$goods_data.freez}>">剩余<em>00</em>天<em>00</em>小时<em>00</em>分<em>00</em>秒</div><{/if}>
+								<div class="goodsImg">
+									<a target="_blank" href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>" title="<{$goods_data.name}>" style="overflow:hidden;text-align:center;vertical-align:middle;<{if $setting.goodsImgWidth}>width:<{$setting.goodsImgWidth}>px;<{elseif $env.thumbnail_pic_width}>width:<{$env.thumbnail_pic_width}>px;<{/if}><{if $setting.goodsImgHeight}>height:<{$setting.goodsImgHeight}>px;<{elseif $env.thumbnail_pic_height}>height:<{$env.thumbnail_pic_height}>px;<{/if}>;display:block;"><img src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" <{if $setting.restrict=='off'}><{if $setting.goodsImgWidth}>width="<{$setting.goodsImgWidth}>"<{/if}><{if $setting.goodsImgHeight}>height="<{$setting.goodsImgHeight}>"<{/if}><{/if}>></a>
+									<{if $setting.showico=='on'}><div class="ico pi1"></div><{/if}>
+								</div>
+								<{if $setting.showGoodsName =='on'}>
+									<div class="goodsname"><a target="_blank" href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>" title="<{$goods_data.name}>"><{$goods_data.name|cut:$setting.max_length}></a></div>
+								<{/if}>						
+								 <p class="jiage">
+								  <{if $setting.showGoodsMktPrice=="on"}>						 
+									<span class="p-mkprice">
+										<{$setting.mktPriceText|default:'原价'}><{$setting.mktPriceSep|default:'：'}><{$goods_data.mktprice|number_format:2}>
+									</span>
+								  <{/if}>
+								  <{if $setting.priceline && $setting.showGoodsMktPrice=="on"}></p><p><{/if}>					
+								  <span class="p-price"><{$setting.priceText|default:'抢购价'}><{$setting.priceSep|default:'：'}><strong><{$goods_data.countdown_price|number_format:2}></strong></span>
+									<{if $setting.showcountprice =='on'}><span class="countprice"><{assign var="aCount" value=$goods_data.countdown_price/$goods_data.mktprice*100/10.0}><em><{$aCount|number_format:1}></em><br /><{$setting.countText|default:'折'}></span><{/if}>
+								</p>
+								<div class="buycount"><span><{t}>已抢：<em><{$goods_data.freez}></em>件，还剩<{/t}><em><{$goods_data.countdown_num-$goods_data.freez}></em><{t}>件<{/t}></span></div>
+								<{if $setting.showBuyArea == 'on'}>
+									<{if count($goods_data.pdt_desc)>1}>
+									<div class="button buy-select" style="display:none;">
+										<a class="buynow" rel="nofollow" buy="<{$goods_data.goods_id}>" href="javascript:void(0);">加入购物车</a>
+										<div class="buy-select-list note" style="display:none;">
+											<h3><{t}>请选择规格<{/t}></h3>
+											<table width="100%" cellspacing="0" cellpadding="0">
+											<{foreach from=$goods_data.pdt_desc item=title key=product_id}>
+											<{if is_numeric($product_id)}>
+											<tr><td><span><{$title}></span></td><td><span class="fontcolorRed fontbold"><{$goods_data.countdown_price|cur}></span></td>
+											<th><{if $goods_data.pdt_desc.store.$product_id === null || $goods_data.pdt_desc.store.$product_id - intval($goods_data.pdt_desc.freez.$product_id) > 0}>
+											  <a type="g" href="<{link ctl=cart act=addGoodsToCart arg0=$goods_data.goods_id arg1=$product_id}>" buy="<{$goods_data.goods_id}>" product="<{$product_id}>" target="_dialog_minicart" title="加入购物车" rel="nofollow" class=""><{t}>购买<{/t}></a>
+											<{else}>
+											  <a type="g" href="<{link ctl=product act=gnotify arg0=$goods_data.goods_id arg1=$product_id}>" rel="nofollow" class="btnbuy" title="缺货登记"><{t}>缺货<{/t}></a>
+											<{/if}>
+											</th></tr>
+											<{/if}>
+											<{/foreach}>
+										 </table>
+										</div>
+									</div>
+									<{else}>
+									<div class="button" style="display:none;">
+										<a class="buynow" rel="nofollow" title="加入购物车" target="_dialog_minicart" buy="<{$g.goods_id}>" type="g" href="<{link ctl="cart" act="addGoodsToCart" arg0=$goods_data.goods_id}>">加入购物车</a>
+									</div>
+									<{/if}>
+								<{/if}>
+							</div>
+						</td>
+						 <{if !($smarty.foreach.goodslist.iteration % $setting.column)}> 
+							</tr>
+							  <{if !$smarty.foreach.goodslist.last}>
+									<tr valign="top"> 
+							  <{/if}>
+						<{elseif $smarty.foreach.goodslist.last}>
+							<td colspan="<{math equation=y y=$setting.column-$smarty.foreach.goodslist.iteration%$setting.column }>">&nbsp;</td>
+						</tr>
+					  <{/if}>
+					<{/if}>
+				<{/foreach}>
+			</tbody>	
+		</table>
+	</div>
+</div>
+<{/foreach}>
+
+<script type="text/javascript">
+var interv;
+function secondToDateArray(second){
+	var array = new Array();
+	var mi = 60;
+    var hh = mi * 60;
+    var dd = hh * 24;
+
+	var day = Math.floor(second / dd);
+    var hour = Math.floor((second - day * dd) / hh)% 60;
+    var minute = Math.floor((second - day * dd - hour * hh) / mi)% 60;
+    var second = Math.floor(second - day * dd - hour * hh - minute * mi)% 60;
+	
+	array['day']=day;
+	array['hour']=hour;
+	array['minute']=minute;
+	array['second']=second;
+	return array;
+}
+/*type:0-start；1-left*/
+function secondToDateStr(second, type){
+	var arr = secondToDateArray(second);
+	var day = arr['day'];
+    var hour = arr['hour'];
+    var minute = arr['minute'];
+    var second = arr['second'];
+
+	var strDay = day < 10 ? "0" + day : "" + day;
+    var strHour = hour < 10 ? "0" + hour : "" + hour;
+    var strMinute = minute < 10 ? "0" + minute : "" + minute;
+    var strSecond = second < 10 ? "0" + second : "" + second;
+
+	var str = "";
+	if(day>0){
+		str += "<em>" + strDay + "</em>天";
+	}
+	str += "<em>" + strHour + "</em>小时";
+	str += "<em>" + strMinute + "</em>分";
+	str += "<em>" + strSecond + "</em>秒";
+	
+	if(type==0){
+		str += "后开始";
+	}else{
+		str = "剩余" + str;
+	}
+	return str;
+}
+
+function start(){
+	$ES(".clock").each(function(el){
+		var startTime = el.get('starttime');
+		var leftTime = el.get('lefttime');
+		var leftNum = el.get('leftnum');
+		
+		if(startTime>0){
+			startTime--;
+			el.set('starttime', startTime);
+			if(startTime<=0){
+				startTime=0;
+				el.getParent().getElements('.button').show();
+				el.getParent().getElements(".ico").addClass('pi2');
+			}else{
+				
+				var str = secondToDateStr(startTime, 0);
+				el.set("html", str);
+				el.getParent().getElements(".ico").addClass('pi1');
+				/*el.getParent().getElement('.button a').addClass('nobuy');没开始*/
+				el.getParent().getElements('.button').hide();
+			}
+		}else{
+			leftTime--;
+			if(leftTime<=0){
+				leftTime=0;
+				el.set('html', '<em>抢购已结束！</em>');
+				/*el.getParent().getElement('.button a').addClass('nobuy');*/
+				el.getParent().getElements('.button').hide();
+				el.getParent().getElements(".ico").addClass('pi3');
+			}else{
+				el.getParent().getElements('.button').show();
+				el.set('lefttime', leftTime);
+				var str = secondToDateStr(leftTime, 1);
+				el.set("html", str);
+				el.getParent().getElements(".ico").addClass('pi2');
+			}
+		}
+
+		if(leftNum<=0){
+			el.getParent().getElements(".ico").addClass('pi4');
+			el.getParent().getElements('.button').hide();
+		}
+	});
+}
+
+window.addEvent("domready", function(){
+	interv = setInterval(start, 1000); 
+	$$(".limitbuy .buy-select").each(function(a){new QMenu(a,$E(".buy-select-list",a))})
+});
+</script>

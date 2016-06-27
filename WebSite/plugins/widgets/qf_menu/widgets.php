@@ -1,0 +1,17 @@
+<?php
+$setting['version']='laocao';
+$setting['name']='★高亮导航菜单';
+$setting['stime']='2008-8-8';
+$setting['vary']='*';
+//,product,goods:act,
+//$setting['scope']=array('');
+$setting['catalog']='<b>清风设计模板专用</b>';
+
+$setting['usual']    = '0';
+
+$setting['description']    = '本挂件可以自动高亮当前页面对应的导航菜单,Shope模板和插(挂)件开发，请联系清风设计，专业级的服务，助力网商走得更远。联系9516097 5748811,网址：<a href="http://www.hnqss.com" target="_blank">http://www.hnqss.com/</a>';
+
+$setting['template'] = array(
+       'default.html'=>'默认'
+   );
+?>

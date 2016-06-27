@@ -1,0 +1,26 @@
+<div style="position:relative;overflow:hidden;<{$setting.css.body}>background-image:none;">
+<div style="position:absolute;z-index:1;top:0;<{if $setting.type==2}>right:0;<{else}>left:0;<{/if}>background:url(<{$setting.css.bgimg}>) no-repeat center;overflow:hidden;<{$setting.css.imgout}>"></div>
+<{if $setting.duceflash}>
+<div style="position:absolute;z-index:99;<{$setting.css.btn}>overflow:hidden;">
+<{foreach from=$setting.duceflash item=data key=key}>
+  <{if $data.pic}>
+    <li style="float:left;cursor:pointer;<{$setting.css.li}>width:<{if $key==0}><{$setting.bt.w2}>px;<{$setting.css.licurr}><{else}><{$setting.bt.w1}>px;<{if $setting.bt.mar}>margin-<{$setting.bt.mar}>px;<{/if}><{/if}>"></li>
+  <{/if}>
+<{/foreach}>
+<ul style="position:absolute;top:0;left:0;">
+<{assign var="position" value=0}>
+<{counter start=0 assign="pos" print=false }>
+<{foreach from=$setting.duceflash item=data key=key}>
+  <{if $data.pic}>
+    <a style="float:left;text-align:center;cursor:pointer;<{$setting.css.a}>width:<{if $key==0}><{$setting.bt.w2}>px;<{$setting.css.acurr}><{else}><{$setting.bt.w1}>px;<{if $setting.bt.mar}>margin-<{$setting.bt.mar}>px;<{/if}><{/if}><{if $setting.bt.pos}>background-position:0 -<{math equation="x * y" assign="position" x=$pos y=$setting.bt.pos}>px<{/if}>">
+	<{if $data.alt and $setting.type!=1}>
+		<em style="<{$setting.css.aem}>"><{$data.alt}></em>
+	<{/if}>
+	</a>
+	<{counter assign="pos" print=false }>
+  <{/if}>
+<{/foreach}>
+</ul>
+</div>
+<{/if}>
+</div>

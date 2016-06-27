@@ -1,0 +1,29 @@
+<link rel='stylesheet' href='/jm/tuangou_more_history/tuan.css' />
+<div id="content" class="homepage clearfix">
+	<div class="mainbox ju-past">
+		<h2>往期团购:</h2>
+		<ul class="clearfix">
+    		<{foreach from=$tuan item=item key=key}>
+    		<li>
+             <a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>'><h3><{$item.name}></h3></a>
+                <div class="pic">
+                	 <a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>'><img src="<{$item.big_pic|storager}>" /></a>
+                </div>
+                <div class="detail">
+                    <p>团购价: <strong><b>￥</b><{$item.price}></strong></p>
+                    <p>原价: <del><{$item.mktprice}></del></p>
+                    <p>购买数量: <{$item.tuannow}></p>
+                    <p> 
+                        <a class="j-sub" target="_blank" href="/">逛逛店铺>></a>
+                    </p>
+                    <p>
+                        <a class="j-sub buy" target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>'>原价购买>></a>
+                    </p>
+ 
+                </div>
+            </li>
+            <{/foreach}>
+    	</ul>
+    	<{pager data=$pager}>
+	</div>
+</div>

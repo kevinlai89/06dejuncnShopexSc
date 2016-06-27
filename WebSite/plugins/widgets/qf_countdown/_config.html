@@ -1,0 +1,285 @@
+<style>
+i {font-size:12px;color:#ff9900;font-style:normal;margin-left:10px;}
+</style>
+
+<div class="tableform widgetconfig">
+  <div class="division">
+  	 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td colspan="2" style="background:#E2E8EB;width:100%;"><h4>抢购活动相关设置</h4></td>
+		</tr>   
+		<tr>
+        <th>选择的抢购活动：</th>
+        <td>
+			<select name="countdowncat">
+				<{foreach from=$data.cats item=cat key=key}>
+					<option value="<{$cat.cat_id}>" <{if $setting.countdowncat==$cat.cat_id}>selected<{/if}>><{$cat.cat}></option>
+				<{/foreach}>
+			</select>
+			<i>提示：如果后台建有多期抢购活动，请手动选择调用的抢购活动期数</i>
+		</td>
+      </tr>  
+	  <tr>
+	  	<th>前台是否显示活动名称?</th>
+	  	<td>
+			<input type="radio" name="showcountdowncat" value="on" <{if $setting.showcountdowncat=="on"}>checked="checked"<{/if}>> 显示 
+			<input type="radio" name="showcountdowncat" value="off" <{if $setting.showcountdowncat!="on"}>checked="checked"<{/if}>> 不显示
+			<i>提示：在专题页中调用时，建议显示；单品调用时，建议不显示。</i>
+		</td>
+	</tr>
+	<tr>
+		<th>活动名称重命名</th>
+		<td><input name="showcountdowncat2" class="input_style" style="width:300px;" value="<{$setting.showcountdowncat2|default:''}>"><i>提示：给活动起一个醒目的标题</i></td>
+	  </tr>
+	  <tr>
+	  	<th>前台显示活动简介?</th>
+		<td>
+			<input type="radio" name="showcountdowninfo" value="on" <{if $setting.showcountdowninfo!="off"}>checked="checked"<{/if}>> 显示
+			<input type="radio" name="showcountdowninfo" value="off" <{if $setting.showcountdowninfo=="off"}>checked="checked"<{/if}>> 不显示
+		</td>
+	</tr>
+	<tr>
+		<th>简介限制</th>
+		<td>
+			最多显示：<{input name="max_infoline" style="width:80px" value=$setting.max_infoline|default:'2'}> 行&nbsp;&nbsp;&nbsp;&nbsp;每行行距： <{input name="max_infolineh" style="width:80px" value=$setting.max_infolineh|default:'18'}> px; <br />	
+			<i>提示：如果简介内容有多行时，请注意修改行数。</i>
+		</td>
+	  </tr>
+	   <tr>
+	  	<th>倒计时显示为</th>
+		<td><input type="radio" name="showcountdowntime" value="on" <{if $setting.showcountdowntime=="on"}>checked="checked"<{/if}>> 活动倒计时 <input type="radio" name="showcountdowntime" value="off" <{if $setting.showcountdowntime!="on"}>checked="checked"<{/if}>> 单品倒计时</td>
+	  </tr>
+	 </table>
+	 </div>
+	 
+	 <div class="division">
+	 <table width="100%" border="0" cellspacing="0" cellpadding="0">	
+	  <tr>
+	  	 <td colspan="4" style="background:#E2E8EB;width:100%;"><h4>抢购商品相关设置</h4></td>
+	  </tr>
+	   <tr>
+        <th width="20%">未到抢购时间的商品</th>
+        <td width="30%">
+			<input type="radio" name="shownotstart" value="on" <{if $setting.shownotstart=="on"}>checked="checked"<{/if}>> 显示
+			<input type="radio" name="shownotstart" value="off" <{if $setting.shownotstart=="off"}>checked="checked"<{/if}>> 不显示
+		</td>
+        <th width="20%">已过抢购时间的商品</th>
+        <td width="30%">
+			<input type="radio" name="showovertime" value="on" <{if $setting.showovertime=="on"}>checked="checked"<{/if}>> 显示
+			<input type="radio" name="showovertime" value="off" <{if $setting.showovertime=="off"}>checked="checked"<{/if}>> 不显示
+		</td>
+      </tr>
+	  <tr>
+	 	<th width="20%">是否显示抢购状态?</th>
+		<td width="30%"><input type="radio" name="showico" value="on" <{if $setting.showico!="off"}>checked="checked"<{/if}>> 是 <input type="radio" name="showico" value="off" <{if $setting.showico=="off"}>checked="checked"<{/if}>> 否</td>
+		<th width="20%">&nbsp;</th>
+		<td width="30%">&nbsp;</td>
+	  </tr>
+      <tr>
+        <th width="20%">显示商品数：</th>
+        <td width="30%"><{input name="showcolumn" value=$setting.showcolumn|default:'3' required="true" type="digits"}></td>
+        <th width="20%">商品列数：</th>
+        <td width="30%"><{input name="column" value=$setting.column|default:'3' required="true" type="digits"}> </td>
+	  </tr>
+	  </table>
+	 </div>
+	  
+	  <div class="division">
+	 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th width="20%">是否显示商品名称?</th>
+        <td width="30%">
+			<input type="radio" name="showGoodsName" value="on" <{if $setting.showGoodsName!="off"}>checked="checked"<{/if}>>是&nbsp; 
+			<input type="radio" name="showGoodsName" value="off" <{if $setting.showGoodsName=="off"}>checked="checked"<{/if}>>否
+		</td>
+		 <th width="20%">商品名长度限制</th>
+        <td width="30%"><{input name="max_length" value=$setting.max_length|default:'80'}></td>
+	 </tr>
+	 <tr>
+	 	<th width="20%">商品名称限制</th>
+		<td width="80%" colspan="3">最多显示：<{input name="max_gnameline" style="width:80px" value=$setting.max_gnameline|default:'2'}> 行&nbsp;&nbsp;&nbsp;&nbsp;每行行距： <{input name="max_gnamelineh" style="width:80px" value=$setting.max_gnamelineh|default:'18'}> px;<br />
+		</td>
+      </tr>
+      <tr>
+        <th width="20%">商品图片尺寸：</th>
+        <td width="80%" colspan="3">宽：<{input name="goodsImgWidth" value=$setting.goodsImgWidth|default:'120' type="digits"}> px 
+			高：<{input name="goodsImgHeight" value=$setting.goodsImgHeight|default:'160' type="digits"}> px
+		</td>
+      </tr>
+      <tr>
+        <th width="20%">图片设定：</th>
+        <td colspan="3" width="80%">
+			<input type="radio" name="restrict" value="off" <{if $setting.restrict=="off"}>checked="checked"<{/if}>>&nbsp;强制大小&nbsp;
+			<input type="radio" name="restrict" value="on" <{if $setting.restrict!="off"}>checked="checked"<{/if}>>&nbsp;超出截断&nbsp;
+		</td>
+      </tr>
+	  </table>
+	 </div>
+	 
+	 <div class="division">
+	 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+	      <th width="20%">是否显示原价?</th>
+    	  <td width="80%" colspan="3">
+		    <input type="radio" name="showGoodsMktPrice" value="on" <{if $setting.showGoodsMktPrice!="off"}>checked="checked"<{/if}>> 是
+			<input type="radio" name="showGoodsMktPrice" value="off" <{if $setting.showGoodsMktPrice=="off"}>checked="checked"<{/if}>> 否
+		  </td>
+	  </tr>
+	  <tr id="showGoodsMktPrice-view" <{if $setting.showGoodsMktPrice=='off'}>style="display:none"<{/if}>>
+	  	<td colspan="4" style="background:#eee;width:100%;padding:5px 0;">
+			<table cellspacing="0" border="0" cellpadding="0">
+			 <!--tr>
+				<th width="20%">原价对应价格中的</th>
+				<td width="80%" colspan="3">
+					市场价 <input type="radio" name="userMkPrice" value="on" <{if $setting.userMkPrice!="off"}>checked="checked"<{/if}>>  
+					销售价 <input type="radio" name="userMkPrice" value="off" <{if $setting.userMkPrice=="off"}>checked="checked"<{/if}>> 
+				</td>
+			</tr-->
+			<tr>
+			  	<th width="20%">样式设置</th>
+			    <td width="30%">
+					<input name="mktPriceText" class="input_style" value="<{$setting.mktPriceText|default:'原价'}>" style="width:75px;">&nbsp;
+					<input name="mktPriceSep" class="input_style" value="<{$setting.mktPriceSep|default:':'}>" style="width:75px;">
+				</td>
+				<th width="20%">字体设置：</th>
+				<td width="30%"><{input name="mark_font" type="fontset" value=$setting.mark_font|default:''}>
+				</td>
+			</tr>
+			</table>
+			</td>
+		</tr>
+    	 <tr>
+	      <th width="20%">是否显示销售价?</th>
+    	  <td width="80%" colspan="3">
+		    <input type="radio" name="showGoodsPrice" value="on" <{if $setting.showGoodsPrice!="off"}>checked="checked"<{/if}>> 是&nbsp;
+			<input type="radio" name="showGoodsPrice" value="off" <{if $setting.showGoodsPrice=="off"}>checked="checked"<{/if}>> 否 
+		  </td>
+	  </tr>
+	  <tr id="showGoodsPrice-view" <{if $setting.showGoodsPrice=="off"}>style="display:none"<{/if}>>
+	  	<td colspan="4" style="background:#eee;width:100%;padding:5px 0;">
+			 <table width="100%" cellspacing="0" cellpadding="0">
+			 	<tr>
+					<th width="20%">样式设置</th>
+					<td width="30%">
+						<input name="priceText" class="input_style" value="<{$setting.priceText|default:'抢购价'}>" style="width:75px;">&nbsp;
+						<input name="priceSep" class="input_style" value="<{$setting.priceSep|default:':'}>" style="width:75px;">
+					</td>
+					<th width="20%">字体设置：</th>
+					<td width="30%"><{input name="member_font" type="fontset" value=$setting.member_font|default:'0'}></td>
+				</tr>
+				<tr>
+					<th width="20%">原价和抢购价换行</th>
+					<td width="80%" colspan="3"><input type="checkbox" name="priceline" <{if $setting.priceline}>checked<{/if}>> <font color="#FF9900">默认为否，点选（打勾）为是,同时选择了原价和抢购价时生效。</font></td>
+			</tr>
+			</table>
+		</td>
+	 </tr>
+	 <tr>
+  		<th width="20%">是否显示折扣?</th>
+		<td width="30%">
+			<input type="radio" name="showcountprice" value="on" <{if $setting.showcountprice!="off"}>checked="checked"<{/if}>> 是 
+			<input type="radio" name="showcountprice" value="off" <{if $setting.showcountprice=="off"}>checked="checked"<{/if}>> 否
+		</td>
+		<th width="20%">折扣样式设置</th>
+		<td width="30%"><input name="countText" class="input_style" value="<{$setting.countText|default:'折'}>"></td>
+	</tr>
+	<tr>
+        <th width="20%">显示抢购按钮：</th>
+        <td width="30%">
+			<input type="radio" name="showBuyArea" value="on" <{if $setting.showBuyArea!="off"}>checked="checked"<{/if}>> 是 
+			<input type="radio" name="showBuyArea" value="off" <{if $setting.showBuyArea=="off"}>checked="checked"<{/if}>> 否</td>
+		<th width="20%">&nbsp;</th>
+        <td width="30%">&nbsp;</td>
+	 <tr>
+    </table>
+  </div>
+</div>
+
+<div id="cat-corlor" class="tableform widgetconfig">
+  <div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th colspan="4" style="text-align:left;background:#E2E8EB;color:#669">&nbsp;<strong>字体颜色控制</strong></th>
+      </tr>
+      <tr>
+        <th width="20%">普通字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[color]" value=$setting.style2.color|default:'#666'}></td>
+        <th width="20%">高亮字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[hcolor]" value=$setting.style2.hcolor|default:'#CC0000'}></td>
+      </tr>
+      <tr>
+        <th width="20%">活动标题色：</th>
+        <td width="30%"><{input type="color" name="style2[fbgcolor]" value=$setting.style2.fbgcolor|default:'#CC0000'}></td>
+        <th width="20%">活动起始时间色：</th>
+        <td width="30%"><{input type="color" name="style2[fcolor]" value=$setting.style2.fcolor|default:'#666'}></td>
+      </tr>
+      <tr>
+        <th width="20%">活动简介颜色：</th>
+        <td width="30%"><{input type="color" name="style2[fhcolor]" value=$setting.style2.fhcolor|default:'#333'}></td>
+		<th width="20%">菜单边框色：</th>
+        <td width="30%"><{input type="color" name="style2[fbdcolor]" value=$setting.style2.fbdcolor|default:'#E6E6E6'}></td>
+      </tr>
+	 </table>
+	 </div>
+	
+	 <div class="division">
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
+		  <tr>
+			<th width="20%">价格区基本色：</th>
+			<td width="30%"><{input type="color" name="style2[pricecolor]" value=$setting.style2.pricecolor|default:'#666'}></td>
+			<th width="20%">抢购价颜色</th>
+			<td width="30%"><{input type="color" name="style2[price0color]" value=$setting.style2.price0color|default:'#FF6600'}></td>
+		  </tr>
+		  <tr>
+			<th width="20%">销售区基本色：</th>
+			<td width="30%"><{input type="color" name="style2[buycountcolor]" value=$setting.style2.buycountcolor|default:'#666'}></td>
+			<th width="20%">销售区高亮色</th>
+			<td width="30%"><{input type="color" name="style2[buycounthcolor]" value=$setting.style2.buycounthcolor|default:'#FF0000'}></td>
+		  </tr>	  
+		 </table>
+	</div>
+	
+	<div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	   <tr>
+        <th colspan="4" style="text-align:left;background:#E2E8EB;color:#669">&nbsp;<strong>倒计时样式控制</strong></th>
+      </tr>
+      <tr>
+        <th width="20%">倒计时数字颜色：</th>
+        <td width="30%"><{input type="color" name="style2[fhbgcolor]" value=$setting.style2.fhbgcolor|default:'#CC0000'}></td>
+		<th width="20%">是否加粗?</th>
+	  	<td width="30%"><input type="checkbox" name="border" <{if $setting.border}>checked<{/if}>></td>
+      </tr>
+	  <tr>
+		 <th width="20%">文字尺寸：</th>
+		 <td width="30%">
+			<select name="ad_text_size">
+				<{foreach from=$data.fontsize item=data key=key}>
+					<option value='<{$data}>' <{if $data==$setting.ad_text_size}>selected<{elseif $data==14 && !$setting.ad_text_size}>selected<{/if}>><{$data}></option>
+				<{/foreach}>
+			</select>
+		</td>
+		<th width="20%">&nbsp;</th>
+	  	<td width="30%">&nbsp;</td>
+    </tr>
+    </table>
+  </div>
+</div>
+
+<script>
+function setToggler(togglers){
+  togglers.each(function(toggler){
+    var view = toggler.getProperty('name')+'-view';
+    toggler.addEvent('click',function(){
+      if(this.value=="on"){
+        $(view).show();
+      }else{
+        $(view).hide();
+      }
+    });
+  });
+}
+
+var togglers = $$('input[name="showGoodsMktPrice"]','input[name="showGoodsPrice"]');
+setToggler(togglers);
+</script>

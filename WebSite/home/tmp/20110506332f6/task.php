@@ -1,0 +1,1 @@
+a:2:{s:13:"download_list";a:1:{i:0;s:47:"http://app.shopex.cn/appdatas/i/openid_sina.tar";}s:8:"succ_url";s:91:"http://shop318220.p19.shopex.cn/shopadmin/index.php?ctl=system/appmgr&act=do_install_online";}

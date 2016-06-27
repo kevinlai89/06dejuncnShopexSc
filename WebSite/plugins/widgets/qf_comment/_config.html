@@ -1,0 +1,35 @@
+<div id="cat-config" style="display:none;"></div>
+	<div class="tableform widgetconfig">
+	  <div class="division">
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="showChange">
+	  <tr>
+	  	  <th width="20%">显示被评论商品图片： </th>
+	  	  <td width="30%"><input type="checkbox" name="showgoodspic" <{if $setting.showgoodspic}>checked<{/if}>></td>
+		  <th width="20%">显示被评论商品名称： </th>
+		  <td width="30%"><input type="checkbox" name="showgoodsname" <{if $setting.showgoodsname}>checked<{/if}>></td>
+	  </tr>
+	  <tr>
+	   <th width="20%">显示留言用户 </th>
+		<td width="30%"><input type="checkbox" name="showmember" <{if $setting.showmember}>checked<{/if}>></td>
+		<th width="20%">显示留言时间</th>
+		<td width="30%" ><input type="checkbox" name="showtime" <{if $setting.showtime}>checked<{/if}>></td>
+	  </tr>
+	  
+	  <tr>
+	  	<th width="20%">调用评论数量</th>
+		<td width="30%">显示评论:<{input type="digitals" name="limit" value=$setting.limit|default:8 style="width:20px"}>&nbsp;条	</td>	
+		<th width="20%">评论内容长度：</th>
+		<td width="30%"><{input type="digitals" name="content_length" value=$setting.content_length|default:'200' style="width:50px"}></td>
+	  </tr>
+	  <tr>
+	  	<tr>		
+		 <th width="20%">商品缩略图大小</th>
+		 <td width="30%">宽<{input type="digitals" name="goodsImgWidth" value=$setting.goodsImgWidth|default:'80' style="width:50px"}> px &nbsp;&nbsp;
+		 	 高<{input type="digitals" name="goodsImgHeight" value=$setting.goodsImgHeight|default:'80' style="width:50px"}> px
+		 </td>
+		<th width="20%">商品名称长度：</th>
+		<td width="30%"><{input type="digitals" name="gdtitle_length" value=$setting.gdtitle_length|default:'52' style="width:50px"}></td>
+	  </tr>
+	  </table>
+	</div>
+</div>

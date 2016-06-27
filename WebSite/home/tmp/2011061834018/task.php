@@ -1,0 +1,1 @@
+a:2:{s:13:"download_list";a:1:{i:0;s:68:"http://addons.shopex.cn/templates/uploads/soft/201005/1_24173037.tgz";}s:8:"succ_url";s:78:"http://www.ec-sourcing.com/shopadmin/index.php?ctl=system/template&act=install";}

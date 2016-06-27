@@ -1,0 +1,96 @@
+﻿<div class="tableform">
+    <div class="division widgetconfig">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="4" style="font-weight:bold;text-align:center;background:#EEE;color:#000"><{t}>基本参数设定：<{/t}></td>
+      </tr>
+      <tr>
+        <th width="20%">滚动方向:</th>
+        <td width="80%" colspan="3">
+        	<select name="direction">
+            	<option value="0" <{if $setting.direction=='0'}>selected="selected"<{/if}>>--左右--</option>
+                <option value="1" <{if $setting.direction=='1'}>selected="selected"<{/if}>>--上下--</option>
+                <option value="2" <{if $setting.direction=='2'}>selected="selected"<{/if}>>--渐变--</option>
+            </select>
+         </td>
+        </tr>
+      <tr>
+        <th width="20%">效果过渡时间:</th>
+        <td width="30%"><input name="duration" type="text" value="<{$setting.duration|default:500}>" style="width:60px" />(1秒=1000)</td>
+        <th width="20%">图片切换周期:</th>
+        <td width="30%"><input name="periodical" type="text" value="<{$setting.periodical|default:5000}>"style="width:60px" />(1秒=1000)</td>
+      </tr>
+      <tr>
+         <th>是否显示数字按钮</th>
+         <td><input type="radio" name="shownum" value="on" <{if $setting.shownum=="on"}>checked="checked"<{/if}>>是&nbsp;<input type="radio" name="shownum" value="off" <{if $setting.shownum!="on"}>checked="checked"<{/if}>>否</td>
+         <th>显示位置</th>
+         <td>
+         	<select name="numside">
+            	<option value="0"<{if $setting.numside=='0'}> selected="selected"<{/if}>>--上中--</option>
+                <option value="1"<{if $setting.numside=='1'}> selected="selected"<{/if}>>--下中--</option>
+                <option value="2"<{if $setting.numside=='2'}> selected="selected"<{/if}>>--下左--</option>
+                <option value="3"<{if $setting.numside=='3'}> selected="selected"<{/if}>>--下右--</option>
+            </select>
+        </td>
+      </tr>
+       <tr>
+        <td colspan="4" style="font-weight:bold;"><{t}>图片设定：<{/t}></td>
+      </tr>
+      <tr>
+        <th width="20%">设置轮播区宽度:</th>
+        <td width="30%"><input name="width" type="text" value="<{$setting.width|default:970}>" style="width:60px" />(px)</td>
+        <th width="20%">设置轮播区高度:</th>
+        <td width="30%"><input name="height" type="text" value="<{$setting.height|default:400}>"style="width:60px" />(px)</td>
+      </tr>
+    </table>
+    </div>
+    <div class="clearfix"><span class="sysiconBtn addorder" id="addFocus" style="float:right;">添加图片</span></div>
+    <div class="division" id="focus">
+      <{foreach from=$setting.focus item=data key=key}>
+        <div id="focus_<{$data.i}>" class="configad" style="margin-top:5px;">
+         <input type=hidden name=focus[<{$data.i}>][i] value="<{$data.i}>" />
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+            	<th style="width:19%">图片地址:</th>
+                <td colspan="3" width="width:79%"><input type="text" style="width:360px" name="focus[<{$data.i}>][imgurl]" id="focus[<{$data.i}>][imgurl]" value="<{$data.imgurl}>" /><input type=button value="上传图片" onClick="addPic($('focus[<{$data.i}>][imgurl]'))" /></td>
+                <td style="width:30px;"><span onclick="delLink(this);"><{img src="images/bundle/delecate.gif" style="cursor:pointer;" alt="删除" title="删除"}></span></td>
+            </tr>
+            <tr>
+                <th style="width:19%">链接:</th>
+                <td style="width:30%"><input type="text" style="width:200px" name="focus[<{$data.i}>][tolink]" value="<{$data.tolink}>" /></td>
+                <th style="width:19%">标题:</th>
+                <td style="width:30%"><input type="text" style="width:200px" name="focus[<{$data.i}>][title]" value="<{$data.title}>" /></td>
+                <td style="width:30px;">&nbsp;</td>   
+             </tr>
+          </table>
+        </div>
+        <{/foreach}> 
+    </div>
+</div>
+
+<script>
+$('addFocus').addEvent('click',function(){
+  var d=new Date();
+  var i=d.getTime();
+  $('focus').adopt(new Element('div').set('html','\
+   <div class="configad" style="margin-top:5px;">\
+       <table cellpadding="0" cellspacing="0" width="100%">\
+         <tr><th style="width:30px">图片地址:</th><td colspan="3" width="width:79%"><input type="text" style="width:360px" name=focus['+i+'][imgurl] id="focus['+i+'][imgurl]"><input type=button value="上传图片" onClick=addPic($(\'focus['+i+'][imgurl]\'))></td><td style="width:20px"><span onclick="delLink(this);"><{img src="images/bundle/delecate.gif" style="cursor:pointer;" alt="删除" title="删除"}></span></td></tr>\
+		 <tr><th style="width:19%">链接:</th><td style="width:30%"><input type="text" style="width:200px" name=focus['+i+'][tolink]></td><th style="width:19%">广告标题：</th><td style="width:30%"><input type="text" style="width:200px" name=focus['+i+'][title]></td></tr>\
+	  </table>\
+      <input type="hidden" name=focus['+i+'][i] value="'+i+'">\
+    </div>\
+  ').getFirst());
+});
+
+function addPic(target){
+	return new Dialog('index.php?ctl=editor&act=image&p[0]=0',{title:'插入<img>',onShow:function(){
+	var dialog=this;
+	this.dialog.store('callback',function(src){
+		target.value=src;
+		dialog.close();
+		});
+	}});
+};
+delLink=function(o){$(o).getParent('.configad').remove();}
+</script>

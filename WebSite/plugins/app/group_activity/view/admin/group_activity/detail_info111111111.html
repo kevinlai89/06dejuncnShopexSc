@@ -1,0 +1,77 @@
+<div class="division">
+<!--未开始 start-->
+<{if $actInfo.state == 1}>
+<{button  label="编辑"}><{button  label="开启"}><{button  label="删除"}>
+<!--未开始 end-->
+<!--进行中 start-->
+<{elseif $actInfo.state == 2}>
+<{button  label="编辑"}><{button  label="关闭"}><{button  label="删除"}>
+<!--进行中 end-->
+<!--已结束（成功）start-->
+<{elseif $actInfo.state == 3}>
+<{button  label="编辑"}><{button  label="删除"}>
+<!--已结束（成功） end-->
+<!--已结束，待处理 start-->
+<{elseif $actInfo.state == 4}>
+<{button  label="编辑"}><{button  label="失败"}><{button  label="成功"}><{button  label="删除"}>
+<!--已结束，待处理 end-->
+<!--已结束（失败）start-->
+<{elseif $actInfo.state == 5}>
+<{button  label="编辑"}><{button  label="删除"}>
+<{else}><{/if}>
+<!--已结束（失败）end-->
+	<div class="tableform">
+	<table width="100%" border="0" cellspacing="10" cellpadding="0">
+		<tr>
+			<td>
+			<table width="100%" border="0" cellspacing="10" cellpadding="0" class="gridlist">
+			
+			<thead>
+				<tr>
+					<th><{t}>商品名称<{/t}></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+			</td>
+			<td>
+			<table width="100%" border="0" cellspacing="10" cellpadding="0" class="gridlist">
+			<col class="Coldate"></col>
+			<thead>
+				<tr>
+					<th><{t}>商品名称<{/t}></th>
+					<th><{t}>活动状态<{/t}></th>
+					<th><{t}>已预定商品数<{/t}></th>
+					<th><{t}>订单数<{/t}></th>
+					<th><{t}>限购数量<{/t}></th>
+					<th><{t}>开始时间<{/t}></th>
+					<th><{t}>结束时间<{/t}></th>
+					<th><{t}>保证金<{/t}></th>
+					<th><{t}>赠送积分<{/t}></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<table width="100%" border="0" cellspacing="10" cellpadding="0" class="gridlist">
+			
+			<thead>
+			<tr>
+				<th><{t}>优惠价格阶梯<{/t}></th>
+				<th><{t}>邮费优惠<{/t}></th>
+				<th><{t}>活动说明<{/t}></th>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+			</td>
+		</tr>
+	</table>
+	</div>
+</div>

@@ -1,0 +1,101 @@
+<form class="addcomment" method="post" action='<{link ctl="product" act="toGreq" arg0=$goods.goods_id}>'>
+  <input type="hidden" name="goods_id" value="<{$goods.goods_id}>" />
+  <input type="hidden" name="member_id" value="<{$member_data.member_id}>" />
+  <input type="hidden" name="url_referer" value="<{$url_referer}>" />
+  <div class="division" style="border:0px;">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0" class="forform">
+          <tr>           
+            <th><{t}>联系人：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="contact" required="true" style="width:300px;"  value=$member_data.name}>
+                  &nbsp;<span style="color:#F00;">*</span>
+                </td>
+          </tr>
+
+          <tr>
+           <th><{t}>公司名称：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="company" required="true" style="width:300px;"}>
+                  &nbsp;<span style="color:#F00;">*</span>
+                </td>
+            </tr>
+
+            <tr>
+           <th><{t}>联系地址：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="addr" required="true" style="width:300px;"}>
+                  &nbsp;<span style="color:#F00;">*</span>
+                </td>
+            </tr>
+<!--
+            <tr>
+           <th><{t}>邮编：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="zip" style="width:300px;"  value=$member_data.zip}>                  
+                </td>
+            </tr>
+-->
+            <tr>
+           <th><{t}>电话：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="tel" required="true" style="width:300px;"  value=$member_data.tel}>
+                  &nbsp;<span style="color:#F00;">*</span>
+                </td>
+            </tr>
+
+            <th><{t}>传真：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="fax" style="width:300px;"}>                
+                </td>
+            </tr>
+
+            <th><{t}>电子邮件：<{/t}></th>
+                <td>
+                  <{input type="text" class="inputstyle"  name="email" style="width:300px;" value=$member_data.email}>                  
+                </td>
+            </tr>
+
+            <{foreach from=$qtn_template.cus_items key=key item=item}>
+            <th><{t}><{$item.name}>：<{/t}></th>
+                <td>                  
+                  <{if $item.required}>
+                    <{input type="text" class="inputstyle"  name="cusitems[{$key}]" required="true" style="width:300px;"}>
+                    &nbsp;<span style="color:#F00;">*</span>
+                  <{else}>
+                    <{input type="text" class="inputstyle"  name="cusitems[{$key}]" style="width:300px;"}>
+                  <{/if}>
+                </td>
+            </tr>
+            <{/foreach}>
+
+            <th><{t}>备注：<{/t}></th>
+                <td>
+                  <{input type="textarea" class="inputstyle"  name="memo" style="width:300px;"}>                  
+                </td>
+            </tr>
+            
+
+            <tr>
+              <td colspan="2" align="center">
+                <hr size=1 style="color:#ccc;width:80%;" />
+              </td>
+            </tr>
+            
+            <tr>
+            <td></td>
+              <td>
+                <div style="margin-left:80px;">
+                <input type="submit" value=" 提交 ">&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="reset" value=" 重填 " >
+                </div>
+              </td>
+            </tr>
+        </table>
+  </div>
+</form>
+
+<script>
+function go_req(){
+  location.href='<{link ctl=passport act=signup}>';
+}
+</script>

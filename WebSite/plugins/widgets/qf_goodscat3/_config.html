@@ -1,0 +1,467 @@
+<style>
+#cat-showType li {
+	margin-right:5px;
+	list-style:none;
+	cursor:pointer;
+}
+#cat-showType li input {
+	vertical-align:middle;
+	border:none;
+}
+#cat-showType li.checked {
+	color:#690;
+}
+#cat-showType .text {
+	width:80px;
+}
+.topcat{
+	color:#ff0000;
+	font-weight:bold;
+}
+.subCat{
+	font-weight:bold;
+}
+.info{
+	color:#009900;
+}
+</style>
+
+<div id="cat-config" style="display:none;">
+  <div id="cat-default" class="tableform widgetconfig">
+    <div class="division">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="20%">循环深度：</th>
+          <td width="80%" colspan="3">
+            <select name="showCatDepth_default">
+              <option value="1" <{if $setting.showCatDepth_default=="1"}>selected="selected"<{/if}>>仅显示一级分类</option>
+              <option value="2" <{if $setting.showCatDepth_default=="2"}>selected="selected"<{/if}>>显示二级分类</option>
+              <option value="3" <{if $setting.showCatDepth_default=="3"}>selected="selected"<{/if}>>显示三级分类</option>
+            </select>
+		</td>
+        </tr>
+        <tr>
+          <th width="20%">分隔商品列表符号：</th>
+          <td width="30%"><input type="text" name="page_devide" value="<{$setting.page_devide|default:''}>"></td>
+          <th width="20%">列数：</th>
+          <td width="30%"><{input name="devide" value=$setting.devide|default:'1' required="true" type="digits"}>  &nbsp;&nbsp;“0”为自动排列</td>
+        </tr>		
+      </table>
+    </div>
+  </div>
+  
+  <div id="cat-showType" class="tableform widgetconfig">
+    <div class="division">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="20%">分类显示方式：</th>
+          <td width="80%" ccolspan="3"><select name="catShowType" id="catShowType">
+              <option value="0" <{if $setting.catShowType=="0"}>selected="selected"<{/if}>>显示所有分类</option>
+              <option value="1" <{if $setting.catShowType=="1"}>selected="selected"<{/if}>>自动判断</option>
+              <option value="2" <{if $setting.catShowType=="2"}>selected="selected"<{/if}>>显示指定分类</option>
+            </select>
+			</td>
+		</tr>
+		<tr>
+		  <th width="20%">数据缓存时间</th>
+		  <td width="30%"><{input type="text" name="cachelife" value=$setting.cachelife|default:'24' required="true" type="digits" size="4"}> (小时) 0为不缓存。</td>
+		  <th width="20%">立即刷新缓存</th>
+		  <td width="30%"><input name="refresh" value="1" checked type="checkbox"> <span style="color:#36F">立即刷新缓存</span></td>
+		</tr>
+		<tr>
+			<th width="20%">显示相关品牌</th>		
+			<td width="30%"><input type="radio" name="ShowBrand" id="ShowBrand" value="on" <{if $setting.ShowBrand!="off"}>checked="checked"<{/if}> > 是
+			    <input type="radio" name="ShowBrand" value="off" <{if $setting.ShowBrand=="off"}>checked="checked"<{/if}>>否 
+			</td>
+			<th width="20%">最多显示品牌数：</th>
+         	<td width="30%"><{input name="branddevide" value=$setting.branddevide|default:'10' required="true" type="digits"}></td>		
+		</tr>	
+		</table>
+		
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="50%"><span id="ifCatCounter"><input type="checkbox" name="ifCatCounter" <{if $setting.ifCatCounter}> checked <{/if}>>★统计各分类下的商品数量。特别需要时才选择</span>&nbsp;</td>
+				<td width="50%"><span class="topCatHasNoSubSpan"<{if $setting.catShowType!="1"}>style="display:none"<{/if}>><input type="checkbox" name="topCatHasNoSub" value="1" <{if $setting.topCatHasNoSub=="1"}> checked <{/if}>>一级分类无子分类时，显示所有分类/品牌</span></th>	
+        </tr>
+      </table>
+    </div>
+	
+    <div id="assignSet" class="tableform widgetconfig setSelectCatTable" <{if $setting.catShowType!="2"}>style="display:none"<{/if}>>
+    <h4 style="text-align:left;font-weight:normal;background:#DDE5FC;color:#669;display:block;">请选择需要显示的一级分类及其子分类（<span class="info">一级分类不选则不显示，选了一级分类但没选二级分类，则自动显示所有二级分类</span>）</h4>
+    <{foreach from=$data.cats item=parent}>
+    <{assign var=parentid value=$parent.cat_id}>
+    <div class="division">
+      <table border="0" cellspacing="0" cellpadding="0" >
+        <tr class="topCatTR">
+          <th width="15%"><span class="topcat"><{$parent.label}></span><input type="checkbox" name="showCat[]" value="<{$parent.cat_id}>" <{in_array match=$parent.cat_id array=$setting.showCat returnvalue='checked'}> onclick="checkCat(this);"></th>
+		  <td width="85%">重命名：<input type="text" name="resetcat[<{$parent.cat_id}>][name]" value="<{$setting.resetcat.$parentid.name}>" style="width:100px;"> &nbsp;重定向：<input type="text" name="resetcat[<{$parent.cat_id}>][link]" style="width:180px;" value=<{$setting.resetcat.$parentid.link}>></td>
+		 <tr>
+		 <tr>
+		 	<th width="15%">二级分类</th>
+			<td width="85%">
+				<ul class="clearfix" onmouseover="altStyle(this)" <{in_array match=$parent.cat_id array=$setting.showCat returnvalue='style="display:block;"'}>>
+				<{foreach from=$parent.sub item=subcat}>
+					<li style="float:left;" <{in_array match=$subcat.cat_id array=$setting.showCatSub.$parentid returnvalue='class="checked"'}>><input type="checkbox" name="showCatSub[<{$parent.cat_id}>][]" value="<{$subcat.cat_id}>" <{in_array match=$subcat.cat_id array=$setting.showCatSub.$parentid returnvalue='checked'}>> <{$subcat.label}>
+					</li>
+				<{/foreach}>
+				 </ul>
+			</td>
+		  </tr>
+		 <!--tr>
+		 	<th width="15%">推荐商品</th>
+			<td width='85%'>
+				<input type="text" name="goodsLabel[<{$parentid}>][]" value="<{$setting.goodsLabel.$parentid[0]|default:'推荐商品'}>"/>&nbsp;<span class="info">显示在该分类下的商品。设定其标题，如"推荐商品"</span><br/>
+				加载数量：<input type="text" name="showGoodsLimit[<{$parentid}>]" value="<{$setting.showGoodsLimit.$parentid|default:0}>" size="4" />&nbsp;显示规则：
+        <select name="showGoodsOrderBy[<{$parentid}>]">
+				<optgroup label="排序">
+				<{foreach from=$data.orderBy item=item key=order}>
+					<option value="<{$order}>" <{if $setting.showGoodsOrderBy.$parentid == $order}>selected<{/if}>><{$item.label}></option>
+				<{/foreach}> 
+				</optgroup>
+				 </select>&nbsp;图片区显示：<input type="text" name="showGoodsPicNum[<{$parentid}>]" value="<{$setting.showGoodsPicNum.$parentid|default:0}>" size="4" />&nbsp;个</td>
+		</tr-->
+   <!--qf_custom develop on 20111019 start-->
+   <tr>
+      <th width="15%">关联文章</th>
+			<td width='85%'>
+				<select name="showArticlesCats[<{$parentid}>]">
+           <option value="" <{if $setting.showArticlesCats.$parentid==null}>selected="selected"<{/if}>>不关联</option>
+				   <optgroup>
+				      <{foreach from=$data.art_cats item=item key=order}>
+					       <option value="<{$item.art_cat_id}>" <{if $setting.showArticlesCats.$parentid==$item.art_cat_id}>selected="selected"<{/if}>><{$item.art_cat_nm}></option>
+				      <{/foreach}> 
+				   </optgroup>
+				</select>&nbsp;
+        	文章显示个数：<input type="text" name="showArticlesNum[<{$parentid}>]" value="<{$setting.showArticlesNum.$parentid|default:5}>" size="4" />&nbsp;个
+      </td>
+   </tr>
+   <!--qf_custom develop on 20111019 end-->
+      </table>
+    </div>
+    <{/foreach}></div>
+	</div>
+	
+	<span style="margin-left:10px;" class="sysiconBtn addorder" onclick="addCustom();">添加自定义顶级菜单</span>
+	<div class="tableform widgetconfig">
+		<div class="division" id="cat-custom-list">
+		<{if $setting.custommenus}>
+		<{foreach from=$setting.custommenus item=menu key=key}>
+			<div class="custom" style="margin-top:5px;">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<th width="20%">栏目标题：</th>
+						<td width="30%"><input type="text" name="custommenus[<{$menu.i}>][text]" value="<{$menu.text}>"></td>
+						<th width="20%">className：</th>
+						<td width="30%"><input type="text" name="custommenus[<{$menu.i}>][classname]" value="<{$menu.classname}>"></td>
+					</tr>
+					<tr>					
+						<th width="20%">链接地址：</th>
+						<td width="80%" colspan="3"><input type="text" name="custommenus[<{$menu.i}>][url]" value="<{$menu.url}>" style="width:280px;"><{img src="images/bundle/delecate.gif" onclick="delLink(this)" style="cursor:pointer;"}></td>
+					</tr>
+				</table>
+				<input type=hidden name="custommenus[<{$menu.i}>][i]" value="<{$menu.i}>">
+			</div>
+		<{/foreach}>
+		<{/if}>
+		</div>
+	</div>
+
+	<div id="cat-accordion" class="tableform widgetconfig">
+ 	<div class="division"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th>商品分类循环深度：</th>
+        <td><select name="showCatDepth_accordion">
+            <option value="2" <{if $setting.showCatDepth_accordion=="2"}>selected="selected"<{/if}>>显示二级分类</option>
+            <option value="3" <{if $setting.showCatDepth_accordion!="2"}>selected="selected"<{/if}>>显示三级分类</option>
+          </select></td>
+      </tr>
+      <tr>
+        <th>展开二级菜单：</th>
+        <td><input type="radio" name="showCatChild_accordion" value="on" <{if $setting.showCatChild_accordion!="off"}>checked="checked"<{/if}>>是<input type="radio" name="showCatChild_accordion" value="off" <{if $setting.showCatChild_accordion=="off"}>checked="checked"<{/if}>>否</td>
+      </tr>
+      <tr id="showCatgChild_accordion-view" <{if $setting.showCatDepth_accordion=="2"}>style="display:none;"<{/if}>>
+      <th>展开三级菜单：</th>
+        <td><input type="radio" name="showCatgChild_accordion" value="on" <{if $setting.showCatgChild_accordion=="on"}>checked="checked"<{/if}>>是<input type="radio" name="showCatgChild_accordion" value="off" <{if $setting.showCatgChild_accordion!="on"}>checked="checked"<{/if}>>否</td>
+      </tr>
+    </table></div>
+	</div>
+
+<div id="cat-dropdown" class="tableform widgetconfig">
+  <div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th>商品分类循环深度：</th>
+        <td><select name="showCatDepth_dropdown">
+            <option value="2" <{if $setting.showCatDepth_dropdown=="2"}>selected="selected"<{/if}>>显示二级分类
+            </option>
+            <option value="3" <{if $setting.showCatDepth_dropdown!="2"}>selected="selected"<{/if}>>显示三级分类
+            </option>
+          </select>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="cat-qfcatnav-1" class="tableform widgetconfig">
+  <div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th width="20%">页面内容区宽度：</th>
+        <td width="30%" colspan="4"><{input name="bodyWidth" value=$setting.bodyWidth|default:'960' required="true" type="digits"}>&nbsp;px，用于弹出区自适应定位</td>
+      </tr>
+      <tr>
+        <th width="20%">二级分类每列宽度：</th>
+        <td width="30%"><{input name="subCatColumnWidth" value=$setting.subCatColumnWidth|default:'127' required="true" type="digits"}>&nbsp;px</td>
+        <th width="20%">二级分类每行显示列数：</th>
+        <td width="30%"><{input name="subCatColumn" value=$setting.subCatColumn|default:'5' required="true" type="digits"}></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="cat-corlor" class="tableform widgetconfig">
+  <div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th colspan="4" style="text-align:left;background:#DDE5FC;color:#669">&nbsp;<strong>顶级菜单样式</strong></th>
+      </tr>
+      <tr>
+        <th width="20%">普通字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[color]" value=$setting.style2.color|default:'#FFF'}></td>
+        <th width="20%">高亮字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[hcolor]" value=$setting.style2.hcolor|default:'#333'}></td>
+      </tr>
+    </table>
+  </div>
+  <div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="4" style="text-align:left;background:#DDE5FC;color:#669;width:100%;">&nbsp;<strong>弹出菜单样式</strong></td>
+      </tr>
+      <tr>
+        <th width="20%">菜单背景：</th>
+        <td width="30%"><{input type="color" name="style2[fbgcolor]" value=$setting.style2.fbgcolor|default:'#FFF'}></td>
+        <th width="20%">菜单边框色：</th>
+        <td width="30%"><{input type="color" name="style2[fbdcolor]" value=$setting.style2.fbdcolor|default:'#AAA'}></td>
+      </tr>
+      <tr>
+        <th width="20%">普通字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[fcolor]" value=$setting.style2.fcolor|default:'#333'}></td>
+        <th width="20%">高亮字体颜色：</th>
+        <td width="30%"><{input type="color" name="style2[fhcolor]" value=$setting.style2.fhcolor|default:'#CC0000'}></td>
+      </tr>
+      <tr>
+        <th width="20%">高亮背景色：</th>
+        <td width="30%"><{input type="color" name="style2[fhbgcolor]" value=$setting.style2.fhbgcolor|default:'#FFF'}></td>
+        <th width="20%">推荐标题字色</th>
+        <td width="30%"><{input type="color" name="style2[tjtcolor]" value=$setting.style2.tjtcolor|default:'#CC0000'}></td>
+      </tr>
+      <tr id="commendGoodsTR">
+        <th width="20%">导航区推荐商品尺寸：</th>
+        <td width="30%">宽度<{input name="goodsImgWidth" value=$setting.goodsImgWidth type="digits" style="width:40px;"}>&nbsp;px&nbsp;&nbsp;高度<{input name="goodsImgHeight" value=$setting.goodsImgHeight type="digits" style="width:40px;" }>&nbsp;px&nbsp;<br>(留空为使用后台默认设置)</td>
+        <th width="20%">导航区推荐商品价格色</th>
+        <td width="30%"><{input type="color" name="style2[pricecolor]" value=$setting.style2.pricecolor|default:'#CC0000'}></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="cat-brand" class="tableform widgetconfig">
+	<div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="4" style="text-align:left;background:#DDE5FC;color:#669;width:100%;">&nbsp;<strong>调用分类相关品牌设定</strong></td>
+      </tr>
+	  <tr>
+	  	<th width="20%">板块标题显示为</th>
+		<td width="30%"><input type="radio" name="showcatname" value="off" <{if $setting.showcatname=="off"}>checked="checked"<{/if}>>分类名称
+		<input type="radio" name="showcatname" value="on" <{if $setting.showcatname!="off"}>checked="checked"<{/if}>>自定义</td>
+		<th width="20%">标题名称显示为</th>
+		<td width="30%"><div id="showcatname-view" <{if $setting.showcatname=="off"}>style="display:none"<{/if}>><input type="text" name="cattitlename" value="<{$setting.cattitlename|default:'相关分类'}>" /></div></td>
+	  </tr>
+	  </table>
+	</div>
+</div>
+
+<div id="cat-article" class="tableform widgetconfig">
+	<div class="division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="2" style="text-align:left;background:#DDE5FC;color:#669;width:100%;">&nbsp;<strong>调用促销文章相关</strong></td>
+      </tr>
+      <tr>
+      	<th style="width:20%">文章标题显示字数</th>
+        <td style="width:80%"><input type="text" name="articelnum" value=<{$setting.articelnum|default:'35'}> style="width:100px"></td>
+	  </table>
+	</div>
+</div>
+<input type="hidden" name="qf_tpl" id="qf_tpl" value="<{$setting.qf_tpl}>">
+</div>
+<script>
+function getCfgForm(id){
+  var config = $(id);
+  while(config.tagName != 'FORM'){
+    config = config.getParent();
+  }
+  return config;
+}
+
+function getWgtTpl(){
+  var sels = getCfgForm('cat-config').getElements('select');
+  var wgtTpl = '';
+  sels.each(function(sel){
+    if(sel.getProperty('name') == '__wg[tpl]') wgtTpl = sel;
+  });
+  return wgtTpl;
+}
+
+function hideAll(els){
+  els.each(function(el){
+    el.hide();
+  });
+}
+
+function setCfgView(view){
+  var views = [$('cat-default'),$('cat-showType'),$('cat-accordion'),$('cat-dropdown'),$('cat-qfcatnav-1'),$('cat-corlor'),$('cat-brand'),$('assignSet'),$('cat-article')];
+  hideAll(views);
+  $('qf_tpl').setProperty('value', view)
+  switch(view){
+    case 'dropdown.html':
+	    views[1].show();
+      	views[3].show();
+    break;
+	case 'ppjd.html':
+	  views[1].show();
+	  views[8].show();
+	  $('commendGoodsTR').hide();	
+	  $('assignSet').show();	  
+      break;
+	case 'toggle.html':
+      views[0].show();
+	  views[1].show();
+	  views[6].show();
+    break;	
+	case 'brandcat.html':
+      views[1].show();
+	  views[6].show();
+    break;
+	default:
+      views[0].show();
+	  views[1].show();
+  break;
+  }
+}
+
+function setToggler(togglers){
+  togglers.each(function(toggler){
+    var view = toggler.getProperty('name')+'-view';
+    toggler.addEvent('click',function(){
+      if(this.value=="on"){
+        $(view).show();
+      }else{
+        $(view).hide();
+      }
+    });
+  });
+}
+
+setToggler($$('input[name="showFx_accordion"]','input[name="showFx_dropdown"]','input[name="showcatname"]'));
+
+var catTpl = getWgtTpl();
+setCfgView(catTpl.value);
+$('cat-config').show();
+
+catTpl.addEvent('change',function(){
+  setCfgView(this.value);
+});
+
+$E('select[name="showCatDepth_accordion"]','cat-accordion').addEvent('change',function(){
+  if(this.value == '2') $('showCatgChild_accordion-view').hide();
+  else $('showCatgChild_accordion-view').show();
+});
+
+//分类显示方式0-显示所有；1-自动判断；2-指定分类
+$E('select[name="catShowType"]','cat-showType').addEvent('change',function(){
+	$$('.topCatHasNoSubSpan').setStyle('display', this.value=='1'?'inline-block':'none');
+	$ES('.setSelectCatTable').setStyle('display', this.value=='2'?'inline-block':'none');
+});
+
+function addCustom(){
+	var content;
+	d=new Date();
+	i=d.getTime();
+	content='\
+		<div class="custom" style="margin-top:5px;">\
+			<table width="100%" cellpadding="0" cellspacing="0">\
+			  <tr>\
+			  <th width="20%">栏目标题：</th>\
+			  <td width="30%"><input type="text" name="custommenus['+i+'][text]"></td>\
+			  <th width="20%">className：</th>\
+			  <td width="30%"><input type="text" name="custommenus['+i+'][classname]"></td>\
+			  </tr>\
+			  <tr>\
+			  <th width="20%">链接地址：</th>\
+			  <td width="80%" colspan="3"><input type="text" name="custommenus['+i+'][url]" style="width:280px;"><{img src="images/bundle/delecate.gif" onclick="delLink(this)" style="cursor:pointer;"}></td>\
+			  </tr>\
+			</table>\
+			<input type=hidden name=custommenus['+i+'][i] value="'+i+'">\
+		</div>\
+	';
+
+	$('cat-custom-list').adopt(new Element('div').set('html',content).getFirst());
+}
+
+/*商品分类选择*/
+function altStyle(obj){
+	$(obj).store('cc',0);
+	var lis = $(obj).getElements("li");
+	lis.addEvents({
+		"click": function(e){					
+			var o = window.ie ? event.srcElement.tagName : e.target.tagName;
+			if($(obj).retrieve('cc')) return;
+			$(obj).store('cc',1);
+			var input = this.getElement("input");
+			var type = input.getProperty("type");
+			if(["checkbox","radio"].contains(type)){
+				if(input.disabled) return;
+				if(type=="radio") lis.each(function(li){li.className=""});
+
+				if(window.ie||o!="INPUT"&&input.onclick){
+					input.click();
+				}				
+				if(this.hasClass("checked")){
+					this.removeClass("checked");
+					input.checked = false;
+					
+					//alert(this.getParent().getElements("input").length);
+					var noCheck = true;
+					this.getParent().getElements("input").each(function(o, i){
+						if(o.checked){
+							noCheck = false;
+						}
+					});
+					if(noCheck){
+					    /*如果二级分类全没选择，一级分类也自动取消选择
+						alert(this.getParent('.topCatTR'));*/
+						this.getParent('.topCatTR').getElement("input").checked = false;
+					}
+				} else {
+					this.addClass("checked");
+					input.checked = true;
+					/*自动选中一级分类
+					alert(this.getParent('.topCatTR'));*/
+					this.getParent('.topCatTR').getElement("input").checked = true;
+				}
+			}
+		},
+		"mouseup":function(e){$(obj).store('cc',0);}
+	});
+}
+
+delLink=function(o){$(o).getParent('.custom').remove();}
+
+function checkCat(obj){
+	/*alert(obj);*/
+}
+</script>

@@ -1,0 +1,3 @@
+<{if $item.status eq '失败'}>
+<a href="index.php?ctl=plugins/connect_ome&act=run_queue&p[0]=<{$item.mess_queue_id}>"><{t}>重试<{/t}></a>
+<{/if}>

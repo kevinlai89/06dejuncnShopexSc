@@ -1,0 +1,75 @@
+<link rel='stylesheet' href='tuan/style.css' />
+<div id="qf_tuan_body" class="qf_tuan pushdown-2">
+  <div class="wdiv">
+      <div class="menu_hotel" id="hotel_c">        
+        <{if $showcat=='1'}>
+        <div class="menu_w clearfix">
+          <div class="menu_left_hotel">团购分类：</div>
+          <div class="menu_right_hotel haveb">
+            <ul class="b1">
+              <li><a href="<{link ctl=tuan act=index}>"<{if($now_cat_id=='' || $now_cat_id=='0')}> class="onon"<{/if}>>全部</a> </li>
+              <{foreach from=$cats item=item key=key}>
+              <li><a href="<{link ctl=tuan act=index arg0=$item.cat_id  arg1=$now_min arg2=$now_max arg3=$orderBy arg4=$istoday}>" title="<{$item.cat_name}>"<{if($now_cat_id==$item.cat_id && $now_cat_id!='')}> class="onon"<{/if}>><{$item.cat_name|default:'未分类'}>(<{$item.ct}>)</a> </li>
+              <{/foreach}>
+            </ul>
+          </div>
+        </div>
+        <{/if}>
+        <{if $priceRange}> 
+        <div class="menu_w clearfix">
+          <div class="menu_left_hotel">价格区间：</div>
+          <div class="menu_right_hotel haveb">
+            <ul class="b1">
+			<li><a href="<{link ctl=tuan act=index}>"<{if(!$now_min && !$now_max)}> class="onon"<{/if}>>全部</a></li>
+              <{foreach from=$priceRange item=item key=key}>
+              <li><a href="<{link ctl=tuan act=index arg0=$now_cat_id arg1=$item.min arg2=$item.max arg3=$orderBy arg4=$istoday}>"<{if($now_min==$item.min)}> class="onon"<{/if}>><{if $item.min && $item.max}><{$item.min}>-<{$item.max}><{else}><{$item.min}>以上<{/if}></a></li>
+              <{/foreach}>
+            </ul>
+          </div>
+        </div>
+		<{/if}>
+        
+        <div class="menu_w menu_bod clearfix">
+          <h5>排序：</h5>
+          <div id="hbutton" class="<{if $orderBy=='6'}>hbutton2<{elseif $orderBy=='9'}>hbutton3<{else}>hbutton1<{/if}>">
+          	<a href="<{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=0}>" title="默认"></a>
+            <a href="<{if $orderBy=='6'}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=7}><{else}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=6}><{/if}>" title="销量由高到低"></a>
+            <a href="<{if $orderBy=='9'}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=8}><{else}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=9}><{/if}>" title="价格由低到高"></a>
+          </div>
+          <div class="newtuan <{if $istoday==1}> non<{/if}>"><a href="<{if $istoday==1}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=$orderBy arg4=0}><{else}><{link ctl=tuan act=index arg0=$now_cat_id arg1=$now_min arg2=$now_max arg3=$orderBy arg4=1}><{/if}>" title="今日新单">今日新单</a>
+          </div>          
+          <div class="pagin floatRight"><{pager data=$pager type=mini}></div>
+        </div>
+                      
+   	</div>
+  </div>
+    
+  <div class="tuan_w cut">
+    	<div class="floatLeft">
+        	<div class="pro">                      
+              <!--团购产品循环开始，团购状态$tuan.status=即将开始:notbein正在进行:ing已结束:end-->            
+             <{foreach from=$tuan item=item key=key}>                
+             <div class="product<{if ($item.max_number && $item.tuannow >= $item.max_number)}> product1<{/if}>">
+              <div class="title"><a title="<{$item.name}>" target="_blank" href="<{if($item.begin_time > $ntime )}>#<{else}><{link ctl="tuan" act="detail" arg0=$item.id}><{/if}>"><{$item.name}></a></div>
+              <div class="pic"><a target="_blank" href="<{if($item.begin_time > $ntime )}>#<{else}><{link ctl="tuan" act="detail" arg0=$item.id}><{/if}>"><img width="278" height="185" alt="<{$item.name}>" src="<{$item.big_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" class="err-product" /></a><{if $item.istoday}><div class="new_icon"></div><{/if}></div>              
+              <div class="price">
+                <{if ($item.begin_time <= $ntime)}>           	
+                <!--<{if $item.mktprice && $item.mktprice !=0}><font class="mktprice">原价<{$item.mktprice|number_format:'1'}>元</font><{/if}>
+                <font class="zhe"><{$item.zhekou}>折</font>-->            
+                <span><font><{$item.now_number+$item.pre_number}></font>人已购买</span>
+                <{/if}>
+              </div>
+              <div class="buy<{if ($item.max_number && $item.tuannow >= $item.max_number)}> buy2<{elseif ($item.begin_time > $ntime)}> buy1<{/if}>"><span><{$item.price}></span><span class="tg"><a title="团购" target="_blank" href="<{if($item.begin_time > $ntime )}>#<{else}><{link ctl="tuan" act="detail" arg0=$item.id}><{/if}>"></a></span></div>
+            </div>
+            <{/foreach}>
+            <!--团购产品循环结束-->
+            <div class="clr"></div>
+        </div>
+        <!--pro endd-->     
+        
+        <!--分页开始-->
+        <{pager data=$pager}>
+        <!--分页结束-->
+       </div><!--floatleft end-->
+    </div><!--w endd-->
+</div>

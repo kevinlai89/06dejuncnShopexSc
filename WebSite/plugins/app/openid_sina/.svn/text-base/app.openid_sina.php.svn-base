@@ -1,0 +1,80 @@
+<?php
+class app_openid_sina extends shopex_appdef{
+   var $ver = '1.0';
+   var $name = '新浪微博登陆';
+   var $app_id = 'sina';
+
+
+   function openid_login($row){
+       $this->save_userinfo($row);
+       $array = array('redirect_url'=>$this->system->base_url());
+       return $array;
+   }
+    function setting_save(){
+		$this->system->setConf('app.openid_sina.appkey',$_POST['setting']['app.openid_sina.appkey']);
+		$this->system->setConf('app.openid_sina.appsecret',$_POST['setting']['app.openid_sina.appsecret']);
+    }
+    function save_userinfo($row){
+      
+      $row['gender']=($row['gender']=='m')?1:0;
+      
+      $member = &$this->system->loadModel('member/account');
+      $defalut_cols=array('address'=>'addr','truename'=>'name');
+      $row_array=array('nick_name'=>'昵称','credid'=>'身份证','alipay_account'=>'支付宝帐号','company'=>'公司名','qq'=>'QQ','truename'=>'姓名','sex'=>'性别','mobile'=>'手机号码','address'=>'联系地址','birthday'=>'出生日期','member_id'=>'','member_lv_id'=>'');
+      $user_insert=$this->array_key_filter($row,$row_array,$defalut_cols);
+      $member->thirdLoginInfo($user_insert);
+    }
+
+    function array_key_filter(&$array,$keys,$defalut_cols){
+    
+        $return = array();
+
+        foreach($keys as $k=>$v){
+           foreach($array as $k1=>$v1){
+                if($k==$k1){
+                    if($v==''){
+                      $return[$k] = &$array[$k1];
+                    }else{
+                      foreach($defalut_cols as $k2=>$v2){
+                         if($k1==$k2){
+                           $return[$defalut_cols[$k2]] = array($keys[$k]=>&$array[$k1]);
+                           unset($k);unset($k1);
+                         }else{
+                           $return[$k] = array($keys[$k]=>&$array[$k1]);
+                         }
+                       }
+                    }
+                }
+           }
+     }
+
+    return $array = $return;
+    }
+
+   function openid_logout(){
+       require_once('WeiboOAuth.php');
+   	   $consumer_key = $this->system->getConf('app.openid_sina.consumer_key');
+	   $consumer_secret = $this->system->getConf('app.openid_sina.consumer_secret');
+	   $oauth_token = $this->system->getConf('app.openid_sina.oauth_token');
+	   $oauth_token_secret = $this->system->getConf('app.openid_sina.oauth_token_secret');
+	   $WeiboClient = new WeiboClient($this->consumer_key,$this->consumer_secret,$this->oauth_token, $this->oauth_token_secret);
+	   $msg = $WeiboClient->oauth->post("http://api.t.sina.com.cn/account/end_session.json");
+   }
+
+   function install(){
+        return parent::install();
+   }
+
+   function uninstall(){
+        return parent::uninstall();
+   }
+
+   function setting(){
+		$setting_file = PLUGIN_DIR.'/app/'.$this->ident.'/setting.php';
+		if(file_exists($setting_file)){
+			include($setting_file);
+		}
+		return is_array($setting)?$setting:array();
+   }
+}
+

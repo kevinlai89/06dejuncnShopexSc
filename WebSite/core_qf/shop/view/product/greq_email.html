@@ -1,0 +1,88 @@
+
+      <table border=1>
+          <tr>           
+                <th><{t}>询价产品：<{/t}></th>
+                <td>
+                  <{$goods.name|escape:"html"}>
+                </td>
+          </tr>
+
+          <tr>           
+                <th><{t}>商品编号：<{/t}></th>
+                <td>
+                  <{$goods.bn|escape:"html"}>
+                </td>
+          </tr>
+
+          <tr>           
+                <th><{t}>商品网址：<{/t}></th>
+                <td>
+                  <a href="http://www.dejun.cn/product-<{$goods.goods_id}>.html" target="_blank">http://www.dejun.cn/product-<{$goods.goods_id}>.html</a>
+                </td>
+          </tr>
+
+          <tr>           
+                <th><{t}>联系人：<{/t}></th>
+                <td>
+                  <{$data.contact|escape:"html"}>
+                </td>
+          </tr>
+
+          <tr>
+                <th><{t}>公司名称：<{/t}></th>
+                <td>
+                  <{$data.company|escape:"html"}>
+                </td>
+            </tr>
+
+            <tr>
+                <th><{t}>联系地址：<{/t}></th>
+                <td>
+                  <{$data.addr|escape:"html"}>
+                </td>
+            </tr>
+<!--
+            <tr>
+                <th><{t}>邮编：<{/t}></th>
+                <td><{$data.zip|escape:"html"}></td>
+            </tr>
+-->
+            <tr>
+                <th><{t}>电话：<{/t}></th>
+                <td>
+                  <{$data.tel|escape:"html"}>
+                </td>
+            </tr>
+
+            <tr>
+                <th><{t}>传真：<{/t}></th>
+                <td>                  
+                  <{$data.fax|escape:"html"}>
+                </td>
+            </tr>
+
+            <tr>
+                <th><{t}>电子邮件：<{/t}></th>
+                <td>
+                  <{$data.email|escape:"html"}>
+                </td>
+            </tr>
+
+            <{foreach from=$qtn_template.cus_items key=key item=item}>
+            <th><{t}><{$item.name}>：<{/t}></th>
+                <td>                  
+                  <{$data.cusitems[$key]}>
+                </td>
+            </tr>
+            <{/foreach}>
+
+            <tr>
+                <th><{t}>备注：<{/t}></th>
+                <td>
+                  <{$data.memo|escape:"html"}>
+                </td>
+            </tr>
+            
+
+            
+        </table>

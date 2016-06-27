@@ -1,0 +1,18 @@
+<form action='index.php?ctl=plugins/order_ctl&act=save_sync_time' method='post' class="settingform" id="site_basic" enctype="multipart/form-data">
+  <div class="tableform">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" ><tr><td>
+    <h4><div class='notice'>此功能可以重新同步该时间段以后的订单,若订单丢失或者有异常可以使用此功能来重新同步</div></h4>
+       </td><td style="text-align:right; padding-right:10px;"></td></tr></table>
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0"  class="shopping_setting">
+		<tr>
+          <th><{t}>同步时间<{/t}></th>
+          <td ><{input type='date' name='sync_time'}> &nbsp;</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="table-action">
+	<{button type="submit" id="on_submit" label="保存"}>
+</div>
+</form>

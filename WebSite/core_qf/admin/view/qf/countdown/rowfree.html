@@ -1,0 +1,33 @@
+﻿<div class="grow" onmouseover="calmakeCalable(this.getElements('.cal'))">
+<{capture name=startTimeName}>limit_start_time_<{$id}><{/capture}>
+<{capture name=endTimeName}>limit_end_time_<{$id}><{/capture}>
+<li style="padding:1px 0;list-style:none;margin:0;">
+当前库存：<input type="text" readonly value="<{$item[store]}>" style="width:50px;"> &nbsp;&nbsp;
+当前售价：<input type="text" readonly value="<{$item.price}>" style="width:70px;"> &nbsp;&nbsp;
+
+抢购数量：<{input name="countdown_num[{$id}]" type="unsignedint" maxlength="8" style="width:50px;" required="true" value="{$countdown.moreinfo[$id].countdown_num}" }> &nbsp;&nbsp;
+抢购价格：<{input name="countdown_price[{$id}]" type="unsignedint" maxlength="8" style="width:50px;" required="true" value="{$countdown.moreinfo[$id].countdown_price}" }>&nbsp;&nbsp;
+<!--每人限购：<{input name="limit_num[{$id}]" type="unsignedint" maxlength="8" style="width:50px;" required="true" value="{$countdown.moreinfo[$id].limit_num}"}>件-->
+
+</li>
+<li style="padding:1px 0;list-style:none;margin:0;">
+开始时间：
+<{input type="time" name=$smarty.capture.startTimeName required="true" value="{$countdown.moreinfo[$id].limit_start_time}"}>
+
+结束时间：
+<{input type="time" name=$smarty.capture.endTimeName required="true" value="{$countdown.moreinfo[$id].limit_end_time}"}>
+</li>
+</div>
+
+<style type="text/css">
+
+/*限时抢购*/
+#packageItem div.row .row-line {margin-top:5px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;height:100px;overflow:visible;}
+#packageItem div.row .row-line .span-auto{text-align:left;padding-left:6px;font-weight:700;}
+#packageItem div.row .row-line .span-1{float:right;}
+#packageItem .grow{text-align:left;border-top:1px solid #ddd;padding:1px 0 1px 6px;margin:0;}
+#packageItem div.row div{overflow:visible;}
+#packageItem div.row .row-line span.pdt-desc-list{position:relative;}
+#packageItem div.row .row-line span.pdt-desc-list div{position:absolute;background:#fff;border:1px solid #333;width:280px;left:0;margin-top:-2px;}
+#packageItem div.row .row-line span.pdt-desc-list th{padding:2px;white-space:nowrap;}
+</style>

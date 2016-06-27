@@ -1,0 +1,29 @@
+<div class="AllGoodsCate">
+  <{foreach from=$data item=parent key=parentId}>
+    <div class="allbox">
+    <h2><a href="<{link ctl='gallery' act=$setting.view arg0=$parentId}>"><{$parent.label}></a></h2>
+	<{if $parent.sub && ($setting.showCatDepth_default == '3' || $setting.showCatDepth_default == '2')}>
+	<ul class="clearfix">
+		<{foreach from=$parent.sub item=child key=childId}>
+        <li>
+        	<strong><a href="<{link ctl='gallery' act=$setting.view arg0=$childId}>"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}>：</a></strong>
+            <{if $child.sub && $setting.showCatDepth_default == '3'}>
+            <{foreach from=$child.sub item=gChild key=gChildId name=glist}>
+            <a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{if $setting.page_devide && !$smarty.foreach.glist.last}><{$setting.page_devide|default:''}><{/if}><{/foreach}>
+            <{/if}>
+		</li>		
+        <{/foreach}>
+		<{if $parent.brands && $setting.ShowBrand=='on'}>
+		 <li>
+          <strong><a href="<{link ctl='gallery' act=$setting.view arg0=$parentId}>"><{t}>相关品牌：<{/t}></a></strong>
+         <{foreach from=$parent.brands item=brand name=brandlist}>
+         <{if $brand.name}><a href="<{link ctl=brand act=index arg0=$brand.id}>"><{$brand.name}><{if $setting.ifCatCounter}><em>(<{$brand.plus}>)</em><{/if}></a><{if $setting.page_devide && !$smarty.foreach.brandlist.last}><{$setting.page_devide|default:''}><{/if}>
+         <{/if}>
+         <{/foreach}>
+	  </li>
+      <{/if}>
+	</ul>
+    <{/if}>
+	</div>
+  <{/foreach}>
+</div>

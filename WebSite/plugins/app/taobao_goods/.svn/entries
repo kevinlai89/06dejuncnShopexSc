@@ -1,0 +1,143 @@
+8
+
+dir
+97
+http://svn.app.shopex.cn/outergoods
+http://svn.app.shopex.cn/outergoods
+
+
+
+2010-11-19T08:57:20.861487Z
+97
+chugongbiao
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+f18489ca-f901-11de-9324-a1ef23c22a89
+
+admin.ctl_taobao_goods.php
+file
+99
+
+
+
+2011-01-07T10:20:51.890625Z
+2bdae8f4fe5fd9370574ec350633d95f
+2011-01-07T10:37:06.383467Z
+99
+yangminsheng
+
+setting.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+92400262c7073945abd8737b71fbc4d9
+2010-01-21T09:49:22.295414Z
+55
+
+images
+dir
+
+app.taobao_goods.php
+file
+99
+
+
+
+2011-01-07T10:20:28.437500Z
+3682979ad31077f9bda22044ef534b08
+2011-01-07T10:37:06.383467Z
+99
+yangminsheng
+
+mdl.gtypetransform.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+5f5ab27f1652ed307f78bab33e75f587
+2010-01-22T05:34:16.323123Z
+61
+
+dbschema
+dir
+
+mdl.taobao.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+6128925517cb8c10ad30b5b9f27d46c1
+2010-11-09T05:47:15.331693Z
+93
+chugongbiao
+
+taobao_goods_product_modifiers.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+3a8dce8b7f674c001d7bc7a10fe973f1
+2010-11-11T07:57:11.935137Z
+95
+chugongbiao
+
+view
+dir
+
+mdl.center_send.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+3c0a09566ccdd7c7a32c99ca3c824292
+2010-04-16T07:48:12.264848Z
+84
+chenlei
+
+icon.png
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+a081ad04c717c3d3295c2b51a593b3a9
+2010-01-04T07:53:16.118391Z
+1
+
+has-props
+
+taobao_goods_product_listener.php
+file
+
+
+
+
+2011-01-05T08:22:18.000000Z
+53871b037dc6cca4a9714374f3740c06
+2010-04-01T10:14:04.915740Z
+80
+

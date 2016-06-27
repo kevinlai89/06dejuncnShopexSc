@@ -1,0 +1,42 @@
+<{if count($data) > 0}>
+<div class="goodscomment">
+	<table width="100%" cellpadding="0" cellspacing="0">
+		<tbody>
+	 <tr>
+	<{foreach from=$data item=item key=key name=name}>	
+	<td>
+		<div class="commentInfo">
+			<{if $setting.showgoodspic}>
+				<div class="commentPic">
+				     <{if $setting.goodsImgWidth>0 && $setting.goodsImgHeight>0 }><a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>'><img src="<{$item.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$item.name|escape:html}>" style='width:<{$setting.goodsImgWidth}>px;height:<{$setting.goodsImgHeight}>px;'/></a>
+					 <{else}>
+					 <a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>' style='<{if $env.conf.site.thumbnail_pic_width !=0 && $env.conf.site.thumbnail_pic_height !=0}> width:<{$env.conf.site.thumbnail_pic_width}>px;height:<{$env.conf.site.thumbnail_pic_height}>px;<{/if}>'><img src="<{$item.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$item.name|escape:html}>"/></a>
+					 <{/if}>
+				</div>
+			<{/if}>
+			
+			<{if $setting.showgoodsname}>
+			<div class="commentName"><a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>' title="<{$item.name|escape:html}>"><{$item.name|cut:$setting.gdtitle_length}></a></div>
+			<{/if}>
+			<div class="commentbody">
+				<a target="_blank" href='<{link ctl="product" act="index" arg0=$item.goods_id}>' title="<{$item.name|escape:html}>"><{$item.comment|cut:$setting.content_length}></a>
+				<{if $setting.showmember || $setting.showtime}>
+				<p><{if $setting.showmember}><span class="cmt_member"><{$item.author}></span><{/if}><{if $setting.showtime}>&nbsp;&nbsp;<span class="cmt_time"><{$item.time|userdate}></span><{/if}></p>
+				<{/if}>
+			</div>
+		</div>
+	</td>
+    <{if !($smarty.foreach.name.iteration % $setting.limittd )}>
+		</tr>
+		<{if !$smarty.foreach.name.last}><tr valign="top"><{/if}> 		  
+   	<{elseif $smarty.foreach.name.last}>	
+    	<td colspan="<{math equation='y-x%y' y=$setting.limittd x=$smarty.foreach.name.iteration}>">&nbsp;</td>
+	</tr>
+	 <{/if}>	 
+	<{/foreach}>
+	</tbody>
+	</table>
+</div>
+<{else}>
+<div style="padding:10px 15px;"><{t}>Sorry,还没有用户发表评论！<{/t}></div>
+<{/if}>

@@ -1,0 +1,8 @@
+<{if $data.ad_pic && $data.showpic == 'on'}>
+<div id="tp_<{$widgets_id}>" class="topad_Active" style="background:<{$data.bgcolor}>">
+	<div style="width:<{if $data.ad_pic_width && $data.ad_pic_width !='0'}><{$data.ad_pic_width}>px<{else}>100%<{/if}>;margin:0 auto;position:relative"><a href="<{$data.linkurl}>" target="_blank"><img src="<{$data.ad_pic}>" alt="<{$data.seotitle}>" width="<{if $data.ad_pic_width && $data.ad_pic_width !='0'}><{$data.ad_pic_width}><{else}>100%<{/if}>"<{if $data.ad_pic_height}> height="<{$data.ad_pic_height}>"<{/if}> /></a>
+     <div onclick="closead()" style="position:absolute;height:19px;width:19px;right:14px;top:6px;cursor:pointer;background:url('images/close.png') no-repeat"></div>
+    </div>
+</div>
+<script>function closead(){$("tp_<{$widgets_id}>").setStyle('display','none')}</script>
+<{/if}>

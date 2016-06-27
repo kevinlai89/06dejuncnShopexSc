@@ -1,0 +1,148 @@
+html,
+body { overflow: hidden; background:#fff;width:100%;height:100%;}
+
+#header { height:80px; position: relative; background:url(../images/topbglight.gif) no-repeat right top #fbfdfe; color:#666666; }
+#main { background:#fff;overflow:auto!important; overflow-y: auto!important;position:relative}
+
+.header a { color:#000000; text-decoration:none; }
+.header a:hover { color:#0684DA; }
+.header .hd1 { height:51px; overflow:hidden; float:left; width:100%;}
+.Browse .Browse-shop{color:#F28618;margin-right:5px;}
+.header .hd2 { background: url(../images/mainmenu.gif) repeat-x bottom left; float:left; width:100%; }
+.shopname { float:left; font-size: 14px; font-weight: 700; color: #fff; height:25px; line-height:25px; padding-left:5px;white-space:nowrap; }
+.certiinfo { font-size:11px; padding:0 10px; color:#f90; font-weight:normal; }
+.certiinfo a { color:#f90; }
+.top-menu { float:left; }
+.top-menu .tab { float: left; margin-left:5px; line-height:25px;position:relative;margin-right:5px;}
+.top-menu .tab span { background: url(../images/topmenu.gif) no-repeat; display:block; color:#ffffff; text-align:center; float:left; text-decoration:none; width:85px; height:29px; line-height:29px; outline:none;}
+.top-menu .tools span{ float: left; margin-left:5px; line-height:25px; width:150px; background:none;}
+.top-menu .tools span a{ float:left; padding:0 10px 0 20px; color:#0684DA;}
+#top-tab-setting {background: url(../images/btn_tools.gif) no-repeat left center;}
+#top-tab-tools {background: url(../images/btn_box.gif) no-repeat left center;}
+#btn-appstore{background: url(../images/use-icon.gif) no-repeat left center;}
+.top-menu .current span { background: url(../images/topmenu_active.gif) no-repeat; width:85px; height:29px; line-height:29px; text-align:center }
+.top-menu .current span span {color:#000; font-size:14px; font-weight:bold; }
+.top-menu .current span a { color:#000; }
+.top-menu .greenbutton span { background: url(../images/topmenu_view.gif) no-repeat; height:24px; line-height:24px; text-align:center; }
+.top-menu .closebutton { background: url(../images/topmenuactivetab.gif) repeat-x right -64px; height:24px; }
+.top-menu .closebutton span { background: url(../images/topmenuactivetab.gif) repeat-x 0 -64px; }
+.top-link { margin:5px 5px 0 0; position:absolute; right:0; }
+.top-link-span, .top-link-a { margin:0 2px; cursor:pointer;}
+.Browse{_padding-top:5px;}
+.top-link-menu { position:absolute; right:0; background:url(../images/onlineservice-bg.gif) no-repeat; height:26px; padding:0 0 0 30px; margin:1px 0 10px 0; white-space: nowrap; text-align:center;line-height: 26px; }
+.top-link-menu a img{margin-right:3px}
+#header .tip-new { background: url(../images/tip_new.gif) no-repeat; width: 25px; height: 25px; position: absolute; z-index: 999; right: -6px; top: -17px; cursor: pointer; text-indent: -9999px; }
+.tb-app-intro-tp { background: url(../images/tb_app_intro.gif) no-repeat; width: 634px; height: 81px; text-indent: -9999px; }
+#msgRunner { margin:16px 0 0 12%; float:left; width:160px; }
+#msgRunner .runner { line-height:20px; height:20px; overflow:hidden; }
+#msgRunner span { display:block; cursor:pointer; color:#000000; white-space:nowarp; background:url(../images/msgtip.gif) no-repeat 0 50%; padding-left:15px; }
+#msgStorage,
+#msgStorage li { margin:0; color:#666; }
+
+.toggle-bar { background-color:#D6EAF4; background-repeat: no-repeat; background-position: center; cursor: pointer; overflow: hidden; }
+#leftToggler { position: absolute; width:4px; left:143px; z-index: 99; border-right:1px solid #B4CBDF; border-left:1px solid #C7DBE4; margin-top:4px; background-image:url(../images/arrow-left.gif); }
+.closeLeft #leftToggler { background-image:url(../images/arrow-right.gif); left: 0; }
+#sidecontent { background: #fff; width: 143px; position: absolute; left: 0; color: #4e6a81; margin-top:4px; border-top:1px solid #ccc; overflow:hidden; overflow-y:auto; }
+.closeLeft #sidecontent { display: none; }
+#sidecontent a { color:#666666; text-decoration:none; }
+#sidecontent a.cur { background:url(../images/leftmenutitle.gif) no-repeat right center #749BC1; color:#ffffff; height:23px; line-height:23px; font-weight:bold; padding:0 0 0 22px;}
+#workground { margin:4px 0 0 151px; }
+.closeLeft #workground { margin-left: 7px; }
+
+/*菜单部分*/
+#submenu_goods .section { color:#000000; height:23px; line-height:23px; display:block; padding:0 0 0 20px; cursor:pointer; font-size:12px; background:#E2EFFA; border-bottom:1px solid #A9D0F1;}
+#submenu_goods .section.cur { font-size:14px; background:url(../images/leftmenubg.gif) no-repeat left center #0B7AC1; height:30px; line-height:30px; padding:0 0 0 23px; color:#ffffff;}
+.g-level-1 { padding:3px 0 3px 5px; border-top:1px solid #CBE3F8; border-bottom:1px solid #A9D0F1; background:#E2EFFA;}
+.g-level-1 .title { background:url(../images/sysicon.gif) no-repeat 0 -838px; _background:url(../images/sysicon.gif) no-repeat 0 -840px; padding-left:16px; color:#000000; }
+.g-level-1-withchild { color:#000000; }
+.g-level-2 { border-left:1px solid #bec6ce; border-bottom:1px solid #fff; background:#fff; }
+.g-level-2 a { display:block; padding:3px 1px 3px 22px; margin:0; border-bottom:1px solid #efefef; }
+.g-level-2 a:hover { background:#F8F8F8;}
+.g-menu-sec .g-level-1 { padding:3px 0 3px 5px; border-top:1px solid #CBE3F8; border-bottom:1px solid #A9D0F1; background:#E2EFFA; }
+.g-menu-sec .g-level-2 { border:0; border-left:1px solid #bec6ce; background:#fff; }
+.g-menu-sec .x-tnode-handle { margin-top:5px; }
+.g-menu-sec .g-level-2 a { border-bottom:1px solid #efefef; }
+#g_menu_sec_2 .g-level-2 a { display:block; width:auto; padding:2px 0; padding-left:-22px; }
+.head_content { position:relative; z-index:2; padding:5px 0 0; background:#ffffff;}
+.foot_content { position:relative;}
+.nav-bar { background:url(../images/finder_bar_bg.gif) no-repeat 0 0; padding:5px 7px; color: #fff; text-align: left; }
+.nav-bar span,
+.nav-bar a,
+.nav-bar a:hover { color:#fff; text-decoration: none; }
+/*---------------------------------------------------------------------------------------------------------------
+dashboard
+---------------------------------------------------------------------------------------------------------------*/
+.dashboard { margin:10px; width:1000px; overflow:hidden; }
+.dashboard table.frame { width:auto; }
+.dashboard .notice li { cursor:pointer; }
+.dashboard .notice li span { text-decoration:underline; }
+.dashboard .dashboard_empty { font-size:14px; color:#ccc; font-weight:normal; }
+.dashboard .dashboard_number { font-size:14px; color:#f90; font-weight:700; cursor:pointer; text-decoration:underline; }
+.dashboard .dashboard_number_black { font-size:14px; color:#000; font-weight:700; }
+.dashboard .dashboard_number_orange { color:#f90; font-weight:700; }
+.dashboard table.frame { width:auto; }
+.dashboard table td { vertical-align:top; }
+.dashboard .serviceitems { border:1px solid #ccc; margin-bottom:15px; width:180px; height:220px; }
+.dashboard .serviceitems h3 { background:url(../images/tablethbg.gif) repeat-x; border-bottom:2px solid #bec7cd; border-top:1px solid #EFEFEF; color:#000; display:block; margin:0; padding:6px 3px; font-size:12px; font-weight:700; }
+.dashboard .serviceitems th,
+.dashboard .serviceitems td { border-bottom:1px solid #eee; padding:0 10px; line-height:20px; }
+.dashboard .serviceitems thead th { background:#efefef; }
+.dashboard .serviceitems tbody th { text-align:left; }
+.dashboard .serviceitems tbody td { text-align:right; font-size:14px; color:#f90; font-weight:700; }
+.dashboard .serviceitems .contentbg { padding:4px; }
+.dashboard .serviceitems object { padding:5px; }
+/*---------------------------------------------------------------------------------------------------------------
+	各欢迎页面
+---------------------------------------------------------------------------------------------------------------*/
+.guider { margin:30px; position:relative; }
+.guider h4 { color:#5e7b9f; }
+.guider em { font-style:normal; color:#ff3b06; font-weight:bold; }
+.guider dt { font-size:14px; font-weight:bold; }
+.guider .step { position:absolute; background:url(../images/saas_guide_ico.gif) no-repeat; padding:5px 0 0 55px; z-index:99; }
+.guider .step1 { background-position:0 5px; }
+.guider .step2 { background-position:0 -150px; }
+.guider .step3 { background-position:0 -300px; }
+.guider .step4 { background-position:0 -450px; }
+.guider .step5 { background-position:0 -605px; }
+.guider .step dt { color:#5b80ae; padding:0 0 4px; }
+.guider .step dd { color:#666666; margin:0; width:280px; width:240px; }
+.guider .guider_sub { position:absolute; left:355px; top:0; }
+.guider .guider_sub dl { margin:0 0 15px; }
+.guider .guider_sub dt { background:url(../images/saas_guide_item.gif) no-repeat; width:254px; height:22px; line-height:22px; padding:0 0 0 15px; color:#fff; }
+.guider .guider_sub dd { margin:5px 0 0 15px; color:#666666; width:240px;font-size:12px }
+.guider .sub2 { width:620px; left:220px; }
+.guider .sub2 dl { margin:0 20px 15px 15px; float:left; *display:inline;}
+.guider .arrwrap { width:15px; position:relative; padding:12px 0; left:320px; height:200px; }
+.guider .arrwrap div { background:url(../images/saas_guide_arr.gif) no-repeat; width:15px; }
+.guider .arrwrap .tp { height:10%; }
+.guider .arrwrap .bd { background-position:0 51%; height:80%; }
+.guider .arrwrap .ft { height:10%; background-position:0 bottom; }
+.guider .arr2 { width:65px; height:166px; background:url(../images/saas_guide_arr.gif) no-repeat -100px 0; position:absolute; top:104px; left:18px; z-index:99; }
+.guider_intro { border-top:1px solid #e1e1e1; margin:10px; padding:5px 0 0 70px; }
+.guider_intro h2 { color:#fb9b04; font-size:12px; font-weight:bold; }
+.guider_intro p { color:#666; }
+
+
+.btn-appstore { cursor:pointer; color:#000000; padding:0 0 0 2px;}
+.btn-appstore span { color: #fffdde; }
+/*css round
+.tableform,
+.division,
+.submitBtn,
+.notice,
+.error,
+.success,
+.note { -webkit-border-radius: 5px; -moz-border-radius: 5px; }
+.tab { -webkit-border-radius-topleft: 5px; -moz-border-radius-topleft: 5px; -webkit-border-radius-topright: 5px; -moz-border-radius-topright: 5px; }*/
+/*后台添加团购活动时间控件样式*/
+.time_hour_list{
+	border:1px solid gray;
+	height:218px;
+	overflow:auto;
+	width:80px;
+	position:absolute;
+	background:none repeat scroll 0 0 #FFFFFF;
+	_margin-left:160px;
+	padding-top:0px;
+}
+.time_hour_list a:hover div{background-color:#66FFFF;font-size:14px;}

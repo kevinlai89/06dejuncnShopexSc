@@ -1,0 +1,22 @@
+User-agent: * 
+Disallow: /
+Disallow: /shopadmin/
+Disallow: /install/
+Disallow:/config/
+Disallow:/css/
+Disallow:/core/
+Disallow:/template/
+Disallow:/core_qf/
+Disallow:/gallery-_ANY_-tp,_ANY__b,_ANY__t,28-order-grid.html
+Disallow:/gallery-50-tp,_ANY__b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-170,171-b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-179-b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-172,173,174,175,176,177,178-b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-189-b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-58-tp,12_b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-_ANY_-tp,12_b,_ANY__t,_ANY_-order-grid.html
+Disallow:/gallery-_ANY_-tp,6_b,_ANY__t,_ANY_-order-grid.html
+
+
+Sitemap: http://www.dejun.cn/sitemaps.xml
+Sitemap: http://www.dejun.cn/sitemaps-1.xml

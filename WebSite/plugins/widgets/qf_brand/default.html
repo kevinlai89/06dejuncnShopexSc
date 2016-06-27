@@ -1,0 +1,25 @@
+<div class="BrandListWrap" id="brand_<{$widgets_id}>">
+<table cellspacing="0" cellpadding="0">
+  <tbody>
+   <tr>
+  <{foreach from=$data item=brands name=brandlist}>
+       <td width="<{math equation=floor(100/x) x=$setting.col}>%;">
+            <{if $setting.brandSet=='all' || $setting.brandSet=='logo'}>
+            <a href="<{link ctl=brand act=index arg0=$brands.brand_id}>" title="<{$brands.brand_name}>"><img src="<{$brands.brand_logo|storager}>" <{if $setting.brand_width && $setting.brand_height}> width="<{$setting.brand_width}>" height="<{$setting.brand_height}>"<{/if}> /></a>
+            <{/if}>
+            <{if $setting.brandSet=='all' || $setting.brandSet=='write'}>
+            <a href="<{link ctl=brand act=index arg0=$brands.brand_id}>" title="<{$brands.brand_name}>"><{$brand.brand_name}></a>
+          <{/if}>
+     </td>		  
+     <{if !($smarty.foreach.brandlist.iteration%$setting.col)}></tr>
+           <{if !$smarty.foreach.brandlist.last}><tr><{/if}>
+            <{elseif $smarty.foreach.brandlist.last}>
+                <td colspan="<{math equation='y' y=$setting.col-$smarty.foreach.brandlist.iteration%$setting.col}>">&nbsp;</td>
+            </tr>
+           <{/if}>  
+          <{/foreach}>
+      </tbody>
+    </table>
+</div>
+<{if $setting.showMore == 'on'}><div class="more clearfix"><a href="<{link ctl=brand act=showList}>">更多品牌&gt;</a></div><{/if}>
+<script>var Imgs=$$('#brand_<{$widgets_id}> td img');try{fixProductImageSize($$(Imgs),'td')}catch(e){};</script>

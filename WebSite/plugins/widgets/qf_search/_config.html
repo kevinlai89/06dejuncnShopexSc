@@ -1,0 +1,24 @@
+<div  class="tableform">
+<div class="division widgetconfig" style="margin:-5px 0 0 0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+    	<th>是否显示前导提示:</th>
+    	<td ><input type="checkbox" name="showkeywords" <{if $setting.showkeywords}>checked<{/if}>></td>
+   </tr>
+  <tr>
+    <th>是否显示价格区间:</th>
+    <td ><input type="checkbox" name="searchopen" <{if $setting.searchopen}>checked<{/if}>></td>
+   </tr>
+	
+	<tr>
+    <th>是否显示高级搜索链接:</th>
+    <td ><input type="checkbox" name="advsearchopen" <{if $setting.advsearchopen}>checked<{/if}>></td>
+   </tr>
+   <tr>
+    <th>默认关键字</th>
+    <td ><input type="text" name="keywords" value="<{$setting.keywords|default:'请输入商品关键字'}>"></td>
+   </tr>
+   
+</table>
+</div>
+</div>

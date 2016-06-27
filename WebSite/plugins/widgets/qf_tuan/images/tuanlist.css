@@ -1,0 +1,5 @@
+.tasktimeBox em,
+.tuannow em {font:18px Tahoma;color:#E71B14;padding:0 1px;}
+.sktimeof {background:url('tuan/images/timeoff.gif') no-repeat;width:17px;height:23px;}
+.isopen {cursor:pointer;position:absolute;z-index:1;right:-13px;bottom:-7px;width:65px;height:65px;background:url('tuan/images/isopen.png') no-repeat 0 0;_background:transparent;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='tuan/images/isopen.png');}
+.tuannow {display:block;width:100px;height:32px;background:url('tuan/images/btn_buy_tuan.gif') no-repeat;text-indent:-9999px;margin:0 auto;overflow:hidden}

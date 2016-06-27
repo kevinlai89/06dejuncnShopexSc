@@ -1,0 +1,60 @@
+<div class="GoodsCategoryWrap">
+<ul>
+  <{foreach from=$data item=parent key=parentId}>
+  	<{if $parent.curr}>
+    <li class="c-cat-depth-1 <{$parent.curr}>"><a href="<{link ctl='gallery' act=$setting.view arg0=$parentId}>" class="depth-1"><{$parent.label}></a>		
+        <{if $parent.sub && ($setting.showCatDepth_default == '3' || $setting.showCatDepth_default == '2')}>
+            <ul>
+			  	<{foreach from=$parent.sub item=child key=childId name=childcat}>
+					 <li class="c-cat-depth-2 <{if $smarty.foreach.childcat.last}>last<{/if}>"><a href="<{link ctl='gallery' act=$setting.view arg0=$childId}>" class="depth-2 <{$child.curr}>"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}></a>
+						<{if $child.sub && $setting.showCatDepth_default == '3'}>
+							<ul>
+                                <li class="c-cat-depth-3">
+								<table>
+                                  <tbody>
+                                  <{if $setting.devide == '0'}>
+                                    <tr><td>
+                                    <{foreach from=$child.sub item=gChild key=gChildId name=gchildloop}>
+                                      <a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3 <{$gChild.curr}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a> 
+                                        <{if !$smarty.foreach.gchildloop.last}><{$setting.page_devide}><{/if}>
+                                    <{/foreach}>
+                                    </td></tr>
+                                  <{else}>
+                                  <{counter start=1 assign="result" print=false }>
+                                  <{foreach from=$child.sub item=gChild key=gChildId}>
+                                    <{if ($result mod $setting.devide) eq 1 }>
+                                    <tr>
+                                      <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3 <{$gChild.curr}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                                    <{elseif ($result mod $setting.devide) eq 0}>                  
+                                      <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3 <{$gChild.curr}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                                    </tr>
+                                     <{else}>      
+                                     <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3 <{$gChild.curr}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                                    <{/if}>
+                                  <{counter assign="result" print=false }>
+                                  <{/foreach}>                                            	 
+                                   <{/if}>
+                                  </tbody>
+                                </table>
+								</li>
+                            </ul>
+						<{/if}>
+					 </li>
+                  <{/foreach}>
+               </ul>
+          <{/if}>
+    </li>
+	<{if $parent.brands &&  $setting.ShowBrand=='on' &&  @count($data)==1}>
+	<li class="c-cat-depth-1">
+		<span class="depth-1"><{t}>品牌选择<{/t}></span>
+		<ul>
+			<{foreach from=$parent.brands item=brand name=brandnum}>
+				<{if $smarty.foreach.brandnum.iteration <= $setting.branddevide || $setting.branddevide=='0'}><li class="c-cat-depth-2"><a href="<{link ctl=brand act=index arg0=$brand.id}>" class="depth-2"><{$brand.name}><{if $setting.ifCatCounter}><em>(<{$brand.plus}>)</em><{/if}></a></li><{/if}>
+			<{/foreach}>
+		</ul>
+	</li>
+	<{/if}>
+    <{else}><{break}><{/if}>
+  <{/foreach}>  
+</ul>
+</div>

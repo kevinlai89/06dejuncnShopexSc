@@ -1,0 +1,23 @@
+<div class="CartWrap">
+	<div class="CartNav clearfix">
+		<div class="floatLeft"><img src="statics/cartnav-cart.gif"  /></div>
+		<div class="floatRight"><img src="statics/cartnav-step1.gif" alt="购物流程--用户认证" /></div>
+	</div>
+	<div class="RegisterWrap clearfix" style="margin:0;">
+		<div class="Leftpart">
+		  <{require file="passport/index/login.html"}>
+		</div>
+		<!--<div class="Righttop">
+		  <{if !$mustMember}>
+			<div class="rightbottom">
+				<h3>无需注册，直接购买</h3>
+				<a class="lnk" href="<{link ctl=cart act=checkout arg0=$isfastbuy}>" onclick="Cookie.set('S[ST_ShopEx-Anonymity-Buy]', 'true')" id="anonymityBuy"><{t}><{/t}></a>
+			   </div>
+		   <{/if}>
+		 </div>-->
+		 <{foreach from=$cart_login_content item=no}><{$no}><{/foreach}>
+	</div>
+</div>
+
+<div class="clear"></div>
+<{javascript file='formplus.js'}>

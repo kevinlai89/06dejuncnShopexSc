@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/vip/!svn/ver/25192/2010/skomart_485/src/plugins/app/openid_sina
+END
+setting.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/vip/!svn/ver/23747/2010/skomart_485/src/plugins/app/openid_sina/setting.php
+END
+passport.openid_sina.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/vip/!svn/ver/23927/2010/skomart_485/src/plugins/app/openid_sina/passport.openid_sina.php
+END
+shop.sina.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/vip/!svn/ver/23855/2010/skomart_485/src/plugins/app/openid_sina/shop.sina.php
+END
+WeiboOAuth.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/vip/!svn/ver/23927/2010/skomart_485/src/plugins/app/openid_sina/WeiboOAuth.php
+END
+app.openid_sina.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/vip/!svn/ver/23747/2010/skomart_485/src/plugins/app/openid_sina/app.openid_sina.php
+END

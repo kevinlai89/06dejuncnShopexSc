@@ -1,0 +1,236 @@
+<{assign var="obj_id" value=$env.get.obj_id}>
+<div class='selector-panel' id='selector-panel-<{$obj_id}>'>
+  <table class='selector-table'>
+	<tr>
+	<td style="width:532px">
+		
+		<{if $filter}>
+
+	    <div class='gridlist-head' style="text-align:right;">
+			<{if $env.get.select==checkbox}>
+			<label for="selector-all-<{$obj_id}>" style="float:left">
+				<input type="checkbox" id="selector-all-<{$obj_id}>" class="selector-all" value="" name="">全选
+			</label>
+			 <{/if}>
+
+			 <span class="scrollhandle toRight "><{button label="筛选&gt;&gt;"}></span>
+		</div>
+	    <{else}>
+		<div class="gridlist-head"><{t}>请选择</{t}></div>
+		<{/if}>
+		<div class='gridlist selectorlist' id="selectorBody-<{$obj_id}>">
+			<div id="selectorBody-body-<{$obj_id}>">
+				<{include file="editor/object_items.html"}> 
+			</div>
+		</div>
+	</td>
+	<td style="width:532px">
+        <div id="selector-panel-form-<{$obj_id}>" class="selector-panel-form"><{include file='editor/the_filter.html'}> </div>
+		<{if false&&$filter}>
+            <div class='scrollhandle toLeft' style="margin:10px 0 0;">
+                <div class="table-action"> <{button label="立刻筛选"}></div>
+            </div>
+    	<{/if}>
+         <{if $filter}>
+            <div class='scrollhandle toLeft gridlist-head' style="text-align:left;"><{button label="&lt;&lt;筛选并返回列表"}></div>
+       <{/if}>
+    </td>
+	</tr>
+  </div>
+</div>
+
+
+<script>
+
+void function(){
+<{if $filter && $env.get.select==checkbox}>
+
+ selector_<{$obj_id}>={
+		init:function(){
+			this.sellist=$ES('#selectorBody-<{$obj_id}> .row input');	
+			this.selall=$('selector-all-<{$obj_id}>');
+			this.tip=$('selector-tip-<{$obj_id}>');
+			this.attach();
+		},
+		IEchange:function(obj){
+			 obj.addEvent('click',function(){this.fireEvent('change');});
+			 obj.addEvent('focus',function(){this.blur();})
+		},
+		attach:function(){
+			var frowselected=this.selall.retrieve('rowselected',[]);
+			this.tip.addEvents({
+				'tip_update':function(className,selectedCount){
+					 if(this.retrieve('arg:class','NULL')!=className){ 
+						  $$(this.childNodes).hide();                      
+					 }
+					 if(el=this.getElement('.'+className)){		
+						  el.innerHTML=el.innerHTML.replace(/<em>([\s\S]*?)<\/em>/ig,function(){
+							  return '<em>'+selectedCount+'</em>';
+						  });
+						  el.setStyle('display','block');
+					  }
+					  this.store('arg:class',className);
+				},
+				'tip_show':function(){
+					this.show();
+				},
+				'tip_hide':function(){
+					this.hide();
+				}
+			});
+			var selectedLength = frowselected.length;   
+		    if(selectedLength>1){
+				  if(selectedLength==this.tip.get('count').toInt()||frowselected.contains('_ALL_')){
+					  this.tip.fireEvent('tip_update',['selectedall',selectedLength]).fireEvent('tip_show');
+				  }else{
+					  this.tip.fireEvent('tip_update',['selected',selectedLength]).fireEvent('tip_show');
+				  }
+		    }
+
+			var self=this;
+			if(window.ie){this.IEchange(this.selall);}
+			this.selall.addEvent('change',function(e){
+				  self.sellist.set('checked',this.checked).fireEvent('change');
+		   });
+		   this.sellist.each(function(sel){
+			if(window.ie){self.IEchange(sel)}
+			sel.addEvent('change',function(e){
+				if(!self.selall){
+					frowselected.empty().push(this.value);
+				}else{
+					frowselected[this.checked?'include':'erase'](this.value);
+				}
+				if(!this.checked&&frowselected.contains('_ALL_')){
+					frowselected.erase('_ALL_');
+					return self.unselectAll();
+				}
+				var selectedLength=frowselected.length;                           
+				var displayTipDelay = 0;  
+				if(selectedLength>1){
+					 if(selectedLength==self.tip.get('count').toInt()||frowselected.contains('_ALL_')){
+						 self.tip.fireEvent('tip_update',['selectedall',selectedLength]).fireEvent('tip_show');
+					 }else{
+						self.tip.fireEvent('tip_update',['selected',selectedLength]);
+						displayTipDelay = (function(){
+							$clear(displayTipDelay);
+							if(frowselected.length<2)return;
+							self.tip.fireEvent('tip_show');   
+					   }).delay(200);  
+					 }
+				 }else{ 
+					  self.tip.fireEvent('tip_update',['selected',selectedLength]); 
+					  self.tip.fireEvent('tip_hide');   
+				 }
+			});
+				if(frowselected&&frowselected.push&&(frowselected.contains(sel.value)||frowselected.contains('_ALL_'))){
+					 sel.set('checked',true).fireEvent('change');
+				}
+			});
+		},
+		toQueryString:function(){
+			var itemSelected=this.selall.retrieve('rowselected');
+
+		},
+		selectAll:function(){
+			this.selall.set('checked',true).fireEvent('change').set('checked',false);
+			this.selall.retrieve('rowselected').empty().push('_ALL_');
+			this.tip.fireEvent('tip_update','selectedall');			
+		},
+		unselectAll:function(){
+			this.selall.set('checked',false).fireEvent('change');
+			this.selall.retrieve('rowselected').empty();
+			this.tip.fireEvent('tip_hide');			
+		}
+	};
+	selector_<{$obj_id}>.init();
+<{/if}>
+    var selectorBody=$('selectorBody-body-<{$obj_id}>');
+    var bindEasySelectHandle=(function(){
+         if('checkbox'=='<{$env.get.select}>'.trim()){
+                attachEsayCheck(selectorBody,'.row-line input[type=checkbox]');
+         }
+    
+        return arguments.callee;
+    })();
+    
+    
+    var form = $('selector-panel-form-<{$obj_id}>');
+    
+    var req = new Request.HTML({update:selectorBody,onComplete:function(){
+          
+          $('loadMask').hide();
+          
+          bindEasySelectHandle();
+		  <{if $env.get.select==checkbox}>
+			selector_<{$obj_id}>.init();
+			selector_<{$obj_id}>.selall.checked=false;
+		  <{/if}>
+    }});
+    
+    var action="index.php?ctl=editor&act=lista&filter={filter}&select={select}&page={page}&obj_id={obj_id}&object={object}";
+        action=action.substitute({
+                filter:'<{$env.get.filter|serialize|urlencode}>',
+                select:'<{$env.get.select}>',
+                obj_id:'<{$obj_id}>',
+                object:'<{$env.get.object|urlencode}>',
+                page:'{page}'
+        });
+     
+    update_<{$obj_id}>=function(p){
+        p=p||1;
+        $('loadMask').amongTo(selectorBody).show();
+        req.post(action.substitute({page:p}),getQueryString());
+    }
+    
+    var getQueryString=function(){
+         
+         return form.toQueryString(function(el){
+             el=$(el);
+             return el.isDisplay()||el.getParent().isDisplay();
+         
+         });
+    
+    };
+    
+    var checkFormUpdate=function(){
+         
+         var queryStr=getQueryString();
+         if(queryStr!=form.retrieve('qstr',queryStr)){
+              form.store('qstr',queryStr);
+              return true;
+         }
+    
+         return false;
+    
+    }
+    checkFormUpdate();
+    
+   var toWhere=false;
+   var selectorPanel=$('selector-panel-<{$obj_id}>');
+   var scrollFx=new Fx.Scroll(selectorPanel,{link:'cancel',onComplete:function(){            
+        if(toWhere=='toLeft'&&checkFormUpdate()){
+		   <{if $env.get.select==checkbox}>
+			selector_<{$obj_id}>.unselectAll(); 
+		   <{/if}>
+            update_<{$obj_id}>(1);
+        }
+   }});
+   selectorPanel.getElements('.scrollhandle').addEvent('click',function(){
+       toWhere=this.className.split(' ')[1].trim();
+	   if(toWhere=='toLeft'){
+	   		$(this).getParent('.dialog').getElements('.dialog-content-foot').setStyle('visibility','visible');
+
+	   }else{$(this).getParent('.dialog').getElements('.dialog-content-foot').setStyle('visibility','hidden');}	   
+       scrollFx[toWhere]();
+   });
+
+   selectorPanel.getParent('.dialog').getElement('.dialog-content-head').setStyle('display', 'none');
+   
+}();
+</script>
+<{area inject=".mainFoot"}>
+<div class="table-action">
+	<{button type="button" label="确定" onclick="var dialog=$(this).getParent('.dialog');dialog.retrieve('callback')(dialog);dialog.retrieve('instance').close();"}>
+	<{button type="button" label="取消" onclick="$(this).getParent('.dialog').retrieve('instance').close()"}>
+</div>
+<{/area}>

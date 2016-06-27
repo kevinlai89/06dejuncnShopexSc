@@ -1,0 +1,59 @@
+<style id="myAccount-style">
+.myAccount dt,.myAccount dt img,.myAccount .prompt .btn-login,.myAccount dt b,.myAccount dl.hover dt b,.myAccount .prompt{background-image:url("images/m.png");background-repeat:no-repeat;}
+.myAccount{float:left;position:relative;z-index:89;width:112px;height:30px;}
+.myAccount dt{position:absolute;z-index:1;width:50px;height:30px;padding:0 26px 0 36px;background-color:#fff;background-position:0px 0px;text-align:center;line-height:27px;cursor:pointer;*line-height:30px;}
+.myAccount dt img{position:absolute;top:2px;left:3px;background-position:-88px -88px;}
+.myAccount dt span{font-family:"\5b8b\4f53";color:#005EA7;}
+.myAccount dt b{top:11px;right:10px;width:11px;height:6px;background-position:0 -98px;}
+.myAccount dd{display:none;position:absolute;top:31px;right:1px;width:310px;border:1px solid #E3E3E3;background:#fff;border-radius:5px 0 5px 5px;-moz-border-radius:5px 0 5px 5px;-webkit-border-radius:5px 0 5px 5px;}
+.myAccount dl.hover dt{height:32px;background-position:0px -31px;}
+.myAccount dl.hover dd{display:block;}
+.myAccount dl.hover dt b{background-position:0 -90px;}
+.myAccount .prompt a,.myAccount .orderlist a{color:#005EA7;}
+.myAccount .prompt{padding:6px 6px 6px 9px;background-position:0 -132px;background-repeat:repeat-x;overflow:hidden;line-height:25px;border-radius:5px 0 0 0;-moz-border-radius:5px 0 0 0;-webkit-border-radius:5px 0 0 0;zoom:1;}
+.myAccount .prompt .btn-login{display:block;width:73px;margin:0;height:25px;background-position:0 -188px;background-color:#F4C36E;text-align:center;line-height:25px;color:#333;}
+.myAccount .uclist{width:310px;padding:5px 0;margin:5px 0;overflow:hidden;}
+.myAccount .uclist ul{width:134px;padding:0 10px;}
+.myAccount .uclist .fore1{border-right:1px solid #E6E6E6;}
+.myAccount .uclist li{border-bottom:1px dotted #ccc;}
+.myAccount .uclist a:link,.myAccount .uclist a:visited{display:block;height:18px;overflow:hidden;padding:5px;text-decoration:none;color:#005EA7;}
+.myAccount .uclist a:hover,.myAccount .uclist a:active{background:#F5F5F5;color:#C00;}
+</style>
+<div id="l_<{$widgets_id}>" class="myAccount">
+	<dl>
+		<dt class="ld">
+			<s></s>
+			<img width="24" height="24" alt="头像" src="images/blank.gif"><a href="<{link ctl=member act=index}>"><{$setting.account|default:'我的帐号'}></a>
+			<b></b>
+		</dt>
+		<dd>
+			<div class="prompt">
+				<{$data.prompt}>
+			</div>
+			<div class="uclist">
+				<ul id="jduclist" class="fore1 fl">
+					<li><a href="<{link ctl=member arg0=1 arg1=0 act=orders}>" <{$data.target}>>待处理订单<{if $data.login}><font style="color:#ccc">(0)</font><{/if}></a></li>
+					<li><a href="<{link ctl=member act=comment}>" <{$data.target}>>咨询回复<{if $data.login}><font style="color:#ccc">(0)</font><{/if}></a></li>
+					<li><a href="<{link ctl=member act=notify}>" <{$data.target}>>降价商品<{if $data.login}><font style="color:#ccc">(0)</font><{/if}></a></li>
+					<li><a href="<{link ctl=member act=coupon}>" <{$data.target}>>优惠券<{if $data.login}><font style="color:#ccc">(0)</font><{/if}></a></li>
+				</ul>
+				<ul class="fore2 fl">
+					<li><a href="<{link ctl=member act=orders}>" <{$data.target}>>我的订单&nbsp;&gt;</a></li>
+					<li><a href="<{link ctl=member act=pointHistory}>" <{$data.target}>>我的积分&nbsp;&gt;</a></li>
+					<li><a href="<{link ctl=member act=couponExchange}>" <{$data.target}>>购物礼券&nbsp;&gt;</a></li>
+					<li><a href="<{link ctl=member act=favorite}>" <{$data.target}>>我的关注&nbsp;&gt;</a></li>
+				</ul>
+			</div>
+			<div id="historylist"></div>
+		</dd>
+	</dl>
+</div>
+<script>
+(function(){
+	$('myAccount-style').inject($E('link'), 'before');
+	$('l_<{$widgets_id}>').getElement('dl').addEvents({
+		'mouseenter':function(){this.addClass('hover');<{if $data.login}>new Request({url:'<{link ctl=member act=getMemInfo}>',onComplete: function(re){if(re)$('jduclist').set('html',re)}}).send()<{/if}>},
+		'mouseleave':function(){this.removeClass('hover')}
+	})
+})()
+</script>

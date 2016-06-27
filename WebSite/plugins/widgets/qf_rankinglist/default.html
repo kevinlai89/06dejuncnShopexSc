@@ -1,0 +1,20 @@
+<div id="Ranks-<{$widgets_id}>" class="Ranks">
+ <{if @count($data) > 0}>
+ <ul class="clearfix">
+ <{foreach from=$data item=data key=key name=ranking}>
+	<{if $data.goods_id > 0}> 
+    <li class="l<{$key+1}><{if $smarty.foreach.ranking.iteration <= $setting.showing|default:1}> hl<{/if}><{if $smarty.foreach.ranking.first}> selected<{/if}>">
+    <span><{$key+1}></span>
+    <a title="<{$data.name}>" target="_blank" href="<{link ctl="product" act="index" arg0=$data.goods_id}>" class="im"><img src="<{$data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" width="<{$setting.goodsImgWidth|default:'68'}>" height="<{$setting.goodsImgHeight|default:'68'}>" /></a>
+      <div class="gname"><a title="<{$data.name}>" target="_blank" href="<{link ctl="product" act="index" arg0=$data.goods_id}>"><{$data.name}></a></div>
+      <{if $setting.showGoodsPrice}><div class="p"><{$data.price|cur}></div><{/if}>
+    </li>
+    <{/if}>
+ <{/foreach}>
+ </ul>
+ <{/if}>
+ <{if $setting.showMore == "on"}><div class="more clearfix"><a href="<{$data.link}>"><{t}>更多...<{/t}></a></div><{/if}>
+</div>
+<script>
+window.addEvent('domready',function(){var topSales = $('Ranks-<{$widgets_id}>').getElements('li');topSales.each(function(s,i){s.addEvents({'mouseenter': function(){this.getParent('ul').getElements('li.selected').each(function(l){l.removeClass('selected')});this.addClass('selected')}	})})})
+</script>

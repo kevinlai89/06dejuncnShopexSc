@@ -1,0 +1,32 @@
+/*热销排行*/
+.Ranks{width:208px;overflow:hidden;}
+.Ranks li{float:left;width:208px;height:27px;line-height:27px;*line-height:28px;overflow:hidden;padding:5px 0;margin:0;border-top:1px solid #e7e7e7;}
+.Ranks li span{float:left;width:11px;height:11px;margin:8px 5px 0 5px;overflow:hidden;text-indent:-9999em;background:url("hoticos.gif") no-repeat;}
+.Ranks li.l1 span{background-position:-13px 0px;}
+.Ranks li.l2 span{background-position:-13px -39px;}
+.Ranks li.l3 span{background-position:-13px -78px;}
+.Ranks li.l4 span{background-position:-13px -119px;}
+.Ranks li.l5 span{background-position:-13px -159px;}
+.Ranks li.l6 span{background-position:-13px -199px;}
+.Ranks li.l7 span{background-position:-13px -239px;}
+.Ranks li.l1.selected span{background-position:0px 0px;}
+.Ranks li.l2.selected span{background-position:0px -39px;}
+.Ranks li.l3.selected span{background-position:0px -78px;}
+.Ranks li.l4.selected span{background-position:0px -119px;}
+.Ranks li.l5.selected span{background-position:0px -159px;}
+.Ranks li.l6.selected span{background-position:0px -199px;}
+.Ranks li.l7.selected span{background-position:0px -239px;}
+.Ranks li.l8.selected span{background-position:0px -279px;}
+.Ranks li .gname{margin-right:10px;overflow:hidden;height:27px;}
+.Ranks li .gname a{color:#666;}
+.Ranks li .gname a:hover{color:#df0001;}
+.Ranks li a em{color:#fff;visibility:hidden;}
+.Ranks li .p{margin-top:2px;color:#fff;display:none;font-weight:bold;height:18px;line-height:18px;}
+.Ranks li a.im{float:left;display:none;width:52px;height:52px;margin:4px 15px 0 0;text-align:center;overflow:hidden;background-color:#FFF;padding:1px;}
+.Ranks li a.im img{height:52px;}
+.Ranks li.selected{height:58px;padding:9px 0;}
+.Ranks li.selected a em{visibility:visible;}
+.Ranks li.selected a.im,.Ranks li.selected .p{display:block;}
+.Ranks li.selected .p{color:#CC0000; font-family:Tahoma, Geneva, sans-serif}
+.Ranks li.selected .gname{height:3em;line-height:1.5em;overflow:hidden;padding-top:3px;}
+.Ranks li.l1{border-top:none;}

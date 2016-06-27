@@ -1,0 +1,20 @@
+<div class="ArtListWrap">
+ <{foreach from=$articles item=article key=key}>
+    <div class="list" onmouseout="this.className='list'" onmouseover="this.className='list hlist'">
+        <div class="span-auto apic">
+			<a href="<{link ctl=article act=index arg0=$article.article_id}>" target="_blank" class="view"><img src="<{$article.picture|default:$env.conf.site.default_thumbnail_pic|storager}>" width="160" height="120" alt="<{$article.title|escape:html}>" /></a>
+		</div>
+        <div class="info">
+            <h3><a href="<{link ctl=article act=index arg0=$article.article_id}>" <{if $article.iftop}>class="top"<{/if}>><{$article.title}></a></h3>
+            <p><{$article.intro|escape:html}></p>
+            <div class="date">
+				<!--span class="sort">分类：<{$cat_name}></span-->
+				<span class="yuan">文章来源：<em><{if $article.source}><{$article.source}><{else}>未知<{/if}></em></span>
+				<span class="read">已阅读：(<em><{$article.view}></em>)次</span>
+				<span class="time">发布时间：<em><{$article.uptime|usertime}></em></span>
+		    </div>
+        </div>
+    </div>
+   <{/foreach}>
+   <div class="clearfix pushdown-3"><{pager data=$pager}></div>
+</div>

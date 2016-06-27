@@ -1,0 +1,82 @@
+ <!--设置标签 by 模板喔 2013311-->
+<form method="post" action="index.php?ctl=qingfeng/tag&act=tagEdit">
+  <div class="tableform" >
+	<div class="division">
+      <table>
+        <tr>
+          <th><{t}>商品图片标签限制开关：<{/t}></th>
+          <td>
+			<label><input type="radio" name="tag_status" value="0" <{if $tag_status eq 0}>checked="checked"<{/if}>/><{t}>关<{/t}></label>
+			<label><input type="radio" name="tag_status" value="1" <{if $tag_status eq 1}>checked="checked"<{/if}>/><{t}>开<{/t}></label>
+		</td>
+        </tr>
+		<tr>
+          <th><{t}>图片设置：<{/t}></th>        
+          <td>
+         	<span class="sysiconBtn addorder" onclick="addtag();">添加图片</span>
+         	<div id="listArea">
+         	<{if $tag_rule}>
+				<{foreach from=$tag_rule item=data key=key}>
+					  <div id="tag_<{$key}>" class="tag">
+						  <table width="100%" cellpadding="0" cellspacing="0">
+							  <tr>							    
+								<th>图片地址：</th>
+								<td><input value="<{$data.pic}>" name="tag[<{$key}>][pic]" style='width:100px;' id="tag[<{$key}>][pic]" >
+									<input type=button value=上传 onClick=addPic($('tag[<{$key}>][pic]'))>
+								</td>
+								<th>标签名称：</th>
+							    <td><input type="text" name="tag[<{$key}>][name]" value="<{$data.name}>" />
+									<{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }>
+								</td>
+							   </tr>
+						  </table>
+					  </div>
+	  			<{/foreach}>
+	  		<{/if}>
+			</div>
+		
+		</td>
+        </tr>
+       </table>
+    </div>
+  </div>
+  <table cellspacing="0" cellpadding="0" border="0" align="center" class="tableAction">
+    <tr>
+      <td><b class="submitBtn">
+        <input type="submit" value="保存">
+        </b></td>
+    </tr>
+  </table>
+</form>
+
+<script>
+function addtag(){
+			  d=new Date();
+			  i=d.getTime();
+			  var content='\
+				<div id="tag_'+i+'" class="tag">\
+					<table width="100%" cellpadding="0" cellspacing="0">\
+					 <tr>\
+					  <th width="2%">图片地址：</th>\
+					  <td><input style="width:100px" name=tag['+i+'][pic] id=tag['+i+'][pic]><input type=button value=上传 onClick=addPic($(\'tag['+i+'][pic]\'))>\</td>\
+					  <th width="2%">标签名称：</th>\
+					  <td><input name=tag['+i+'][name]>\ <{img src="images/bundle/delecate.gif" onclick="delLink(this);" style="cursor:pointer;" }></td>\
+					 </tr>\
+				   <table>\
+				</div>\
+			  ';
+			  $E('#listArea').adopt(new Element('div').set('html',content).getFirst());
+}
+function addPic(target){
+			return new Dialog('index.php?ctl=editor&act=image&p[0]=0',{title:'插入<img>',onShow:function(){
+			var dialog=this;
+			this.dialog.store('callback',function(src){
+              target.value=src;
+              dialog.close();
+           });
+        }});
+}
+
+delLink=function(o){
+	$(o).getParent('.tag').remove();}
+</script>

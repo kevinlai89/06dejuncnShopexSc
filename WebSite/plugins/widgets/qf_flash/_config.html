@@ -1,0 +1,320 @@
+<div  id="duceflash" class="tableform">
+<div class="division widgetconfig">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <input type=hidden name="type" id="type" value="<{$setting.type|default:'0'}>">
+  <tr>
+    <th width="20%" ><{t}>DuceFlash宽度：<{/t}></th>
+    <td width="30%" ><{input name="width" style="width:60px" value=$setting.width|default:'588' required="true" type="digits"}> px</td>
+    <th width="20%" ><{t}>DuceFlash高度：<{/t}></th>
+    <td width="30%" ><{input name="height" style="width:60px" value=$setting.height|default:'392' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" ><{t}>外边框宽度：<{/t}></th>
+    <td width="30%" ><{input name="border" style="width:60px" value=$setting.border|default:'0' required="true" type="digits"}> px</td>
+    <th width="20%" ><{t}>外边框颜色：<{/t}></th>
+    <td width="30%" ><{input type="color" name="bordercolor" style="width:60px;" value=$setting.bordercolor|default:'#000'}></td>
+  </tr>
+  <tr>
+    <th width="20%" >外框背景色：</th>
+    <td width="30%" ><{input type="color" name="bgcolor" style="width:60px;" value=$setting.bgcolor|default:'#F0F0F0'}></td>
+    <th width="20%" >外框背景图片：</th>
+    <td width="30%" ><input name="bgimg" id="bgimg" type="text" style="width:120px" value="<{$setting.bgimg}>"><input type=button value=上传 onClick=addPic($('bgimg'))></td>
+  </tr>
+  <tr>
+    <th width="20%" ><{t}>图片框宽度：<{/t}></th>
+    <td width="30%" ><{input name="imgw" style="width:60px" value=$setting.imgw|default:'0' required="true" type="digits" title="0表示同DuceFlash宽度"}> px</td>
+    <th width="20%" ><{t}>图片框高度：<{/t}></th>
+    <td width="30%" ><{input name="imgh" style="width:60px" value=$setting.imgh|default:'0' required="true" type="digits" title="0表示同DuceFlash高度"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >切换间隔时间：</th>
+    <td width="30%" ><{input name="done" style="width:60px" value=$setting.done|default:'8' required="true" type="digits"}> 秒</td>
+    <th width="20%" >效果过渡时间：</th>
+    <td width="30%" ><{input name="duration" style="width:60px" value=$setting.duration|default:'500' required="true" type="digits"}> ms 1秒=1000ms</td>
+  </tr>
+  <tr>
+    <th width="20%" >图片切换方式：</th>
+    <td width="30%" ><input name="move" type="radio" value="0" <{if !$setting.move}>checked<{/if}>> 渐变  &nbsp;<input name="move" type="radio" value="1" <{if $setting.move==1}>checked<{/if}>> 滑动  &nbsp;<input name="move" type="radio" value="2"<{if $setting.move==2}>checked<{/if}>> 上下滑动</td>
+    <th width="20%"><{t}>图片缩放：<{/t}></th>
+    <td width="30%"><input name="zoom" type="radio" value="0" <{if !$setting.zoom}>checked<{/if}>> 原始  &nbsp;<input name="zoom" type="radio" value="1" <{if $setting.zoom==1}>checked<{/if}>> 自适应  &nbsp;<input name="zoom" type="radio" value="2"<{if $setting.zoom==2}>checked<{/if}>> 强制
+	</td>
+  </tr>
+  <tr>
+    <th width="20%" >图片加载方式：</th>
+    <td width="30%" ><select name="loadtype"><option value="0" <{if !$setting.loadtype}>selected<{/if}>>全部加载后显示</option><option value="1" <{if $setting.loadtype==1}>selected<{/if}>>边加载边显示</option></select></td>
+    <th width="20%"></th>
+    <td width="30%"></td>
+  </tr>
+  <tr>
+    <th width="20%"><{t}>DuceFlash样式：<{/t}></th>
+    <td width="80%" colspan="3" style="padding:8px;">
+	<div id="flash-types">
+	<a style="float:left;margin:0;padding:2px;height:56px;border:2px solid #FFF;margin-right:15px;"><img src="images/transparent.gif" style="background:url(../plugins/widgets/qf_flash/images/types.gif) no-repeat 0 0;width:87px;height:56px;"></a>
+	<a style="float:left;margin:0;padding:2px;height:56px;border:2px solid #FFF;margin-right:15px;"><img src="images/transparent.gif" style="background:url(../plugins/widgets/qf_flash/images/types.gif) no-repeat -291px 0;width:87px;height:56px;"></a>
+	<a style="float:left;margin:0;padding:2px;height:56px;border:2px solid #FFF;margin-right:15px;"><img src="images/transparent.gif" style="background:url(../plugins/widgets/qf_flash/images/types.gif) no-repeat -97px 0;width:87px;height:56px;"></a>
+	<a style="float:left;margin:0;padding:2px;height:56px;border:2px solid #FFF;margin-right:15px;"><img src="images/transparent.gif" style="background:url(../plugins/widgets/qf_flash/images/types.gif) no-repeat -194px 0;width:87px;height:56px;"></a>
+	</div>
+	</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan=4 style="background:#EEE;text-align:center;">按键布局 &nbsp; 如有疑问请查阅<a href="http://www.ducedis.com/thread-3052-1-1.html" target="_blank" style="color:#F60">帮助</a></td>
+  </tr>
+  <tbody id="type0" style="display:none;">
+  <tr>
+    <th width="20%" >按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[0][color]" style="width:60px;" value=$setting.btn.0.color|default:'#000'}></td>
+    <th width="20%" >当前按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[0][hover]" style="width:60px;" value=$setting.btn.0.hover|default:'#000'}></td>
+  </tr>
+  <tr>
+    <th width="20%" >按键透明度：</th>
+    <td width="30%" ><input name="btn[0][alpha1]" type="text" style="width:60px" value="<{$setting.btn.0.alpha1|default:'50'}>"> 0~100值越小越透明</td>
+    <th width="20%" >当前按键透明度：</th>
+    <td width="30%" ><input name="btn[0][alpha2]" type="text" style="width:60px" value="<{$setting.btn.0.alpha2|default:'75'}>"> 0~100值越小越透明</td>
+  </tr>
+  <tr>
+    <th width="20%" >标题字体颜色：</th>
+    <td width="30%" ><{input type="color" name="btn[0][fncolor]" style="width:60px;" value=$setting.btn.0.fncolor|default:'#E3E3E3'}></td>
+    <th width="20%" >当前字体颜色：</th>
+    <td width="30%" ><{input type="color" name="btn[0][fnhover]" style="width:60px;" value=$setting.btn.0.fnhover|default:'#FFF'}></td>
+  </tr>
+  <tr>
+    <th width="20%" >按键背景图片：</th>
+    <td width="30%" ><input name="btn[0][img]" type="text" id="btn[0][img]" style="width:120px" value="<{$setting.btn.0.img|default:'none'}>"><input type=button value=上传 onClick=addPic($('btn[0][img]'))></td>
+    <th width="20%" >当前背景图片：</th>
+    <td width="30%" ><input name="btn[0][imgcurr]" type="text" id="btn[0][imgcurr]" style="width:120px" value="<{$setting.btn.0.imgcurr|default:'type0.gif'}>"><input type=button value=上传 onClick=addPic($('btn[0][imgcurr]'))></td>
+  </tr>
+  <tr>
+    <th width="20%" ><{t}>按键背景图偏移：<{/t}></th>
+    <td width="30%" ><{input name="btn[0][pos]" style="width:60px" value=$setting.btn.0.pos|default:'0' required="true" type="digits"}> px <a href="http://www.ducedis.com/thread-3052-1-1.html" target="_blank" style="color:#F60">帮助</a></td>
+    <th width="20%" >标题字体大小：</th>
+    <td width="30%" ><{input name="btn[0][fs]" style="width:60px" value=$setting.btn.0.fs|default:'12' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键背景图对齐：</th>
+    <td width="30%" ><input name="btn[0][posx]" type="text" style="width:60px" value="<{$setting.btn.0.posx|default:'center'}>"> center , right , left</td>
+    <th width="20%" >按键高度：</th>
+    <td width="30%" ><{input name="btn[0][h]" style="width:60px" value=$setting.btn.0.h|default:'35' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键间距：</th>
+    <td width="30%" ><{input name="btn[0][s]" style="width:60px" value=$setting.btn.0.s|default:'1' required="true" type="digits"}> px</td>
+    <th width="20%" >按键外边距：</th>
+    <td width="30%" ><{input name="btn[0][is]" style="width:60px" value=$setting.btn.0.is|default:'1' required="true" type="digits"}> px</td>
+  </tr>
+  </tbody>
+  <tbody id="type1" style="display:none;">
+  <tr>
+    <th width="20%" >按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[1][color]" style="width:60px;" value=$setting.btn.1.color|default:'#333'}></td>
+    <th width="20%" >当前按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[1][hover]" style="width:60px" value=$setting.btn.1.hover|default:'#900'}></td>
+  </tr>
+  <tr>
+    <th width="20%" >按键透明度：</th>
+    <td width="30%" ><input name="btn[1][alpha1]" type="text" style="width:60px" value="<{$setting.btn.1.alpha1|default:'60'}>"> 0~100值越小越透明</td>
+    <th width="20%" >当前按键透明度：</th>
+    <td width="30%" ><input name="btn[1][alpha2]" type="text" style="width:60px" value="<{$setting.btn.1.alpha2|default:'100'}>"> 0~100值越小越透明</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键背景图片：</th>
+    <td width="30%" ><input name="btn[1][img]" type="text" id="btn[1][img]" style="width:120px" value="<{$setting.btn.1.img|default:'type1.gif'}>"><input type=button value=上传 onClick=addPic($('btn[1][img]'))></td>
+    <th width="20%" >当前背景图片：</th>
+    <td width="30%" ><input name="btn[1][imgcurr]" type="text" id="btn[1][imgcurr]" style="width:120px" value="<{$setting.btn.1.imgcurr}>"><input type=button value=上传 onClick=addPic($('btn[1][imgcurr]'))></td>
+  </tr>
+  <tr>
+    <th width="20%"><{t}>按键背景图偏移：<{/t}></th>
+    <td width="80%" colspan="3"><{input name="btn[1][pos]" style="width:60px" value=$setting.btn.1.pos|default:'19' required="true" type="digits"}> px <a href="http://www.ducedis.com/thread-3052-1-1.html" target="_blank" style="color:#F60">帮助</a></td>
+  </tr>
+  <tr>
+    <th width="20%" >按键宽度：</th>
+    <td width="30%" ><{input name="btn[1][w]" type="text" style="width:60px" value=$setting.btn.1.w|default:'19' required="true" type="digits"}> px</td>
+    <th width="20%" >按键高度：</th>
+    <td width="30%" ><{input name="btn[1][h]" type="text" style="width:60px" value=$setting.btn.1.h|default:'19' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键间距：</th>
+    <td width="30%" ><{input name="btn[1][s]" style="width:60px" value=$setting.btn.1.s|default:'4' required="true" type="digits"}> px</td>
+    <th width="20%" >按键外边距：</th>
+    <td width="30%" ><{input name="btn[1][is]" style="width:60px" value=$setting.btn.1.is|default:'10' required="true" type="digits"}> px</td>
+  </tr>
+  </tbody>
+  <tbody id="type2" style="display:none;">
+  <tr>
+    <th width="20%" >按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[2][color]" style="width:60px" value=$setting.btn.2.color|default:'#666'}></td>
+    <th width="20%" >当前按键背景色：</th>
+    <td width="30%" ><{input type="color" name="btn[2][hover]" style="width:60px" value=$setting.btn.2.hover|default:'#EEE'}></td>
+  </tr>
+  <tr>
+    <th width="20%" >按键透明度：</th>
+    <td width="30%" ><input name="btn[2][alpha1]" type="text" style="width:60px" value="<{$setting.btn.2.alpha1|default:'100'}>"> 0~100值越小越透明</td>
+    <th width="20%" >当前按键透明度：</th>
+    <td width="30%" ><input name="btn[2][alpha2]" type="text" style="width:60px" value="<{$setting.btn.2.alpha2|default:'100'}>"> 0~100值越小越透明</td>
+  </tr>
+  <tr>
+    <th width="20%" >标题字体颜色：</th>
+    <td width="30%" ><{input type="color" name="btn[2][fncolor]" style="width:60px" value=$setting.btn.2.fncolor|default:'#EEE'}></td>
+    <th width="20%" >当前字体颜色：</th>
+    <td width="30%" ><{input type="color" name="btn[2][fnhover]" style="width:60px" value=$setting.btn.2.fnhover|default:'#333'}></td>
+  </tr>
+  <tr id="type2_tr">
+    <th width="20%" >按键背景图片：</th>
+    <td width="30%" ><input name="btn[2][img]" type="text" id="btn[2][img]" style="width:120px" value="<{$setting.btn.2.img|default:'type2_1.gif'}>"><input type=button value=上传 onClick=addPic($('btn[2][img]'))></td>
+    <th width="20%" >当前背景图片：</th>
+    <td width="30%" ><input name="btn[2][imgcurr]" type="text" id="btn[2][imgcurr]" style="width:120px" value="<{$setting.btn.2.imgcurr|default:'type2_2.gif'}>"><input type=button value=上传 onClick=addPic($('btn[2][imgcurr]'))></td>
+  </tr>
+  <tr id="type3_tr" style="display:none;">
+    <th width="20%" >按键背景图片：</th>
+    <td width="30%" ><input name="btn[3][img]" type="text" id="btn[3][img]" style="width:120px" value="<{$setting.btn.3.img|default:'type3_1.gif'}>"><input type=button value=上传 onClick=addPic($('btn[3][img]'))></td>
+    <th width="20%" >当前背景图片：</th>
+    <td width="30%" ><input name="btn[3][imgcurr]" type="text" id="btn[3][imgcurr]" style="width:120px" value="<{$setting.btn.3.imgcurr|default:'type3_2.gif'}>"><input type=button value=上传 onClick=addPic($('btn[3][imgcurr]'))></td>
+  </tr>
+  <tr>
+    <th width="20%" ><{t}>按键背景图偏移：<{/t}></th>
+    <td width="30%" ><{input name="btn[2][pos]" style="width:60px" value=$setting.btn.2.pos|default:'42' required="true" type="digits"}> px <a href="http://www.ducedis.com/thread-3052-1-1.html" target="_blank" style="color:#F60">帮助</a></td>
+    <th width="20%" >标题字体大小：</th>
+    <td width="30%" ><{input name="btn[2][fs]" style="width:60px" value=$setting.btn.2.fs|default:'14' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键宽度：</th>
+    <td width="30%" ><{input name="btn[2][w]" style="width:60px" value=$setting.btn.2.w|default:'155' required="true" type="digits"}> px</td>
+    <th width="20%" >按键高度：</th>
+    <td width="30%" ><{input name="btn[2][h]" style="width:60px" value=$setting.btn.2.h|default:'40' required="true" type="digits"}> px</td>
+  </tr>
+  <tr>
+    <th width="20%" >按键间距：</th>
+    <td width="30%" ><{input name="btn[2][s]" style="width:60px" value=$setting.btn.2.s|default:'2' required="true" type="digits"}> px</td>
+    <th width="20%" >按键外边距：</th>
+    <td width="30%" ><{input name="btn[2][is]" style="width:60px" value=$setting.btn.2.is|default:'0' required="true" type="digits"}> px</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<script>
+var flashtypeSel = function(id){
+	$ES('#flash-types a').each(function(a, i){
+		a.style.borderColor = id==i ? '#6C0' : '#FFF';
+		if ($E('#type'+i)) {
+			$E('#type'+i).style.display = id==i ? '' : 'none';
+		}
+		if(id==3){
+			$E('#type2').style.display = '';
+			$E('#type2_tr').style.display = 'none';
+			$E('#type3_tr').style.display = '';
+		}
+		if(id==2){
+			$E('#type2_tr').style.display = '';
+			$E('#type3_tr').style.display = 'none';
+		}
+	});
+}
+$ES('#flash-types a').each(function(a, i){
+	a.style.cursor = 'pointer';
+	a.onclick = function(){
+		$('type').value = i;
+		flashtypeSel(i);
+	}
+});
+flashtypeSel(<{$setting.type|default:0}>);
+</script>
+<div class="tableform">
+<span class="sysiconBtn addorder" onclick="addFlash();">添加图片</span>
+
+  <div id="listArea" class="division">
+	<{if $setting.duceflash}>
+	
+    <{foreach from=$setting.duceflash item=data key=key}>
+	  <div id="duceflash_<{$data.i}>" class="flash">
+	  <table width="100%" cellpadding="0" cellspacing="0">
+	  <tr>
+		<th style="width:70px;">图片地址：</th><td><input  style="width:95px;" name=duceflash[<{$data.i}>][pic] value="<{$data.pic}>" id=duceflash[<{$data.i}>][pic]><input type=button value=上传 onClick=addPic($('duceflash[<{$data.i}>][pic]'))></td>
+		<th style="width:70px;">链接地址：</th><td><input style="width:95px;" name=duceflash[<{$data.i}>][url] value="<{$data.url|default:$data.url}>"></td>
+		<th style="width:70px;">图片标题：</th><td><input style="width:80px;" name=duceflash[<{$data.i}>][alt] value="<{$data.alt|default:$data.alt}>"> <{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+		</tr>
+	  </table>
+		<input type=hidden name=duceflash[<{$data.i}>][i] value="<{$data.i}>">
+	  </div>
+	  <{/foreach}>
+	<{else}>
+  <div>
+  <table width="100%" cellpadding="0" cellspacing="0">  
+  <tr id="duceflash_0" class="flash">
+    <th style="width:70px;">图片地址：</th>
+    <td><input type="text" name="duceflash[0][pic]" style="width:95px;" id="duceflash[0][pic]" value=""><input type=button value=上传 onClick=addPic($('duceflash[0][pic]'))></td>
+    <th style="width:70px;">链接地址：</th>
+    <td><input type="text" name="duceflash[0][url]" value="<{$setting.url.0}>" style="width:95px;"></td>
+ 	<th style="width:70px;">图片标题：</th>
+	<td><input type="text" name="duceflash[0][alt]" value="<{$setting.alt.0}>" style="width:80px;">
+	<{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+	<input type=hidden name=duceflash[0][i] value="0">
+  </tr>
+  <tr id="duceflash_1" class="flash">
+    <th style="width:70px;">图片地址：</th>
+    <td><input type="text" name="duceflash[1][pic]" style="width:95px;" id="duceflash[1][pic]" value=""><input type=button value=上传 onClick=addPic($('duceflash[1][pic]'))></td>
+    <th style="width:70px;">链接地址：</th>
+    <td><input type="text" name="duceflash[1][url]" value="<{$setting.url.1}>" style="width:95px;"></td>
+	<th style="width:70px;">图片标题：</th>
+	<td><input type="text" name="duceflash[1][alt]" value="<{$setting.alt.1}>" style="width:80px;">
+	<{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+	<input type=hidden name=duceflash[1][i] value="1">	
+  </tr>
+  <tr id="duceflash_2" class="flash">
+    <th style="width:70px;">图片地址：</th>
+    <td><input type="text" id="duceflash[2][pic]" style="width:95px;" name="duceflash[2][pic]" value=""><input type=button value=上传 onClick=addPic($('duceflash[2][pic]'))></td>
+    <th style="width:70px;">链接地址：</th>
+    <td><input type="text" name="duceflash[2][url]" value="<{$setting.url.2}>" style="width:95px;"></td>
+	<th style="width:70px;">图片标题：</th>
+	<td><input type="text" name="duceflash[2][alt]" value="<{$setting.alt.2}>" style="width:80px;">
+	<{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+	<input type=hidden name=duceflash[2][i] value="2">
+  </tr>
+  <tr id="duceflash_3" class="flash">
+    <th style="width:70px;">图片地址：</th>
+    <td><input type="text" id="duceflash[3][pic]" style="width:95px;" name="duceflash[3][pic]" value=""><input type=button value=上传 onClick=addPic($('duceflash[3][pic]'))></td>
+    <th style="width:70px;">链接地址：</th>
+    <td><input type="text" name="duceflash[3][url]" value="<{$setting.url.3}>" style="width:95px;"></td>
+	<input type=hidden name=duceflash[3][i] value="3">
+	<th style="width:70px;">图片标题：</th>
+	<td><input type="text" name="duceflash[3][alt]" value="<{$setting.alt.3}>" style="width:80px;">
+	<{img src='images/bundle/delecate.gif' onclick="delLink(this)" style='cursor:pointer;' }></td>
+  </tr>
+  </table>
+  </div>
+      <{/if}>
+  </div>
+      
+</div>
+
+<script>
+function addFlash(){
+	d=new Date();
+	i=d.getTime();
+	var content='\
+		<div id="duceflash_'+i+'" class="flash">\
+		<table width="100%" cellpadding="0" cellspacing="0">\
+		<tr><th style="width:70px;">图片地址：</th>\
+		<td><input style="width:95px" name=duceflash['+i+'][pic] id=duceflash['+i+'][pic]><input type=button value=上传 onClick=addPic($(\'duceflash['+i+'][pic]\'))>\</td>\
+		<th style="width:70px;">链接地址：</th>\
+		<td><input name=duceflash['+i+'][url] style="width:95px;"></td>\
+		<th style="width:70px;">图片标题：</th> \
+		<td><input name=duceflash['+i+'][alt] style="width:80px;"> <{img src="images/bundle/delecate.gif" onclick="delLink(this);" style="cursor:pointer;" }></td> \
+		</tr><input type=hidden name=duceflash['+i+'][i] value="'+i+'">\
+		<table>\
+		</div>\
+	';
+	$E('#listArea').adopt(new Element('div').set('html',content).getFirst());
+}
+function addPic(target){
+	return new Dialog('index.php?ctl=editor&act=image&p[0]=0',{title:'插入<img>',onShow:function(){
+	var dialog=this;
+	this.dialog.store('callback',function(src){
+		target.value=src;
+		dialog.close();
+		});
+	}});
+}
+
+delLink=function(o){$(o).getParent('.flash').remove();}
+</script>

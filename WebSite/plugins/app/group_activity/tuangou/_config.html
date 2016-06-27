@@ -1,0 +1,104 @@
+
+<div id="ad">
+    <div class="tableform">
+        <div style="margin: -5px 0pt 0pt;" class="division widgetconfig">
+            <input type="hidden" name="group_time" value="<{$setting.time}>" style="width:100px">
+            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                <{if $data}> 
+                <tbody>
+                    <tr>
+                        <th>团购标题</th>
+                        <td><{if $setting.group_title}>
+                            <input type="text" name="group_title" value="<{$setting.group_title}>" style="width:100px">
+                            <{else}>
+                            <input type="text" name="group_title" value="今日团购" style="width:100px">
+                            <{/if}></td>
+                    </tr>
+                    <tr>
+                        <th>图片尺寸：</th>
+                        <td>比例
+                            <{if $setting.tuangou_width}>
+                            <input type="text" name="tuangou_width" value="<{$setting.tuangou_width}>" style="width:40px">%(留空则为正常显示)	
+                            <{else}>
+                            <input type="text" name="tuangou_width"  style="width:40px">%(留空则为正常显示)
+                            <{/if}>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>选择团购商品：</th>
+                        <td>
+                            <{if $data}> 
+<<<<<<< .mine
+                               <div style = 'width:300px;height:100px;overflow:scroll;'>
+								 <{foreach from=$data item=item key=key}>
+									<input type="checkbox" name='goods_id[]' value="<{$item.goods_id}>"  
+										 <{foreach from=$setting.goods_id item=sitem}>
+											  <{if $item.goods_id==$sitem}>checked='checked'<{/if}>
+										  <{/foreach}>
+									/><{$item.name}><br/>
+								 <{/foreach}>
+							   </div>
+=======
+                                <div style = 'width:300px;height:100px;overflow:scroll;'>
+								 <{foreach from=$data item=item key=key}>
+									<input type="checkbox" name='goods_id[]' value="<{$item.goods_id}>"  
+										 <{foreach from=$setting.goods_id item=sitem}>
+											  <{if $item.goods_id==$sitem}>checked='checked'<{/if}>
+										  <{/foreach}>
+									/><{$item.name}><br/>
+								 <{/foreach}>
+							   </div>
+>>>>>>> .r49
+                            <{else}>
+                            您还未设置团购商品
+                            <{/if}>
+                            	<b style='color:#000;'>友情提示：</b>	   
+								<span style='color:red'>1.请勿重复挂同样的商品</span>
+								<span style='color:green'>2.商品添加越晚排序越靠前</span>
+
+                        </td>
+                    </tr>
+
+
+            </tbody></table>
+        </div>
+        <div class="division">
+
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <th>列数：</th>
+                    <td>
+                        <{input name="column" value=$setting.column|default:'5' required="true" type="digits"}>选择单个商品时请采用一列设置
+                    </td>
+                </tr>
+                <tr> 
+                    <th>商品数：</th>
+                    <td><{input name="limit" value=$setting.limit|default:'4' required="true" type="digits"}>根据空白区域大小选择行列数和商品数
+                    </td>
+                </tr>
+
+                <!--tr> 
+                <th>排序设定：</th>
+                <td><select name="goods_orderby"> 
+                        <{foreach from=$data item=orderby key=key}>
+                        <option value="<{$key}>" <{if $setting.goods_orderby==$key}>selected<{/if}>><{$orderby.label}></option>
+                        <{/foreach}>
+                    </select>
+                </td>
+                </tr-->
+
+
+                <tr >
+                    <th>商品名最长显示长度：</th>
+                    <td><{input name="max_length" value=$setting.max_length|default:'35'}></td>
+                </tr>
+
+                <{else}>
+                <font style = 'color:red'>您还未设置团购商品,请选设置商品后再添加挂件,谢谢！！</font>
+                <!--
+                <{/if}>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+ <form action='index.php?ctl=sale/etao&act=upload_etao_file' method='post' >
+<div class="main_content">
+      <div class="main_content" style="width: 1215px; height: 440px;">
+      <div style="padding:10px" class="tableform">
+        <h4>什么是一淘开放搜索</h4>
+        <div>通过开放搜索，外部的B2C网站可以和淘宝旗下的一淘网实现无缝对接。用户只要在一淘商品搜索页面中输入想要搜索的关键词，就能搜索到全网的商品。<a href="javascript:void(0)" onClick="window.open('http://open.etao.com/')">点击了解详细</a></div>
+        </div>
+        <div style="padding:10px;height:320px;" class="tableform">
+        <h4>如何加入一淘开放搜索</h4>
+        <div>SHOPEX系统已为您制作好符合一淘格式要求的商品feed数据。您只需按照商家入驻步骤进行操作即可。<a href="javascript:void(0)" onClick="window.open('http://open.etao.com/apply_intro.htm')">点击了解详情</a></div>
+        </br>
+<div class="division">
+
+<div class="current">
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+
+<tbody>
+
+
+<tr> <th>功能状态：</th><td><input type='radio' name='etao' id='etaoopen' value='1' <{if $etao}>checked="checked"<{/if}>>使用<input type='radio' name='etao' id='etaoclose' value='0' <{if !$etao}>checked="checked"<{/if}>>禁止</td> </tr> 
+
+<tr id='useetao1'<{if $etao}><{else}>style='display:none;'<{/if}>> <th>一淘验证文件上传：</th><td><{input type='file' name='etao_file'  size='20'}>（在此选定一淘验证文件并提交，系统会将文件放置于符合一淘要求目录）</td> </tr> 
+
+<tr id="useetao2"<{if $etao}><{else}>style='display:none;'<{/if}>> <th>一淘账号：</th><td><input type='text' id='etaoname' name='etaoname' value="<{$etaoname}>">（在此填写文件验证后，一淘发送的邮件中的账号名）</td> </tr> 
+
+<tr> <th>系统为您自动生成:</th> <td><font style="padding-left:50px;">全量更新地址：<{$shop_url}>etao/FullIndex.xml</font><br><font style="padding-left:50px;">增量更新地址：<{$shop_url}>etao/IncrementIndex.xml</font></td> </tr>
+
+<tr> <td colspan=2><img style="padding-left:9px; padding-top:5px;" src="./images/msgtip.gif" />
+        <span style="color:#000">一淘网页面提交域名时需输入顶级域名，如www.xxx.com，3级域名无法被一淘网验证。<a href="javascript:void(0)" style="color:blue;TEXT-DECORATION:none;" onClick="window.open('http://open.etao.com/apply_step_first.htm')">去一淘提交我的网店(需登录)</a></span></td> </tr>
+
+</tbody>
+
+</table> 
+
+</div>
+        
+    </div>
+    <div style="padding-left:257px;"><b class="submitBtn"><input  type="submit" value="提交" id="on_submit"/></b></div>
+    </div>
+
+</div>
+</form>
+<script>
+window.addEvent('domready',function(){
+    $('etaoopen').addEvent('click',function(){
+        $('useetao1').setStyle('display','').setHTML(' <th>一淘验证文件上传：</th><td><input type=\'file\' name=\'etao_file\'  size=\'20\'>（在此选定一淘验证文件并提交，系统会将文件放置于符合一淘要求目录）</td> ');
+        $('useetao2').setStyle('display','').setHTML('<th>一淘账号：</th><td><input type=\'text\' id=\'etaoname\' name=\'etaoname\' value="<{$etaoname}>">（在此填写文件验证后，一淘发送的邮件中的账号名）</td>');
+    });
+    $('etaoclose').addEvent('click',function(){
+        $('useetao1').setStyle('display','none').setHTML('');
+        $('useetao2').setStyle('display','none').setHTML('');
+    });
+});
+</script>

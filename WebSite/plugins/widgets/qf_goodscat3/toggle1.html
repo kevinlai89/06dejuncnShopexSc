@@ -1,0 +1,123 @@
+<{if !$env.get.act =='widgetsSet'}>
+	<{if $setting.showthis=="on"}>
+    <{foreach from=$data item=parent key=parent_id name=parentlist}>
+    <{if $parent.curr}>
+     <div class="qf-GoodsCategoryWrap">
+     <h3><a href="<{link ctl="gallery" act=$setting.view arg0=$parent_id}>"><{$parent.label}></a></h3>
+     <{if $parent.sub && $setting.showCatDepth_default != '1'}>
+     <ul id="goodscat_<{$widgets_id}>_tree" class="clearfix">
+          <{foreach from=$parent.sub item=child key=childId}>
+               <li class="e-cat-depth-1 <{$child.curr}>">
+               <p nuid="<{$childId}>" class="chann"><a href="<{link ctl="gallery" act=$setting.view arg0=$childId }>" class="depth-1<{if $child.curr}> curr-1<{/if}>"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}></a>
+               <{if $child.sub}>
+                <{if $child.curr}>
+                    <span class="symbols show" title="单击隐藏"></span>
+                <{else}>
+                    <span class="symbols hide" title="单击显示"></span>
+                <{/if}>
+               <{else}>
+                    <span class="symbols show"></span>      
+              <{/if}>
+              </p>
+              <{if $child.sub && ($setting.showCatDepth_default == '3')}>
+              <ul style="<{if $child.curr}>display:block<{else}>display:none<{/if}>" class="cat-down">
+              <li class="e-cat-depth-2">
+              <table>
+                <{counter start=1 assign="result" print=false }>
+                <{foreach from=$child.sub item=gChild key=gChildId}>
+                  <{if ($result % $setting.devide) == 1 }>
+                  <tr>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-2<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                  <{elseif ($result % $setting.devide) == 0}>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-3<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                  </tr>
+                  <{else}>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-3<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                <{/if}>
+                <{counter assign="result" print=false }>
+                <{/foreach}>
+              </table>
+            </li>
+            </ul>
+            <{/if}>
+          </li>
+          <{/foreach}>
+        </ul>
+        <{/if}>
+        </div>
+    <{/if}>
+  <{/foreach}>
+<{else}>
+<div class="qf-GoodsCategoryWrap">
+	<h3><a href="<{link ctl="gallery" act=$setting.view}>">选择分类</a></h3>
+    <ul id="goodscat_<{$widgets_id}>_tree">
+    <{foreach from=$data item=parent key=parent_id name=parentlist}>
+    <li class="e-cat-depth-1 <{if $smarty.foreach.parentlist.last}> last <{/if}><{$parent.curr}>">
+     <p nuid="<{$parent_id}>"><a href="<{link ctl="gallery" act=$setting.view arg0=$parent_id}>" class="depth-1<{if $parent.curr}> curr-1<{/if}>"><{$parent.label}></a>
+     <{if $parent.sub}>
+     	<{if $parent.curr}>
+        	<span class="symbols show" title="单击隐藏"></span>
+        <{else}>
+        	<span class="symbols hide" title="单击显示"></span>
+        <{/if}>
+       <{else}>
+       		<span class="symbols show"></span>      
+      <{/if}>
+     </p>
+     <{if $parent.sub && $setting.showCatDepth_default != '1'}>
+     <ul style="<{if $parent.curr}>display:block<{else}>display:none<{/if}>" class="cat-down">
+          <{foreach from=$parent.sub item=child key=childId}>
+               <li class="e-cat-depth-2 <{$child.curr}>">
+               <a href="<{link ctl="gallery" act=$setting.view arg0=$childId }>" class="depth-2<{if $child.curr}> curr-2<{/if}>"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}></a>
+               <{if $child.sub && ($setting.showCatDepth_default == '3')}>
+              <ul>
+              <li class="e-cat-depth-3">
+              <table>
+                <{counter start=1 assign="result" print=false }>
+                <{foreach from=$child.sub item=gChild key=gChildId}>
+                  <{if ($result mod $setting.devide) eq 1 }>
+                  <tr>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-3<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                  <{elseif ($result mod $setting.devide) eq 0}>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-3<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                  </tr>
+                  <{else}>
+                  <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3<{if $gChild.curr}> curr-3<{/if}>"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+                <{/if}>
+                <{counter assign="result" print=false }>
+                <{/foreach}>
+              </table>
+            </li>
+            </ul>
+            <{/if}>
+          </li>
+          <{/foreach}>
+        </ul>
+        <{/if}>
+    </li>
+    <{/foreach}>
+    </ul>
+</div>
+  
+<{/if}>
+<script>
+window.addEvent('domready',function(e){
+	$ES('.e-cat-depth-1 p').each(function(el){
+		el.addEvent('click',function(){
+			var boxbody = el.getParent().getElement('.cat-down');
+			var dynamic = el.getElement('.symbols');
+			if (!boxbody) return;
+			if(dynamic.hasClass('show')){
+			   dynamic.removeClass('show').addClass('hide').set('title','单击显示');
+			   boxbody.setStyle('display','none');
+			}else{
+			    dynamic.removeClass('hide').addClass('show').set('title','单击隐藏');
+				boxbody.setStyle('display','block');
+			}
+    	})
+	})
+})
+</script>
+<{else}>
+<div class="note">智能判断商品分类</div>
+<{/if}>

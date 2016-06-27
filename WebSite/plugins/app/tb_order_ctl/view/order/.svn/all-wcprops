@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/tb_order_ctl/!svn/ver/118/view/order
+END
+orderconsign.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/tb_order_ctl/!svn/ver/102/view/order/orderconsign.html
+END
+order_detail.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/tb_order_ctl/!svn/ver/118/view/order/order_detail.html
+END
+addtradenote.html
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/tb_order_ctl/!svn/ver/6/view/order/addtradenote.html
+END
+order_status.html
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/tb_order_ctl/!svn/ver/54/view/order/order_status.html
+END
+taobao_frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/tb_order_ctl/!svn/ver/6/view/order/taobao_frame.html
+END
+finder_action.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/tb_order_ctl/!svn/ver/115/view/order/finder_action.html
+END
+orderprint.html
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/tb_order_ctl/!svn/ver/54/view/order/orderprint.html
+END
+set_order_price.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/tb_order_ctl/!svn/ver/6/view/order/set_order_price.html
+END

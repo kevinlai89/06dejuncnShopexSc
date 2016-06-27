@@ -1,0 +1,151 @@
+﻿@import url("default.css");
+@import url("widgets.css");
+
+/*帮助中心*/
+.helpbody {background:url("i/dian.gif") repeat-y 209px 0;}
+.help .TreeList {position:relative;}
+.help .TreeList div {height:32px;line-height:32px;font-size:12px;overflow:hidden;text-align:right;padding:0 20px 0 5px;width:184px;overflow:hidden;}
+.help .TreeList .cat1 {font-size:14px;}
+.help .TreeList .cat1 a{color:#333;}
+.help .TreeList .cat1 a:hover {color:#cc0000}
+.help .TreeList .cat2 {border-top:1px dotted #f1f1f1;}
+.help .TreeList .cat2 a{color:#555;}
+.help .TreeList .cat2 a:hover{color:#e53f42;}
+.help .TreeList .active {position:relative;border-top:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;border-right:1px solid #FFF;margin:-1px -1px 0 0;background:#fff;}
+.help .TreeList .active a,.help .TreeList .active a:hover {color:#CC0000}
+
+.m-help {padding:0 0 0 10px;}
+.m-help h2{font-size:14px;color:#333;border-bottom:1px solid #DBDBDB;padding:0 0 5px 20px;background:url("qingfeng/li_03.gif") no-repeat left 7px;*background-position:left 5px;}
+.m-help .pageWrap h4, .m-help ol li{border:none;}
+.pageWrap ol li{list-style:decimal inside;margin:0;line-height:24px;}
+
+/*文章页面*/
+.ArtListWrap{min-height:822px;_height:822px}
+.ArtListWrap .list:after {content: "."; display: block; height: 0;clear: both; visibility: hidden;}
+.ArtListWrap .list {display: inline-block;}
+* html .ArtListWrap .list,
+* html {height: 1%;}
+.ArtListWrap .list {display: block;padding:15px;border:1px solid #ddd; margin-bottom:15px;}
+.ArtListWrap .hlist {background-color:#f9f9f9}
+.ArtListWrap .list .span-auto{margin:6px 20px 10px 0;display:inline;}
+.ArtListWrap .list .view {border:1px solid #e5e5e5;padding:2px;display:block;width:160px;height:120px;}
+.ArtListWrap .list .view:hover {border-color:#ccc}
+.ArtListWrap .list .info {color:#444;line-height:22px;}
+.ArtListWrap .list .info h3{color:#4e4e4e;font-size:14px;margin:0 0 10px 0}
+.ArtListWrap .list .info h3 a{color:#4e4e4e}
+.ArtListWrap .list .info h3 a:hover,
+.ArtListWrap .list .info h3 a.top{color:#D70403}
+.ArtListWrap .list .info h3 a.top{padding-right:20px;background:url('i/top.gif') no-repeat right center;}
+.ArtListWrap .list .info p{margin-bottom:0}
+.ArtListWrap .list .info .date {padding-top:8px}
+.ArtListWrap .list .info .date span{color:#888;margin-right:15px;background:url("i/art_ico.gif") no-repeat; padding-left:20px;}
+.ArtListWrap .list .info .date span em {color:#333}
+.ArtListWrap .list .info .date span.sort{background-position:0 0;}
+.ArtListWrap .list .info .date span.yuan{background-position:0 -17px; padding-left:15px;}
+.ArtListWrap .list .info .date span.read{background-position:0 -32px;}
+.ArtListWrap .list .info .date span.time{background-position:0 -48px;}
+.ArticleDetailsWrap{border:1px solid #ddd;padding:20px 30px 15px}
+.ArticleDetailsWrap h2{color:#4e4e4e;font:700 16px/36px Simsun,Arial,Helvetica,sans-serif}
+.ArticleDetailsWrap p{margin-bottom:1em}
+.ArticleDetailsWrap .pubdate{color:#888;margin-top:10px;background-color:#f9f9f9;padding:5px;color:#444;margin:15px 0 20px;line-height:24px;　-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.ArticleDetailsWrap .pubdate a{color:#888}
+.ArticleDetailsWrap .pubdate a:hover{color:#F77104}
+.conttext{color:#3f3f3f;line-height:2.5;min-height:200px;_height:200px}
+.ArticleDetailsWrap .info{margin-top:30px;line-height:30px}
+.ArticleDetailsWrap .info p{margin:0;padding:0}
+#bdshare {margin-top:5px}
+.ArticleDetailsWrap #bdshare span{line-height:25px}
+.nextandpe{height:20px;line-height:20px;padding:10px 30px 0;border-top:1px dashed #ddd;margin:12px -30px 0}
+.nextandpe a{color:#3f3f3f;font-size:12px;font-weight:normal}
+.nextandpe a:hover{text-decoration:underline}
+.nextandpe span{width:320px;white-space:nowrap;height:20px;line-height:20px;overflow:hidden;float:left}
+.nextandpe span.art_prev{margin-right:15px}
+
+.ArticleDetailsWrap{border:1px solid #e8e8e8;padding:10px 30px 15px;min-height:434px;_height:434px;}
+.ArticleDetailsWrap h2.textcenter {padding:15px 0 10px;font:20px/1.5 "Microsoft Yahei",黑体; letter-spacing:1px;}
+.pubdate{line-height:30px;color:#5f5f5f;}
+.ArticleDetailsWrap hr{display:none;}
+.ArticleDetailsWrap .conttext {color:#333;line-height:1.8;font-size:14px;}
+.ArticleDetailsWrap p{margin:15px 0;}
+
+/*品牌页面*/
+.BrandWrap{width:100%;}
+.BrandWrap .items{margin:0;overflow:hidden;width:20%;*margin-left:0px;_display:inline;}
+.BrandWrap .items dl{border:1px solid #e5e5e5;margin:0 5px 5px 0;padding:1px;}
+.BrandWrap .items dl dt{height:120px;margin:0 0 1px 0;text-align:center;width:100%;padding:0;}
+.BrandWrap .intro{height:30px;line-height:30px;overflow:hidden;display:block;border-top:1px solid #e5e5e5;background:#f7f7f7;color:#333;}
+.BrandDetailWrap{background:url("i/line1.gif") repeat-x 100% bottom;margin:0px;margin-top:0px;padding:5px 5px 10px;}
+.BrandDetailWrap .branddetail{border-bottom:1px dashed #565656;padding:10px;}
+.BrandDetailWrap p{line-height:24px;margin:0;color:#565656;}
+.GoodsSearchWrap .items-list .price_button .button{margin-top:30px;}
+.brandtitle div.info h1{line-height:20px;}
+.GoodsSearchWrap .items-gallery{position:relative;padding:15px 5px;border-color:#e6e6e6;}
+.GoodsSearchWrap .items-gallery .goodinfo ul li{text-align:left; height:22px;line-height:22px;padding:2px 0;}
+.GoodsSearchWrap .items-gallery .button{display:none}
+.GoodsSearchWrap .items-gallery .goodinfo .price1{font-size:18px;color:#E4393C; font-family:Verdana, Arial, Helvetica, sans-serif; float:left; display:block;}
+.GoodsSearchWrap .items-gallery .goodinfo .buy_count{color:#034da2;float:right;display:block;padding-right:3px;width:70px;overflow:hidden;}
+.GoodsSearchWrap .items-gallery .goodTagPic{position:absolute;width:53px;height:60px;top:5px;right:5px;}
+
+/*留言页面*/
+.message{border:1px solid #e6e6e6;margin-top:10px;}
+.message .title{background:#f7f8f8;height:35px;line-height:35px; border-bottom:1px solid #fff;padding:0 15px;}
+.message .title h3{float:left;}
+.message .title span{display:block;float:right;}
+.message .addcomment{border:none;border-top:1px solid #e5e5e5;padding:15px;background:#fff;}
+#shop-message{padding:0;border:none;border-top:1px solid #e5e5e5;}
+#shop-message .mainReply{border:none;padding:10px 20px;}
+#shop-message .mainReply .commentMain{width:90%;}
+#shop-message .commentReply .division{border:none;padding-left:40px;}
+.author{color:#c00;}
+
+.btn-buy{background:url("qingfeng/g.png") no-repeat 0 -121px;height:40px;width:145px;margin:0 10px 0 0;}
+
+/*会员中心*/
+.siteparttitle .info a{margin:0 3px;}
+.MemberSidebar .MemberMenu .title{height:35px; background:url("i/c.png") no-repeat;}
+.MemberSidebar .MemberMenu .body{width:206px;}
+.MemberSidebar .MemberMenu span{padding:3px 0;}
+.MemberSidebar .MemberMenu span div{font-size:12px!important;margin-left:18px;}
+.MemberSidebar .MemberMenuList li a:hover{color:#D70403}
+.MemberSidebar .MemberMenu .current a,
+.MemberSidebar .MemberMenu .current a:hover{color:#fff;}
+.MemberSidebar .MemberMenu .current a b{color:#fff;}
+.MemberSidebar .MemberMenu .foot{background:#fff;border:1px solid #E5E5E5;border-top:none;height:2px;}
+
+.MemberCenter .MemberMain{width:976px;margin:0;}
+.MemberCenter .MemberMain>div{margin:0!important;}
+.MemberCenter .MemberMain .point{color:#D70403;padding:0 3px;}
+
+.MemberMain-basicinfo{background:#fcfaf2;border:1px solid #e6e6e6;padding:5px 15px;}
+.MemberMain-basicinfo .info{padding:5px 5px;}
+.MemberMain-basicinfo .sel{border-top:1px dotted #e6e6e6;}
+.MemberMain-basicinfo .info td{background:none;color:#333}
+.MemberMain-basicinfo li a{color:#D70403}
+
+.MemberMain .title{background:#efefef url("i/i.png") repeat-x 0 -118px;height:35px;line-height:35px; border:1px solid #e6e6e6; border-bottom:1px solid #fff;padding-left:15px;margin:0;}
+.MemberMain .title h3{float:left;}
+.MemberMain .title span{display:block; float:right;padding-right:10px;}
+.MemberMain .title span a{font-size:12px; font-weight:400}
+.MemberMain .title span a:hover{color:#D70403}
+
+.MemberMain .MemberMain-title{height:35px;line-height:35px;margin-bottom:8px;padding:0;}
+.MemberMain .MemberMain-title .title{border:none;padding:0 0 0 5px;background:none;margin:0;}
+.MemberMain .memberlist{border:1px solid #e6e6e6;border-top:none;}
+.memberlist a {color:#3366cc}
+.memberlist a:hover {color:#333; text-decoration:underline}
+.memberlist a.intro{color:#004191;}
+.memberlist a.intro:hover{color:#D70403}
+.memberlist .point a{color:#D70403}
+.memberlist td{padding:10px 5px;}
+
+.MemberMain .member-favorite{width:716px;float:left}
+.MemberMain .member-activity{width:246px;float:right;}
+.MemberMain .member-favorite .favorites,
+.MemberMain .member-activity .activity,
+.MemberMain .section,
+.MemberMain .GoodsSearchWrap{border:1px solid #e6e6e6;}
+.MemberMain .member-activity .activity li{background-color:#fff; font-weight:normal}
+#mbc-my-fav{border:none;}
+.MemberMain .GoodsSearchWrap .items-list{padding:0;margin:0px;border:none;}
+.MemberMain .GoodsSearchWrap .items-list td{padding:10px;}
+

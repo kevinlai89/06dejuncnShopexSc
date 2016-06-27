@@ -1,0 +1,44 @@
+<!-- right-->
+<div class="MemberMain">
+<div style="margin-right:175px;">
+
+<div class="title"><{t}>人人授权应用设置<{/t}></div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="liststyle data GoodsSearchWrap ">
+    <col class="span-4"></col>
+  <tr>
+    <td><p><{t}>请您选择希望同步的操作:<{/t}>
+</p>
+    </td>
+    <td><ul>
+        <li><input type="checkbox" name="publish_feed" id="publish_feed" value="1"<{if $feed_publish eq 1}>checked<{/if}>><{t}>收藏<{/t}></li><br/>
+        <li><input type="submit" name="submit" onclick="showPermission();" value="保存设置"></li>
+        <input type="hidden" name="member_uname" id="member_uname" value="<{$member_uname}>">
+  </ul></td>
+  </tr>
+</table>
+
+</div>
+</div>
+<script type="text/javascript" src="http://static.connect.renren.com/js/v1.0/FeatureLoader.jsp"></script><script type="text/javascript">XN_RequireFeatures(["EXNML"], function()
+        {
+          XN.Main.init("<{$app_key}>", "/home/xd_receiver.html");
+        });
+        
+         $('publish_feed').addEvent('click',function(){
+         $('publish_feed').set('value',this.checked?'1':'0');
+         }).fireEvent('click');
+           
+  function showPermission(){
+    new Request.HTML({
+        data:'member_uname='+$('member_uname').get('value')+'&publish_feed='+$('publish_feed').get('value'),
+        onComplete:function(){
+                  alert('设置成功!');
+                  return false;
+        }
+       }).post('index.php?action_renren-authorize_setting.html');
+  }//index.php?action_renren-login.html
+   
+
+</script>
+<!-- right-->
+

@@ -1,0 +1,44 @@
+<div class="GoodsListWrap" id="Scroll_<{$widgets_id}>">
+	<div class="GoodsList">
+		<ul class="scroll-box">
+		   <{foreach from=$data.goods item=goods_data key=key name=goodslist}>
+		   		<li>
+				 	<{if $setting.showGoodsImg=="on"}><div class="goodsImg" style="overflow:hidden;text-align:center;vertical-align: middle;<{if $setting.goodsImgWidth}>width:<{$setting.goodsImgWidth}>px;<{elseif $env.thumbnail_pic_width}>width:<{$env.thumbnail_pic_width}>px;<{/if}><{if $setting.goodsImgHeight}>height:<{$setting.goodsImgHeight}>px;<{elseif $env.thumbnail_pic_height}>height:<{$env.thumbnail_pic_height}>px;<{/if}>"><a href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>" target="_blank" title="<{$goods_data.name}>"><img <{if $setting.restrict=='off'}><{if $setting.goodsImgWidth}>width="<{$setting.goodsImgWidth}>"<{/if}><{if $setting.goodsImgHeight}>height="<{$setting.goodsImgHeight}>"<{/if}><{/if}>  src="<{$goods_data.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" title="<{$goods_data.name}>"></a></div><{/if}>
+						 <{if $setting.showGoodsName=="on"}><h6><a href="<{link ctl="product" act="index" arg0=$goods_data.goods_id}>" target="_blank" title="<{$goods_data.name|escape:html}>"><{$goods_data.name|cut:$setting.max_length}></a></h6><{/if}>						 
+						  <p>
+
+<{if $setting.showGoodsPrice=="on"}>
+
+<{assign var=cur_qtn_show_w value=$goods_data.qtn_show}>
+<{if $cur_qtn_show_w eq 'system'}>
+<{assign var=cur_qtn_show_w value=$data.qtn_config.qtn_show}>
+<{/if}> 
+
+<{if $cur_qtn_show_w eq 'quotation'}>
+      <li><a href="javascript:show_greq(<{$goods_data.goods_id}>)" style="font-size:15px;color:red;"><img src="statics/btn-qtn.gif" height="25" /></a></li>
+<{elseif $cur_qtn_show_w eq 'price'}>
+
+	<{if $setting.priceText !=' ' && $setting.priceText !=''}><span class="price0"><{$setting.priceText|default:'销售价'}><{$setting.priceSep|default:':'}></span><{/if}><span class="price1"><{$goods_data.price|cur}></span>
+
+<{/if}>
+<{/if}>
+
+						  <{if $setting.showGoodsMktPrice=="on"}><{if $setting.mktPriceText !=' ' && $setting.mktPriceText !=''}><span class="mktprice0"><{$setting.mktPriceText|default:'市场价'}><{$setting.mktPriceSep|default:':'}></span><{/if}><span class="mktprice1"><{$goods_data.mktprice|cur}></span><{/if}></p>
+						  <{if $goods_data.tag_pic && $setting.showTagPic != "off" && $data.tag_status == 1}>
+							<div class="goodTagPic">
+								<{foreach from=unserialize($goods_data.tag_pic) item=tpic}>
+									<img src="<{$tpic}>" />
+								<{/foreach}>
+							</div>
+      						<{/if}>      
+				</li>
+		  <{/foreach}>
+		</ul>
+     </div>
+</div>  
+
+<script>
+window.addEvent('domready',function(){
+	var a = new Scroll_Script('<{$widgets_id}>','0');
+});
+</script>

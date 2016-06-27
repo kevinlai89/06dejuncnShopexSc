@@ -1,0 +1,117 @@
+<div class="GoodsCategoryWrap">
+<ul>
+  <{if @count($data)==1}>
+  <{foreach from=$data item=parent key=parent_id}>
+  <li class="e-cat-depth-1"><p <{if $setting.catShowType !='1'}>nuid='<{$parent_id}>'<{/if}> class="title cat_<{$parent_id}>"><{if $setting.showcatname=='off'}><a href='<{link ctl="gallery" act=$setting.view arg0=$parent_id}>' class="depth-1" title="<{$parent.label}>"><{$parent.label}></a><{else}><span class="depth-1"><{t}><{$setting.cattitlename|default:'相关分类'}><{/t}></span><{/if}></p>
+    <{if $parent.sub}><ul <{if $setting.catShowType =='1'}>id="goodscat_<{$widgets_id}>_tree"<{/if}>>
+    <{foreach from=$parent.sub item=child key=childId name=child}>
+	<li class="e-cat-depth-2 <{if $smarty.foreach.child.first}>first<{/if}>">
+    <p nuid='<{$childId}>'><a href="<{link ctl="gallery" act=$setting.view arg0=$childId }>" class="depth-2"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}></a></p>
+    <{if $child.sub && ($setting.showCatDepth_default == '3')}>
+    <ul <{if $childId == $setting.curTop2id}>style="display:block;"<{else}>style="display:none"<{/if}>>
+      <li class="e-cat-depth-3">
+        <table cellpadding="0" cellspacing="0" width="100%">
+          <{counter start=1 assign="result" print=false }>
+          <{foreach from=$child.sub item=gChild key=gChildId}>
+          <{if ($result mod $setting.devide) eq 1 }>
+          <tr>
+            <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+            <{elseif ($result mod $setting.devide) eq 0}>
+            <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+          </tr>
+          <{else}>
+          <td><a href="<{link ctl="gallery" act=$setting.view arg0=$gChildId }>" class="depth-3"><{$gChild.label}><{if $setting.ifCatCounter}><em>(<{$gChild.goods_count|default:0}>)</em><{/if}></a><{$setting.page_devide}></td>
+            <{/if}>
+            <{counter assign="result" print=false }>
+            <{/foreach}>
+        </table>
+      </li>
+    </ul>
+    <{/if}>
+	</li>
+  <{/foreach}>
+  </ul>
+  <{/if}>
+  </li>
+  <{/foreach}>  
+  <{else}>
+  <li class="e-cat-depth-1">
+    <p class="title cat_<{$parent_id}>"><span class="noTopid">选择分类</span></p>
+    <ul id="goodscat_<{$widgets_id}>_tree">
+      <{foreach from=$data item=parent key=parent_id name=parent}>
+      <li class="e-cat-depth-2 <{if $smarty.foreach.parent.first}>first<{/if}>">
+        <p nuid='<{$parent_id}>'><a href='<{link ctl="gallery" act=$setting.view arg0=$parent_id}>' class="depth-2"><{$parent.label}></a></p><{if $parent.sub}><ul <{if $parent_id == $setting.curTopid}>style="display:block;"<{else}>style="display:none"<{/if}>><{foreach from=$parent.sub item=child key=childId name=child}><li class="e-cat-depth-3"><a href="<{link ctl="gallery" act=$setting.view arg0=$childId }>" class="depth-3"><{$child.label}><{if $setting.ifCatCounter}><em>(<{$child.goods_count|default:0}>)</em><{/if}></a></li><{/foreach}></ul>
+		<{/if}></li><{/foreach}></ul></li><{/if}></ul>
+</div>
+
+<script>
+ withBroswerStore(function(status){
+      var gct=$('goodscat_<{$widgets_id}>_tree');
+	  if(!gct) 
+	  	return;
+      var depthroots=gct.getElements('li');
+      var synState=function(update){
+           status.get('gct-state',function(st){
+                          var st=JSON.decode(st)||[];
+                          if(update){
+                             var ul=update.getParent('li').getElement('ul');
+                             if(!ul)return;
+                             if(ul.style.display!='none'){
+                                st.include(update.get('nuid'));
+                             }else{
+                                st.erase(update.get('nuid'));
+                             }
+                             return status.set('gct-state',st);
+                          }    
+                          
+                          var handles=$$('#goodscat_<{$widgets_id}>_tree p[nuid]');
+                          handles.each(function(p,i){
+                             var ul=p.getParent('li').getElement('ul');
+                             if(!ul)return;
+                             if(st.contains(p.get('nuid'))){
+                                 ul.show();
+                                 if(p.getElement('span'))
+                                 p.getElement('span').set("title", "收起").removeClass('hide').addClass('show').setHTML('-');
+                             }else{
+                                ul.hide();
+                                if(p.getElement('span'))
+                                p.getElement('span').set("title", "展开").removeClass('show').addClass('hide').setHTML('+');
+                             }
+                             
+                          });                       
+           });
+      };
+      var getHandle=function(depth,sign){
+	     var subUl = depth.getElement("ul");
+		 //alert(subUl.getStyle("display"));
+         depth=depth.getElement('p[nuid]');
+         var span=new Element('span');
+         if(!sign){
+            span.setHTML('&nbsp;').addClass('nosymbols').injectBottom($(depth));
+            return depth
+          }
+          span.setHTML('&nbsp;').addClass('symbols').injectBottom($(depth));
+		  if(subUl && subUl.getStyle("display") == "block"){
+		  	span.addClass("show");
+		  }
+          return depth;
+      };
+      depthroots.each(function(root,index){
+          var depth2=root.getElement('ul');
+          if(depth2){
+            var handle=getHandle(root,true);
+            handle.addEvent('click',function(e){
+              if(depth2.style.display!='none'){
+			  	 depth2.style.display='none';
+                 this.getElement('span').set("title", "展开").removeClass('show').addClass('hide').setHTML('+');
+              }else{
+			  	depth2.style.display='';
+                this.getElement('span').set("title", "收起").removeClass('hide').addClass('show').setHTML('-');
+              }
+              synState(this);
+            });
+            //synState();
+          }
+      });
+  });
+</script>

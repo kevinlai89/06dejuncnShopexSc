@@ -1,0 +1,1 @@
+<{button href="index.php?ctl=plugins/group_order&act=showAdd" wrapimg="true" label="添加新订单" type="link" target="_blank" class="btn-blank" icon="finder_add.gif"}>

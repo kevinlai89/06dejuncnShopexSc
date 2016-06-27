@@ -1,0 +1,152 @@
+<div class="division">
+<!--未开始 start-->
+<{if $actInfo.state == 1}>
+<div id='declare_fail' style='display:none'></div>
+<div id='declare_success' style='display:none'></div>
+<{button  label="编辑" href="index.php?ctl=plugins/group_activity&act=group_activity_edit&p[0]={$actInfo.act_id}"}><{button  label="开启活动" onclick="W.page('index.php?ctl=plugins/group_activity&act=openAct&p[0]={$actInfo.act_id}',{method:'post'},$(this))"}><{button  label="删除" class="act-delete"}>
+<!--未开始 end-->
+<!--进行中 start-->
+<{elseif $actInfo.state == 2}>
+<div id='declare_fail' style='display:none'></div>
+<div id='declare_success' style='display:none'></div>
+<{button  label="编辑" href="index.php?ctl=plugins/group_activity&act=group_activity_edit&p[0]={$actInfo.act_id}"}><{button  label="关闭活动" onclick="W.page('index.php?ctl=plugins/group_activity&act=closeAct&p[0]={$actInfo.act_id}',{method:'post'},$(this))" }><{button  label="删除" class="act-delete" }>
+<!--进行中 end-->
+<!--已结束（成功）start-->
+<{elseif $actInfo.state == 3}>
+<div id='declare_fail' style='display:none'></div>
+<div id='declare_success' style='display:none'></div>
+<{button  label="编辑" href="index.php?ctl=plugins/group_activity&act=group_activity_edit&p[0]={$actInfo.act_id}"}><{button  label="删除" class="act-delete"}>
+<!--已结束（成功） end-->
+<!--已结束，待处理 start-->
+<{elseif $actInfo.state == 4}>
+<{button  label="编辑" href="index.php?ctl=plugins/group_activity&act=group_activity_edit&p[0]={$actInfo.act_id}"}><{button  label="宣布失败" id="declare_fail" }><{button  label="宣布成功" id="declare_success"}><{button  label="删除" class="act-delete"}>
+<!--已结束，待处理 end-->
+<!--已结束（失败）start-->
+<{elseif $actInfo.state == 5}>
+<div id='declare_fail' style='display:none'></div>
+<div id='declare_success' style='display:none'></div>
+<{button  label="编辑" href="index.php?ctl=plugins/group_activity&act=group_activity_edit&p[0]={$actInfo.act_id}"}><{button  label="删除" class="act-delete"}>
+<{else}><{/if}>
+<!--已结束（失败）end-->
+<table cellspacing="0" cellpadding="0" border="0" class="gridlist"> 
+<thead>
+<tr> 
+<th>商品名称</th> 
+ <th>活动状态</th>
+ <th>已预订商品数</th>
+ <th>订单数</th>
+ <th>限购数量</th>
+ <th>开始时间</th>
+ <th>结束时间</th>
+ <th>保证金</th>
+ <th>赠送积分</th>
+</tr> 
+  </thead>
+   
+  <tr>
+    <td rowspan="3">
+    	<ul>
+		<li>
+		<a href="<{$goodsInfo.url}>" target="_blank"><img src="<{$goodsInfo.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$goodsInfo.name}>"/></a>
+		</li>
+		<li>
+		<a href="<{$goodsInfo.url}>" target="_blank"><{$goodsInfo.name}></a>
+		</li>
+		</ul>
+    </td>
+    <td><{$actInfo.state_desc}></td>
+    <td><{$actInfo.goodsnum}></td>
+    <td><{$actInfo.ordernum}> <a href="index.php?ctl=plugins/group_order&act=index&p[act_id]=<{$actInfo.act_id}>&p[grouponstate]=<{$actInfo.state}>" target='_self' style='padding-left:20px;color:blue;'>查看</a></td>
+    <td><{$actInfo.limitnum}></td>
+    <td><{$actInfo.start_time|cdate:FDATE_FTIME}></td>
+    <td><{$actInfo.end_time|cdate:FDATE_FTIME}></td>
+    <td><{$actInfo.deposit|cur}></td>
+    <td><{$actInfo.score}></td>
+  </tr>
+  <tr>
+    <th colspan="2" style="height:20px; font-weight:bold; font-size:12px; padding:2px; width:auto;">优惠价格阶梯</th>
+    <th colspan="3" style="height:20px; font-weight:bold; font-size:12px; padding:2px; width:auto;">邮费优惠</th>
+    <th colspan="3" style="height:20px; font-weight:bold; font-size:12px; padding:2px; width:auto;">活动说明</th>
+    </tr>
+  <tr>
+    <td colspan="2">
+    		<{foreach from=$actInfo.ext_info item=item key=key}>
+
+				<span><{t}>购买数量达到<{/t}><{$item.num}><{t}>，享受价格<{/t}><{$item.price}></span><br/>
+	
+			<{/foreach}>
+    </td>
+    <td colspan="3">
+    <{if $actInfo.postage.is_postage == 1}>
+				<{if $actInfo.postage.postage_favorable == 1}>
+				<{t}>单笔订单订购数达到<{/t}><{$actInfo.postage.buycount}><{t}>，该订单免运费<{/t}>
+				<{else}>
+				<{t}>商品总订购数达到<{/t}><{$actInfo.postage.buycount}><{t}>，所有团购订单免运费<{/t}>
+				<{/if}>
+			<{else}>
+			<{t}>无邮费优惠.<{/t}>
+	<{/if}>
+    </td>
+    <td colspan="3"><{$actInfo.intro}></td>
+    </tr>  
+</table>
+</div>
+<script>
+window.addEvent('domready',function(){
+	$ES('.act-delete').addEvent('click',function(){
+		/*
+		W.page('index.php?ctl=plugins/group_activity&act=recycle',{
+			method:'post',
+			data:'act_id[0]='+"<{$actInfo.act_id}>",
+			onComplete:function(resp){
+				if(resp=='fail'){
+					MessageBox.error("删除失败：还有未处理的团购预订单");
+				}else{
+					MessageBox.success(resp);
+			}
+		
+		}});*/
+		new Request({
+			url:"index.php?ctl=plugins/group_activity&act=recycle",
+			method:'post',
+			data:{
+				'act_id[0]':"<{$actInfo.act_id}>"
+			},
+			onSuccess:function(resp){
+				if(resp=='fail'){
+					MessageBox.error("删除失败：还有未处理的团购预订单");
+				}else{
+					MessageBox.success(resp);
+				}
+				window.location.reload();
+			}
+		}).send();
+		
+	});
+	
+	$('declare_success').addEvent('click',function(){
+		if(confirm('此操作不可逆转,确定要进行该操作？')){
+			W.page('index.php?ctl=plugins/group_activity&act=declare_success&p[0]=<{$actInfo.act_id}>',{
+				method:'post'
+			});
+		}
+	});
+	$('declare_fail').addEvent('click',function(){
+		var handRefund = false;
+		if(confirm('此操作不可逆转,确定要进行该操作？')){
+			if(confirm('是否要手动退款？')){
+			    handRefund = true;
+			}else{
+				handRefund = false;
+			}
+			W.page('index.php?ctl=plugins/group_activity&act=declare_fail&p[0]=<{$actInfo.act_id}>',{
+				method:'post',
+				data:{
+					'handRefund':handRefund
+				}
+			});
+		}
+	});
+});
+
+</script>

@@ -1,0 +1,100 @@
+#tuangouwarp{padding-top:0;}
+#GoodsInfoWrap,
+#goods-viewer,
+#goods-viewer .home_deal_list {overflow:visible; background:#fff;}
+#goods-viewer .home_deal_list {border:1px solid #ddd; border-top:2px solid #999;padding: 15px 62px 15px 22px; position:relative; margin-bottom:15px;}
+.home_deal_list .goodsname  {font-weight:bold;line-height:28px;white-space:normal;overflow:auto;word-wrap: break-word; word-break: normal;font-family:"microsoft yahei",arial,sans-serif; color:#333; padding:0px 0px 10px 0px; font-size:16px;}
+.home_deal_list .goodsname span{ color:#cc0000; font-size:18px;}
+
+.i-f1{float:left;width:237px;}
+*html .i-f1{overflow:hidden}
+.choosel {border:1px solid #ddd;background:#f5f5f5;overflow:visible;padding:5px;float:left;width:225px;}
+.choosel dl {padding:5px 8px;zoom:1;}
+.choosel .hightbox dl dd {overflow:hidden;zoom:1;width:210px;}
+.choosel .buyinfo {border:none;padding:5px 0 0;line-height:22px;}
+.choosel .buyinfo .store {color:#ff6600;font-weight:bold;}
+.choosel .buyinfo dt,
+.choosel .buyinfo dd {float:left;}
+.choosel .buyinfo dd {width:32px;}
+
+.hightbox {padding:0;border:none}
+.hightbox .goods-spec {overflow:visible;height:auto;}
+.hightbox .goods-spec a:hover {text-decoration:none}
+.spec-tip {padding:5px 8px;}
+.spec-tip span{color:#ff6600}
+
+.Numinput {padding-left:0px;width:33px;}
+.Numinput input{text-align:center;font-weight:bold;color:#000}
+
+.choomain {width:237px;font-family:Helvetica,arial,sans-serif;font-size:14px;margin-top:10px;float:left;}
+.deal-buy {position:relative;height:120px;width:100%;}
+.deal-buy .deal-price-tag {height:120px;237px;overflow:hidden;position:absolute;top:0;left:0;z-index:1;}
+
+.choomain .deal-price {position:absoluete;top:0;left:0;z-index:2;width:235px;height:105px;padding-top:15px;text-align:center;background:#f5f5f5;border:1px solid #ddd;}
+.choomain .deal-price .btnBar {position:absolute;z-index:2;top:68px;left:60px;color:#fff;width:117px;height:51px;display:block;overflow:hidden;margin:0;padding:0;border:0;}
+.choomain .deal-price .deal-price-expire,
+.choomain .deal-price .deal-price-soldout {padding-left:10px;width:140px;background:url(i/bg-deal-close-text.gif) no-repeat 0 16px;color:#666;}
+.choomain .deal-price .deal-price-expire {width:140px;height:84px;background:url(i/bg-deal-expired-text.gif) no-repeat 6px 17px;}
+.choomain .deal-price .deal-price-soldout {width:140px;height:84px;background:url(i/bg-deal-soldout-text.gif) no-repeat 6px 17px;}
+.choomain .deal-price strong {font-size:40px;color:#fff;font-weight:normal;line-height:41px;height:41px;background:url(i/new-price.png) no-repeat left center;font-family:"microsoft yahei"; color:#e3383e; padding-left:30px;font-weight:bold; }
+.choomain .btnBar .btn-fastbuy,
+.choomain .btnBar .btn-buy,
+.choomain .btnBar .btn-notify {display:block;width:117px;height:51px;line-height:51px;outline:0;overflow:hidden;margin:0;position:absolute;top:0px;left:0px;background:url('i/tg_pic.png') no-repeat;padding:0;outline:0;}
+.choomain .btnBar .btn-fastbuy {z-index:1}
+.choomain .btnBar .btn-buy {z-index:2;}
+.cantbuy {z-index:999}
+
+/*抢光了*/
+.choomain .sold_out .btn-fastbuy,
+.choomain .sold_out .btn-buy,
+.choomain .sold_out .btn-notify {background-position:0 -51px;}
+
+/*结束了*/
+.choomain .end_buy .btn-fastbuy,
+.choomain .end_buy .btn-buy,
+.choomain .end_buy .btn-notify {background-position:0 -102px;}
+
+.deal-discount {width:100%;border:1px solid #d9d9d9;border-top:none;background:url(i/zhekou.bg.png) no-repeat center center #f5f5f5;font-weight:bold;position:relative;z-index:3;margin-top:-1px;}
+.deal-discount th,
+.deal-discount td{padding:0 5px;text-align:center;width:68px;}
+.deal-discount th {padding-top:13px;font-size:12px;font-weight:normal; color:#666;}
+.deal-discount td {padding-bottom:8px;font-size:20px; color:#343434;}
+
+.deal-box {margin-top:12px;border:1px solid #d9d9d9;}
+.deal-timeleft {color:#333;padding:7px 0px;}
+.deal-timeleft span {display:block;text-align:center;}
+
+.deal_end span,.deal_on span {font-weight:bold;}
+.deal-status span {color:#989898;}
+.deal-status strong {color:#CB0000}
+.deal-status span.secc {color:#333} 
+
+.choomain .timer {font-family: Tahoma, Geneva, sans-serif;font-size:20px;height:20px;line-height:20px;color:#333;padding:0;color: #ed145b;font-weight:bold;}
+.choomain .timer em {color:#333;letter-spacing:3px;font-size:14px;}
+
+.autoinner {text-align:center;padding-left:257px;text-align:center;}
+.autoinner .goodspic .goods-detail-pic{margin:auto}
+.autoinner .picscroll {margin:12px auto 0}
+.autoinner .picscroll .goods-detail-pic-thumbnail{width:324px}
+.autoinner .goods-pic-magnifier{width:50px !important;height:50px !important;background-color:#FFF;opacity:0.5;filter:alpha(opacity=50);cursor:move}
+
+.photofav {margin-top:10px;text-align:center;line-height:22px}
+.photofav li{display:inline;color:#999}
+.photofav li a{color:#0981BE}
+.links_share {line-height:16px;text-align:left;margin-top:2px;width:300px;margin:5px auto 0;overflow:hidden;}
+.links_share span,.links_share span a{float:left;height:16px}
+.links_share span{font-size:12px;line-height:16px;margin-right:8px}
+.links_share a{display:-moz-inline-stack;display:inline-block;*display:inline;*zoom:1;background:url(i/share-btn.png) no-repeat;width:16px;height:16px;margin-right:10px;overflow:hidden;text-indent:999em;vertical-align:top}
+.links_share a.share_qq{background-position:-44px 0px}
+.links_share a.share_douban{background-position:-66px 0px}
+.links_share a.share_renren{background-position:-88px 0}
+.links_share a.share_kaixin{background-position:-110px 0}
+.links_share a.share_sina{background-position:-132px 0}
+.links_share a.share_qzone{background-position:-154px 0}
+.links_share a.share_taojh{background-position:-176px 0}
+.links_share a.share_baishh{background-position:-198x 0}
+.links_share a.share_baidu{background-position:-22px 0}
+.links_share a.share_mogu{background-position:0 0}
+
+#deal_note {padding:3px 40px 0 70px;background:url(i/note_quote_v.gif) no-repeat;color:#666;min-height:51px;_height:51px;text-align:left;clear:both;margin-top:30px;}
+

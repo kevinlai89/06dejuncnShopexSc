@@ -1,0 +1,9 @@
+<ul class="theArtlist">
+    <{foreach from=$data item=data key=key name=artlist}>
+    <{if $smarty.foreach.artlist.first}>
+       <li class="first"><p style="text-indent:2em;"><{$data.intro|cut:$setting.introcut}><a href="<{link ctl=article act=index arg0=$data.article_id}>" target="_blank"><{t}>更多信息&gt;&gt;<{/t}></a></p>
+      <{else}>
+       <li><a href="<{link ctl=article act=index arg0=$data.article_id}>" title="<{$data.title|escape:html}>"><{$data.title|cut:$setting.max_length}></a></li>
+     <{/if}>
+    <{/foreach}>
+</ul>

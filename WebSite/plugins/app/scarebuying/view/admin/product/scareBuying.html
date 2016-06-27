@@ -1,0 +1,535 @@
+<style>
+.time_hour_list{
+	border:1px solid gray;
+	height:218px;
+	overflow:auto;
+	width:85px;
+	position:absolute;
+	background:none repeat scroll 0 0 #FFFFFF;
+	margin-left:150px;
+	padding-top:0px;
+}
+.time_hour_list a:hover div{background-color:#66FFFF;font-size:14px;}
+
+</style>
+<script>//目标页面有错误!TypeError: $("loadMask") is null 
+window.addEvent('domready',function(){
+	ShopExGoodsEditor.implement({
+		_mprice:function(e){
+			for(var dom=e.parentNode; dom.tagName!='TR';dom=dom.parentNode){;}
+			var info = {};
+			$ES('input',dom).each(function(el){
+				if(el.name == 'price[]')
+				info['price']=el.value;
+				else if(el.name == 'goods[price]')
+				info['price']=el.value;
+				else if(el.name == 'scareInfo[scare_price]')
+				info['price']=el.value;
+				else if(el.getAttribute('level'))
+				info['level['+el.getAttribute('level')+']']=el.value;
+			});
+			window.fbox = new Dialog('index.php?ctl=goods/product&act=mprice',{ajaxoptions:{data:info,method:'post'},modal:true});
+			window.fbox.onSelect = goodsEditor.setMprice.bind({base:goodsEditor,'el':dom});
+		}
+	});
+});
+</script>
+
+<h3><{t}>限时抢购<{/t}></h3>
+<{if $group_activity}>
+<div class="division">
+<table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th><{t}>是否开启活动：<{/t}></th>
+        <td>
+        <input type="radio" disabled='true' name="goods[iflimit]"<{if $scareInfo.iflimit!='1'}> checked="checked"<{/if}> value="0" onclick="scare_hidden()"/><{t}>否<{/t}> &nbsp; 
+        <input type="radio" disabled='true' name="goods[iflimit]"<{if $scareInfo.iflimit=='1'}> checked="checked"<{/if}> value="1" onclick="scare_show()"/><{t}>是<{/t}>
+        </td>
+      </tr>
+</table>  
+<{else}>
+
+<div class="division">
+<table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th><{t}>是否开启活动：<{/t}></th>
+        <td>
+        <input type="radio"  name="goods[iflimit]"<{if $scareInfo.iflimit!='1'}> checked="checked"<{/if}> value="0" onclick="scare_hidden()"/><{t}>否<{/t}> &nbsp; 
+        <input type="radio"  name="goods[iflimit]"<{if $scareInfo.iflimit=='1'}> checked="checked"<{/if}> value="1" onclick="scare_show()"/><{t}>是<{/t}>
+        </td>
+      </tr>
+</table>  
+<{/if}>
+<table border="0" cellpadding="0" cellspacing="0" id="scare_param" style="display:<{if $scareInfo.iflimit=='1'}>''<{else}>none<{/if}>">    
+      <tr>
+        <th><{t}>时间范围：<{/t}></th>
+        <td>
+        <div>
+       开始：
+       		<{input type='date' value=$scareInfo.s_date|default:$smarty.now name='scareInfo[s_date]' class='cal' readonly='true'}> &nbsp;
+       		<input type="text" value="<{$scareInfo.s_hour|default:'0:00'}>" name="scareInfo[s_hour]" id="s_hour" style="width:80px;"><span class="notice-inline">格式：1:45</span>
+        </div>
+        <div>
+      结束： <{input type='date' value=$scareInfo.e_date name='scareInfo[e_date]' class='cal' readonly='true' required='true'}> &nbsp;
+        	<input type="text" value="<{$scareInfo.e_hour}>" name="scareInfo[e_hour]" id="e_hour" style="width:80px"><span class="notice-inline">格式：10:47</span>
+        </div>
+        </td>
+      </tr>
+      
+      <tr>
+      	<th><{t}>生效时间：<{/t}></th>
+      	<td>
+      		<{t}>在活动日期内<{/t}>&nbsp;&nbsp;
+      		<input type="radio" name="scareInfo[is_special_time]" id="is_special_time_all" value="0" <{if $scareInfo.is_special_time!=1}>checked <{/if}>><{t}>始终生效<{/t}>&nbsp;
+      		<input type="radio" name="scareInfo[is_special_time]" id="is_special_time_some" value="1" <{if $scareInfo.is_special_time==1}>checked <{/if}>><{t}>特定时间生效<{/t}>
+      		<div id="special_time_div" <{if $scareInfo.is_special_time!=1}>style="display:none"<{/if}>>
+      		<{button label="增加时间段" id="st_btn" }>
+      		<{foreach from=$scareInfo.specialTime item=sTime key=key}>
+      		<div class="p_special_time get_special_time">
+      		<div class="special_time_el">
+      		<span>&nbsp;<{t}>从<{/t}>&nbsp;</span>
+			<select><{foreach from=$scareInfo.specialTime_week item=sTime_week key=keyweek}>
+			<{if $sTime.week==$keyweek}>
+			<option value="<{$keyweek}>" selected='selected'><{$sTime_week}></option>
+			<{else}>
+   <option value="<{$keyweek}>"><{$sTime_week}></option> 
+			<{/if}>
+			<{/foreach}>
+			</select>
+      		<input type="text" style="width: 80px;" value="<{$sTime.sohour}>" class="stime"/><span>&nbsp;<{t}>到<{/t}>&nbsp;</span>
+      		<input type="text" style="width: 80px;" value="<{$sTime.eohour}>" class="etime"/>
+      		<span class="delSTime"><img src="images/bundle/delecate.gif" alt="删除"/></span>
+      		<input type="hidden" name="specialTime[]" value="<{$sTime.original}>" class="specialTime"/>
+      		</div>
+      		</div>
+      		<{/foreach}>
+      		</div>
+      	</td>
+      </tr>
+      <tr>
+      	<th><{t}>抢购预告：<{/t}></th>
+      	<td>
+      		<div><input type="radio" id="forenotice_off" name="scareInfo[forenotice_on]" value="0" <{if $scareInfo.forenotice_on!=1}>checked <{/if}> ><{t}>不关闭购买功能，到活动时间直接开始<{/t}></div>
+      		<div><input type="radio" id="forenotice_on" name="scareInfo[forenotice_on]" value="1" <{if $scareInfo.forenotice_on==1}>checked <{/if}>><{t}>提前关闭购买功能，提示抢购即将开始<{/t}></div>
+      	</td>
+      </tr>
+       <tr id="forenotice_time" <{if $scareInfo.forenotice_on!=1 }>style="display:none" <{/if}> >
+      	<th><{t}>预告时间：<{/t}></th>
+      	<td>
+      		<{input type="select"  name="scareInfo[forenotice_hour]" nulloption="0" rows=$scareInfo.forenotice_hour valueColumn="k" labelColumn="v" value=$scareInfo.hour_selected}>&nbsp;时&nbsp;
+      		<{input type="select"  name="scareInfo[forenotice_min]" nulloption="0" rows=$scareInfo.forenotice_min valueColumn="k" labelColumn="v" value=$scareInfo.min_selected}>&nbsp;分&nbsp;
+      		<{input type="select"  name="scareInfo[forenotice_sec]"  nulloption="0" rows=$scareInfo.forenotice_min valueColumn="k" labelColumn="v" value=$scareInfo.sec_selected}>&nbsp;秒
+      	</td>
+      </tr>
+      <tr>
+        <th><{t}>限时价格：<{/t}></th>
+        <td>
+        <{input  type='unsigned' value=$scareInfo.scare_price|default:$goods.price name='scareInfo[scare_price]' required='true'}> 
+        <span>
+        <{t}>&nbsp;&nbsp;是否开启会员价：<{/t}>
+        <input type="radio" name="scareInfo[is_mprice]" value="1" <{if $scareInfo.is_mprice==1 && $scareInfo.is_mprice }>checked<{/if}> 
+        onclick="goodsEditor._mprice.bind(goodsEditor)(this)">是&nbsp;
+        <input type="radio" name="scareInfo[is_mprice]" value="0" <{if $scareInfo.is_mprice==0 || !$scareInfo.is_mprice}>checked<{/if}> >否
+        </span>
+        	<{if $mlevelInfo}>
+        	<{foreach from=$mlevelInfo item=mlevel }>
+        	<input type="hidden" name="scareMprice[<{$mlevel.member_lv_id}>]" value="<{$scareInfo.scareMprice[$mlevel.member_lv_id]|default:''}>" 
+			level="<{$mlevel.member_lv_id}>">
+        	<{/foreach}>
+        	<{/if}>
+				
+       	</td>
+      </tr>
+      <tr>
+      	<th><{t}>是否显示原价：<{/t}></th>
+      	<td>
+      		<input type="radio" name="scareInfo[showPrice]" value="1" <{if  $scareInfo.showPrice==1 }>checked<{/if}>>是&nbsp;
+      		<input type="radio" name="scareInfo[showPrice]" value="0" <{if  $scareInfo.showPrice==0 }>checked<{/if}>>否
+      	</td>
+      </tr>
+      <tr>
+       <th><{t}>参加抢购商品数量：<{/t}></th>
+       <td><{input type='unsigned' value=$scareInfo.scare_count|default:$goods.store name='scareInfo[scare_count]' required='true'}></td>
+      </tr>
+	  <tr>
+		<th><{t}>每人限购数量：<{/t}></th>
+		<td><{input type='unsigned' value=$scareInfo.buycountlimit name='scareInfo[buycountlimit]'}><span class='notice-inline'>留空则不作限制.</span></td>
+	  </tr>
+	  <{if $group_point !=0}>	
+      <tr>
+		<th><{t}>积分设置：<{/t}></th>
+		<td><{input type='unsigned' value=$scareInfo.goodscore name='scareInfo[goodscore]'}><span class='notice-inline'>留空则按原来商品积分，设置积分请用整数.</span></td>
+	  </tr>
+	  <{else}>
+          <tr>
+                 <th><{t}>赠送积分数：<{/t}></th>
+				<td><{t}>无法使用赠送积分，想使用请开启积分<{/t}></td>
+				
+			</tr>
+			<{/if}>
+  </table>
+
+  <{if $group_activity}>
+  <div style="font-size:20px;padding-top:20px;border:1px">
+   此商品已参加团购活动，暂不能参加限时抢购
+  </div>
+<{else}>
+ <div style="font-size:20px;padding-top:20px;border:1px">
+   活动期间将不允许非会员购买
+  </div>
+<{/if}>
+
+</div>
+ 
+<script language="JavaScript" type="text/javascript">
+function scare_hidden(){
+	$('scare_param').hide();
+}
+function scare_show(){
+	$('scare_param').show();
+}
+
+/*create div as select element*/
+function createDivAsSelect(){
+	var pdiv=new Element('div',{
+	'styles':{
+	'position':'relative'
+	},
+	'class':'sssstime'
+	});
+	var cdiv=new Element('div',{
+	'class':'time_hour_list'
+	});
+	var hour=new Array();
+	for(var i=0;i<=24;i++){
+		hour.push(i+':00');
+		if(i!=24){
+		hour.push(i+':30');
+		}
+	}
+	hour.each(function(item){
+		var aElement=new Element('a',{
+		'href':'javascript:void(0)'
+		});
+		var textDiv=new Element('div').setText(item);
+		aElement.adopt(textDiv);
+		cdiv.adopt(aElement);
+	});
+	pdiv.adopt(cdiv);
+	return pdiv;
+}
+
+/*赋值给hidden input 用于存入星期、开始时间、结束时间|格式：week|start_time|end_time*/
+function hiddenValue(type,v){
+	var nValue='';
+	var _value=this.value.split('|');
+	switch(type){
+		case 1:
+		nValue=v+'|'+_value[1]+'|'+_value[2];
+		break;			//星期
+		case 2:
+		nValue=_value[0]+'|'+v+'|'+_value[2];
+		break;			//开始时间
+		case 3:
+		nValue=_value[0]+'|'+_value[1]+'|'+v;
+		break;			//结束时间
+		default:
+		nValue=this.value;
+		break;
+	}
+	this.set('value',nValue);
+}
+/*create special time input*/
+function specialTimeInput(){
+	var week=new Array();
+	week[1]='每周一';
+	week[2]='每周二';
+	week[3]='每周三';
+	week[4]='每周四';
+	week[5]='每周五';
+	week[6]='每周六';
+	week[7]='每周日';
+	var odiv=new Element('div',{
+	'class':'p_special_time'
+	});
+	var pdiv=new Element('div',{
+	'class':'special_time_el'
+	});
+	var oselect=new Element('select',{
+	'events':{
+	'change':function(){
+		var _value=this.options[this.selectedIndex].get('value');
+		var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+		_hiddenValue(1,_value);
+	}
+
+	}
+
+	});
+	for(var i=1;i<8;i++){
+		var _option=new Element('option',{
+		'value':i
+		});
+		_option.setText(week[i]);
+		oselect.adopt(_option);
+	}
+
+
+	var from_span=new Element('span').setHTML('&nbsp;从&nbsp;&nbsp;');
+	var sinput=new Element('input',{
+	'type':'text',
+	'styles':{
+	'width':'80px'
+	},
+	'value':'',
+	'events':{
+	'focus':function(){
+		var _shour=createDivAsSelect();
+		_shour.setStyle('margin-left','-63px');
+		/*				_shour.injectAfter(this.getParent('div .special_time_el'));*/
+		this.getParent('div .special_time_el').adopt(_shour);
+
+	},
+	'blur':function(){
+		var _this=this;
+		_this.getParent('div .p_special_time').getElements('a').addEvent('click',function(){
+			/*将a标签中的值赋给文本框*/
+			var _value=this.getElement('div').getText();
+			_this.set('value',_value);
+
+			var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+			_hiddenValue(2,_value);
+
+		});
+		$(document.body).addEvent('click',function(){
+			_this.getParent('div .p_special_time').getElement('.sssstime').remove();
+			$(document.body).removeEvent('click',arguments.callee);
+		});
+	},
+	'change':function(){
+		var _value=this.value;
+		if(!_value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)){
+			MessageBox.error('请正确填写时间格式！');
+			return;
+		}
+
+		var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+		_hiddenValue(2,_value);
+	}
+	}
+	});
+	var to_span=new Element('span').setHTML('&nbsp;到&nbsp;&nbsp;');
+	var einput=new Element('input',{
+	'type':'text',
+	'styles':{
+	'width':'80px'
+	},
+	'value':'',
+	'events':{
+	'focus':function(){
+		var _shour=createDivAsSelect();
+		_shour.setStyle('margin-left','42px');
+		/*				_shour.injectAfter(this.getParent('div .special_time_el'));*/
+		this.getParent('div .special_time_el').adopt(_shour);
+	},
+	'blur':function(){
+		var _this=this;
+		_this.getParent('div .p_special_time').getElements('a').addEvent('click',function(){
+			/*将a标签中的值赋给文本框*/
+			var _value=this.getElement('div').getText();
+			_this.set('value',_value);
+
+			var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+			_hiddenValue(3,_value);
+
+		});
+		$(document.body).addEvent('click',function(){
+			_this.getParent('div .p_special_time').getElement('.sssstime').remove();
+			$(document.body).removeEvent('click',arguments.callee);
+		});
+	},
+	'change':function(){
+		var _value=this.value;
+		if(!_value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)){
+			MessageBox.error('请正确填写时间格式！');
+			return;
+		}
+		var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+		_hiddenValue(3,_value);
+	}
+	}
+	});
+	var delspan=new Element('span',{
+	'class':'delSTime',
+	'events':{
+	'click':function(){
+		this.getParent('div .p_special_time').remove();
+	}
+	}
+	});
+	var oimg=new Element('img',{
+	'src':'images/bundle/delecate.gif',
+	'alt':'删除'
+	});
+
+	var hideInput=new Element('input',{
+	'type':'hidden',
+	'name':'specialTime[]',
+	'value':'1|-1|-1',
+	'class':'specialTime'
+	});
+	delspan.adopt(oimg);
+	pdiv.adopt(oselect).adopt(from_span).adopt(sinput).adopt(to_span).adopt(einput).adopt(delspan).adopt(hideInput);
+	odiv.adopt(pdiv);
+	return odiv;
+}
+
+
+
+$('s_hour').addEvents({
+'focus':function(){
+	var _shour=createDivAsSelect();
+	if(window.ie){
+		_shour.setStyle('margin-left','14px');
+	}
+	this.getParent('div').adopt(_shour);
+},
+'blur':function(){
+	var _this=this;
+	_this.getParent('div').getElements('a').addEvent('click',function(){
+		/*将a标签中的值赋给文本框*/
+		var _value=this.getElement('div').getText();
+		_this.set('value',_value);
+	});
+	$(document.body).addEvent('click',function(){
+		_this.getParent('div').getElement('.sssstime').remove();
+		$(document.body).removeEvent('click',arguments.callee);
+	});
+}
+});
+
+$('e_hour').addEvents({
+'focus':function(){
+	var _ehour=createDivAsSelect();
+	if(window.ie){
+		_ehour.setStyle('margin-left','14px');
+	}
+	this.getParent('div').adopt(_ehour);
+},
+'blur':function(){
+	var _this=this;
+	_this.getParent('div').getElements('a').addEvent('click',function(){
+		/*将a标签中的值赋给文本框*/
+		var _value=this.getElement('div').getText();
+		_this.set('value',_value);
+	});
+	$(document.body).addEvent('click',function(){
+		_this.getParent('div').getElement('.sssstime').remove();
+		$(document.body).removeEvent('click',arguments.callee);
+	});
+}
+});
+
+$('is_special_time_all').addEvent('click',function(){
+	$('special_time_div').hide();
+	$ES('#special_time_div .p_special_time').remove();
+
+});
+$('is_special_time_some').addEvent('click',function(){
+	var element=specialTimeInput();
+	$('special_time_div').adopt(element);
+	$('special_time_div').show();
+});
+$('st_btn').addEvent('click',function(){
+	var element=specialTimeInput();
+	$('special_time_div').adopt(element);
+});
+
+$('forenotice_off').addEvent('click',function(){
+	$('forenotice_time').hide();
+});
+$('forenotice_on').addEvent('click',function(){
+	$('forenotice_time').show();
+});
+
+$ES('.get_special_time select').addEvents({
+'change':function(){
+	var _value=this.options[this.selectedIndex].get('value');
+	var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+	_hiddenValue(1,_value);
+}
+});
+$ES('.get_special_time .stime').addEvents({
+'focus':function(){
+	var _shour=createDivAsSelect();
+	_shour.setStyle('margin-left','-63px');
+	/*				_shour.injectAfter(this.getParent('div .special_time_el'));*/
+	this.getParent('div .special_time_el').adopt(_shour);
+
+},
+'blur':function(){
+	var _this=this;
+	_this.getParent('div .p_special_time').getElements('a').addEvent('click',function(){
+		/*将a标签中的值赋给文本框*/
+		var _value=this.getElement('div').getText();
+		_this.set('value',_value);
+
+		var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+		_hiddenValue(2,_value);
+
+	});
+	$(document.body).addEvent('click',function(){
+		_this.getParent('div .p_special_time').getElement('.sssstime').remove();
+		$(document.body).removeEvent('click',arguments.callee);
+	});
+},
+'change':function(){
+	var _value=this.value;
+	if(!_value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)){
+		MessageBox.error('请正确填写时间格式！');
+		return;
+	}
+
+	var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+	_hiddenValue(2,_value);
+}
+});
+$ES('.get_special_time .etime').addEvents({
+'focus':function(){
+	var _shour=createDivAsSelect();
+	_shour.setStyle('margin-left','42px');
+	/*				_shour.injectAfter(this.getParent('div .special_time_el'));*/
+	this.getParent('div .special_time_el').adopt(_shour);
+},
+'blur':function(){
+	var _this=this;
+	_this.getParent('div .p_special_time').getElements('a').addEvent('click',function(){
+		/*将a标签中的值赋给文本框*/
+		var _value=this.getElement('div').getText();
+		_this.set('value',_value);
+
+		var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+		_hiddenValue(3,_value);
+
+	});
+	$(document.body).addEvent('click',function(){
+		_this.getParent('div .p_special_time').getElement('.sssstime').remove();
+		$(document.body).removeEvent('click',arguments.callee);
+	});
+},
+'change':function(){
+	var _value=this.value;
+	if(!_value.test(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)){
+		MessageBox.error('请正确填写时间格式！');
+		return;
+	}
+	var _hiddenValue=hiddenValue.bind(this.getParent('.special_time_el').getElement('.specialTime'));
+	_hiddenValue(3,_value);
+}
+});
+
+$ES('.get_special_time .delSTime').addEvent('click',function(){
+	this.getParent('div .p_special_time').remove();
+});
+
+</script>

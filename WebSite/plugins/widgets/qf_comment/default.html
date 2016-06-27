@@ -1,0 +1,18 @@
+<div id="Scroll_<{$widgets_id}>" class="scrollmain">
+    <div class="Comment">
+        <ul class="scroll-box">
+            <{foreach from=$data item=item key=key}>
+            <li class="clearfix">
+            	<{if $setting.showgoodspic}><a href="<{link ctl="product" act="index" arg0=$item.goods_id}>" target="_blank" class="pic"><img src="<{$item.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager}>" alt="<{$item.name|escape:html}>" width="<{$setting.goodsImgWidth|default:80}>" height="<{$setting.goodsImgHeight|default:80}>" /></a><{/if}>
+                <div class="info">
+                    <{if $setting.showgoodsname}><h6><a href="<{link ctl="product" act="index" arg0=$item.goods_id}>" target="_blank" title="<{$item.name|escape:html}>"><{$item.name}></a></h6><{/if}>
+                    <a href="<{link ctl="product" act="index" arg0=$item.goods_id}>" target="_blank" class="cmt_item" title="<{$item.comment|escape:html}>"><{$item.comment|cut:$setting.content_length}></a>
+					<{if $setting.showmember}><span class="cmt_member"><{$item.author}></span><{/if}><{if $setting.showtime}>&nbsp;&nbsp;<span class="cmt_time"><{$item.time|userdate}></span><{/if}>
+                   
+                </div>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+</div>
+<{if @count($data) >=3}><script>window.addEvent('domready',function(){var a = new Scroll_Script('<{$widgets_id}>','1')})</script><{/if}>
